@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "Match")
 @Table(name = "MATCH")
 @Getter
 @Setter
@@ -34,10 +34,10 @@ public class MatchEntity {
 	private String equipe2;
 
 	@Column(name = "score_equipe1")
-	private int scoreEquipe1;
+	private Integer scoreEquipe1;
 
 	@Column(name = "score_equipe2")
-	private int scoreEquipe2;
+	private Integer scoreEquipe2;
 
 	@Column(name = "date_match")
 	private Date dateMatch;

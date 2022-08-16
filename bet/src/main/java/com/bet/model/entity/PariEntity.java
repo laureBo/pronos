@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "Pari")
 @Table(name = "PARI")
 @Getter
 @Setter
@@ -24,10 +24,10 @@ public class PariEntity {
 	private int idPari;
 
 	@Column(name = "pari_equipe1")
-	private int equipe1;
+	private Integer equipe1;
 
 	@Column(name = "pari_equipe2")
-	private int equipe2;
+	private Integer equipe2;
 
 	@ManyToOne
 	@JoinColumn(name = "pseudo")
