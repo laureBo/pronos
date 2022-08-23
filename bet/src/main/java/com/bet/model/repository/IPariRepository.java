@@ -23,4 +23,5 @@ public interface IPariRepository extends JpaRepository<PariEntity, Integer> {
 			@Param("nomSession") String nomSession);
 
 	public List<PariEntity> findAllByEquipe1(Integer equipe1);
+
 }

@@ -10,5 +10,6 @@ public class SessionDto {
 	private int id;
 	private String nomSession;
 	private Date dateCreationSession;
+	private String pseudoCreateur;
 
 }

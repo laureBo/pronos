@@ -29,4 +29,14 @@ public class UtilisateurService {
 		return mapper.getDtosFromEntities(listEntity);
 	}
 
+	public UtilisateurEntity saveUtilisateurInBd(UtilisateurDto input) {
+		UtilisateurEntity utilisateurEntity = mapper.getEntityFromDto(input);
+		return utilisateurRepo.save(utilisateurEntity);
+	}
+
+	public UtilisateurEntity findUtilisateurEntityByPseudo(String pseudo) {
+		return utilisateurRepo.findByPseudoUser(pseudo);
+
+	}
+
 }
