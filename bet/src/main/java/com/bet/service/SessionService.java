@@ -49,6 +49,16 @@ public class SessionService {
 
 	}
 
+	public Optional<SessionEntity> findSessionEntityById(int idSession) {
+		Optional<SessionEntity> optEntity = sessionRepository.findById(idSession);
+		if (optEntity.isEmpty()) {
+			logger.error("Aucune session ne correspond à cet identifiant");
+			return null;
+		}
+		return optEntity;
+
+	}
+
 	public List<String> findParticipationsList(int idSession) {
 		List<ParticiperEntity> entityList = sessionRepository.findAllParticipantsBySession(idSession);
 		if (entityList.size() != 0) {
