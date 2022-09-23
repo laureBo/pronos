@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.bet.model.dto.PariDetailDto;
 import com.bet.model.dto.UtilisateurDto;
+import com.bet.service.PariService;
 import com.bet.service.UtilisateurService;
 
 @RestController
-@RequestMapping(value = "/utilisateur")
+@RequestMapping(value = "/utilisateurs")
 public class UtilisateurController {
 
 	private static Logger logger = LoggerFactory.getLogger(UtilisateurController.class);
@@ -27,25 +29,36 @@ public class UtilisateurController {
 	@Autowired
 	private UtilisateurService utilisateurService;
 
-	@GetMapping(value = "/findAll")
+	@Autowired
+	private PariService pariService;
+
+	@GetMapping(value = "/")
 	public List<UtilisateurDto> getAllUtilisateur() {
-		logger.info("Info log message");
+		logger.info("Get all utilisateur: getAllUtilisateur");
 		return utilisateurService.findAllUtilisateur();
 	}
 
 	@GetMapping(value = "/{pseudo}")
 	public UtilisateurDto getUtilisateurByPseudo(@PathVariable String pseudo) {
+		logger.info("Get utilisateur by pseudo: getUtilisateurByPseudo");
 		UtilisateurDto result = utilisateurService.getByPseudo(pseudo);
 		if (result == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "object not found");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found");
 		}
 		return result;
 	}
 
-	@PostMapping(value = "/save")
+	@PostMapping(value = "/")
 	public ResponseEntity<String> saveNewUtilisateur(@RequestBody UtilisateurDto input) {
+		logger.info("saveNewUtilisateur");
 		utilisateurService.saveUtilisateurInBd(input);
 		return new ResponseEntity<String>("/utilisateur/" + input.getPseudo(), HttpStatus.CREATED);
+	}
+
+	@GetMapping(value = "/{pseudo}/paris")
+	public List<PariDetailDto> getParisDetailByUser(@PathVariable String pseudo) {
+		logger.info("getParisDetailByUser");
+		return pariService.getThreeLastBetByPseudo2(pseudo);
 	}
 
 }

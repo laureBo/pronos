@@ -19,12 +19,8 @@ import com.bet.model.dto.SessionInputDto;
 import com.bet.model.entity.SessionEntity;
 import com.bet.service.SessionService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @RestController
-@RequestMapping(value = "/session")
-@Slf4j
-
+@RequestMapping(value = "/sessions")
 public class SessionController {
 
 	private static Logger logger = LoggerFactory.getLogger(PariController.class);
@@ -32,33 +28,41 @@ public class SessionController {
 	@Autowired
 	private SessionService sessionService;
 
-	@PostMapping(value = "/create")
-	public ResponseEntity<String> createSession(@RequestBody SessionInputDto input) {
-		logger.info("Session créée");
-		SessionEntity resultEntity = sessionService.createSession(input);
-		return new ResponseEntity<String>("/session/" + resultEntity.getIdSession(), HttpStatus.CREATED);
-	}
-
 	@GetMapping(value = "/{idSession}")
 	public ResponseEntity<SessionDto> findSessionById(@PathVariable int idSession) {
+		logger.info("Find session by id: findSessionById");
+		// Search session on database
 		SessionDto resultDto = sessionService.findSessionById(idSession);
-
+		// If the session does exist on database then return it as response entity
 		if (resultDto != null) {
 			return new ResponseEntity<SessionDto>(resultDto, HttpStatus.OK);
 		}
-
+		// If the session does not exist, then return not found response entity
+		logger.info("Session not found " + idSession);
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+
+	@GetMapping(value = "/")
+	public List<SessionDto> getAllSessions() {
+		logger.info("Get all sessions: getAllSessions");
+		return sessionService.findAllSessions();
+	}
+
+	@PostMapping(value = "/")
+	public ResponseEntity<String> createSession(@RequestBody SessionInputDto input) {
+		logger.info("Creation session: createSession");
+		// Create session on database
+		SessionEntity resultEntity = sessionService.createSession(input);
+		// Return created object as response entity
+		return new ResponseEntity<String>("/session/" + resultEntity.getIdSession(), HttpStatus.CREATED);
 	}
 
 	@GetMapping(value = "/{idSession}/utilisateurs")
 	public ResponseEntity<List<String>> findAllUtilisateurBySession(@PathVariable int idSession) {
-
+		logger.info("Find utilisateur by id session: findAllUtilisateurBySession");
+		// Search for users linked to the session in database
 		List<String> participantsList = sessionService.findParticipationsList(idSession);
-		if (participantsList.size() != 0) {
-			return new ResponseEntity<List<String>>(participantsList, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+		// Return created list as response entity
+		return new ResponseEntity<List<String>>(participantsList, HttpStatus.OK);
 	}
-
 }

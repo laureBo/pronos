@@ -18,12 +18,8 @@ import com.bet.model.dto.StatByUserSessionOutputDto;
 import com.bet.service.PariService;
 import com.bet.service.StatService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @RestController
-@RequestMapping(value = "/stat")
-@Slf4j
-
+@RequestMapping(value = "/stats")
 public class StatController {
 
 	private static Logger logger = LoggerFactory.getLogger(StatController.class);
@@ -36,14 +32,12 @@ public class StatController {
 
 	@GetMapping(value = "/{pseudo}")
 	public List<StatByUserSessionOutputDto> getListAvgBetsBySession(@PathVariable String pseudo) {
-
 		logger.info("Info log message liste de moyennes par session de l'utilisateur");
 		return statService.getAllUserStatByPseudoAndNomSession(pseudo);
 	}
 
 	@PostMapping(value = "/bySession")
 	public StatByUserSessionOutputDto getStatBySession(@RequestBody StatByUserSessionInputDto input) {
-
 		return statService.getUserStatByPseudoAndNomSession(input.getPseudo(), input.getNomSession());
 	}
 

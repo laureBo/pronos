@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.bet.model.dto.ParticiperInputDto;
 import com.bet.model.entity.ParticiperEntity;
 import com.bet.model.entity.SessionEntity;
 import com.bet.model.entity.UtilisateurEntity;
@@ -27,23 +27,23 @@ public class ParticiperService {
 	@Autowired
 	private SessionService sessionService;
 
-	public ParticiperEntity associateParticipantToSession(ParticiperInputDto participerInputDto) {
-		UtilisateurEntity user = utilisateurService.findUtilisateurEntityByPseudo(participerInputDto.getPseudo());
-
-		Optional<SessionEntity> session = sessionService.findSessionEntityById(participerInputDto.getIdSession());
-
+	public ParticiperEntity associateParticipantToSession(int idSession, String pseudo) {
+		UtilisateurEntity user = utilisateurService.findUtilisateurEntityByPseudo(pseudo);
 		if (user == null) {
-			logger.info("Votre pseudo n'existe pas.");
-			return null;
+			logger.info("associateParticipantToSession : Votre pseudo n'existe pas.");
+			throw new ResourceNotFoundException("associateParticipantToSession : Votre pseudo n'existe pas. " + pseudo);
 		}
-		if (session == null) {
-			logger.info("Votre session n'existe pas.");
-			return null;
-		} else {
-			ParticiperEntity participation = participerRepository.saveParticipant(user.getPseudoUser(),
-					session.get().getIdSession());
+		Optional<SessionEntity> session = sessionService.findSessionEntityById(idSession);
+		if (!session.isPresent()) {
+			logger.info("associateParticipantToSession : Votre session n'existe pas.");
+			throw new ResourceNotFoundException(
+					"associateParticipantToSession : Votre session n'existe pas. " + idSession);
+		}
 
-			return participation;
-		}
+		ParticiperEntity participation = new ParticiperEntity();
+		participation.setSession(session.get());
+		participation.setUtilisateur(user);
+		ParticiperEntity participationSaved = participerRepository.save(participation);
+		return participationSaved;
 	}
 }
