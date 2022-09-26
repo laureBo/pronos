@@ -1,2 +1,2 @@
 # pronos
-Friends pronos web app
+Friends pronos web app.
