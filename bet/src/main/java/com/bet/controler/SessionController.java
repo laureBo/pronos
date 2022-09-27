@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bet.model.dto.SessionDto;
 import com.bet.model.dto.SessionInputDto;
+import com.bet.model.dto.UserSessionInputDto;
 import com.bet.model.entity.SessionEntity;
+import com.bet.service.ParticiperService;
 import com.bet.service.SessionService;
 
 @RestController
@@ -27,6 +29,9 @@ public class SessionController {
 
 	@Autowired
 	private SessionService sessionService;
+
+	@Autowired
+	private ParticiperService participerService;
 
 	/**
 	 * Returns the session from the session's identifier
@@ -89,4 +94,18 @@ public class SessionController {
 		// Return created list as response entity
 		return new ResponseEntity<List<String>>(participantsList, HttpStatus.OK);
 	}
+
+	/**
+	 * Add a user to a session
+	 * 
+	 * @param input the users's pseudo and the session name
+	 * @return the url to reach the session
+	 */
+	@PostMapping(value = "/addUserToSession")
+	public ResponseEntity<String> addUserToSession(@RequestBody UserSessionInputDto input) {
+		participerService.associateParticipantToSession(input.getIdSession(), input.getPseudo());
+		// Return created object as response entity
+		return new ResponseEntity<String>("/session/" + input.getIdSession(), HttpStatus.CREATED);
+	}
+
 }

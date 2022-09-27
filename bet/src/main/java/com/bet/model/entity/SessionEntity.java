@@ -40,7 +40,7 @@ public class SessionEntity {
 	@JoinColumn(name = "pseudo_createur")
 	private UtilisateurEntity createur;
 
-	@OneToMany(mappedBy = "session")
+	@OneToMany(mappedBy = "session", orphanRemoval = true)
 	private List<ParticiperEntity> participations;
 
 }
