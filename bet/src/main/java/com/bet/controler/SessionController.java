@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bet.model.dto.MatchDto;
 import com.bet.model.dto.SessionInputDto;
+import com.bet.model.dto.SessionOutputDto;
 import com.bet.model.dto.UserSessionInputDto;
 import com.bet.model.entity.SessionEntity;
 import com.bet.service.ParticiperService;
