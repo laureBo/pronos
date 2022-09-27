@@ -36,7 +36,7 @@ public class UtilisateurEntity {
 	@OneToMany(mappedBy = "utilisateur")
 	private List<PariEntity> paris;
 
-	@OneToMany(mappedBy = "utilisateur")
+	@OneToMany(mappedBy = "participerId.utilisateur")
 	private List<ParticiperEntity> participations;
 
 }

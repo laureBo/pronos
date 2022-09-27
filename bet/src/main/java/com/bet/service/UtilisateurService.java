@@ -35,7 +35,7 @@ public class UtilisateurService {
 	}
 
 	public UtilisateurEntity findUtilisateurEntityByPseudo(String pseudo) {
-		return utilisateurRepo.getReferenceById(pseudo);
+		return utilisateurRepo.findByPseudoUser(pseudo);
 	}
 
 }
