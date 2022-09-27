@@ -9,6 +9,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.bet.model.entity.ParticiperEntity;
+import com.bet.model.entity.ParticiperIdEntity;
 import com.bet.model.entity.SessionEntity;
 import com.bet.model.entity.UtilisateurEntity;
 import com.bet.model.repository.IParticiperRepository;
@@ -41,9 +42,11 @@ public class ParticiperService {
 		}
 
 		ParticiperEntity participation = new ParticiperEntity();
-		participation.setSession(session.get());
-		participation.setUtilisateur(user);
-		ParticiperEntity participationSaved = participerRepository.save(participation);
-		return participationSaved;
+		ParticiperIdEntity participerIdEntity = new ParticiperIdEntity();
+
+		participerIdEntity.setSession(session.get());
+		participerIdEntity.setUtilisateur(user);
+		participation.setParticiperId(participerIdEntity);
+		return participerRepository.save(participation);
 	}
 }

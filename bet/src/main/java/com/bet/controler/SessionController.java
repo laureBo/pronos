@@ -10,12 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bet.model.dto.SessionDto;
+import com.bet.model.dto.MatchDto;
 import com.bet.model.dto.SessionInputDto;
+import com.bet.model.dto.SessionOutputDto;
 import com.bet.model.dto.UserSessionInputDto;
 import com.bet.model.entity.SessionEntity;
 import com.bet.service.ParticiperService;
@@ -40,13 +42,13 @@ public class SessionController {
 	 * @return the session linked to the identifier
 	 */
 	@GetMapping(value = "/{idSession}")
-	public ResponseEntity<SessionDto> findSessionById(@PathVariable int idSession) {
+	public ResponseEntity<SessionOutputDto> findSessionById(@PathVariable int idSession) {
 		logger.info("Find session by id: findSessionById");
 		// Search session on database
-		SessionDto resultDto = sessionService.findSessionById(idSession);
+		SessionOutputDto resultDto = sessionService.findSessionById(idSession);
 		// If the session does exist on database then return it as response entity
 		if (resultDto != null) {
-			return new ResponseEntity<SessionDto>(resultDto, HttpStatus.OK);
+			return new ResponseEntity<SessionOutputDto>(resultDto, HttpStatus.OK);
 		}
 		// If the session does not exist, then return not found response entity
 		logger.info("Session not found " + idSession);
@@ -59,7 +61,7 @@ public class SessionController {
 	 * @return all sessions available in the database
 	 */
 	@GetMapping(value = "/")
-	public List<SessionDto> getAllSessions() {
+	public List<SessionOutputDto> getAllSessions() {
 		logger.info("Get all sessions: getAllSessions");
 		return sessionService.findAllSessions();
 	}
@@ -76,7 +78,16 @@ public class SessionController {
 		// Create session on database
 		SessionEntity resultEntity = sessionService.createSession(input);
 		// Return created object as response entity
-		return new ResponseEntity<String>("/session/" + resultEntity.getIdSession(), HttpStatus.CREATED);
+		return new ResponseEntity<String>("/sessions/" + resultEntity.getIdSession(), HttpStatus.CREATED);
+	}
+
+	@PutMapping(value = "/")
+	public ResponseEntity<String> updateSession(@RequestBody SessionInputDto input) {
+		logger.info("Update session: updateSession");
+		// Create session on database
+		SessionEntity resultEntity = sessionService.updateSession(input);
+		// Return created object as response entity
+		return new ResponseEntity<String>("/sessions/" + resultEntity.getIdSession(), HttpStatus.CREATED);
 	}
 
 	/**
@@ -93,6 +104,21 @@ public class SessionController {
 		List<String> participantsList = sessionService.findParticipationsList(idSession);
 		// Return created list as response entity
 		return new ResponseEntity<List<String>>(participantsList, HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/{idSession}/ajouter-participant/{pseudo}")
+	public ResponseEntity<String> addUtilisateurToSession(@PathVariable int idSession, @PathVariable String pseudo) {
+		logger.info("ajouter-participant");
+		this.participerService.associateParticipantToSession(idSession, pseudo);
+		return new ResponseEntity<String>("/sessions/" + idSession + "/utilisateurs", HttpStatus.CREATED);
+	}
+
+	@PostMapping(value = "/{idSession}/sauvegarder-matchs")
+	public ResponseEntity<String> sauvegarderMatchs(@PathVariable int idSession,
+			@RequestBody List<MatchDto> matchsDto) {
+		logger.info("sauvegarder-match");
+		this.sessionService.ajouterMatchsASession(idSession, matchsDto);
+		return new ResponseEntity<String>("/sessions/" + idSession, HttpStatus.CREATED);
 	}
 
 	/**

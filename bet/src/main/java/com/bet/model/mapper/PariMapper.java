@@ -8,7 +8,7 @@ import com.bet.model.utils.BetUtils;
 import com.bet.model.utils.ResultatEnum;
 
 @Service
-public class PariMatchMapper {
+public class PariMapper {
 
 	public PariDetailDto getDtoFromEntity(PariEntity entity) {
 		if (entity == null) {

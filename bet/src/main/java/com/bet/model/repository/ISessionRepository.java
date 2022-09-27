@@ -14,7 +14,7 @@ public interface ISessionRepository extends JpaRepository<SessionEntity, Integer
 	SessionEntity findByNomSession(String nomSession);
 
 	@Query("SELECT s.nomSession FROM Session as s, Participer as p, Utilisateur as u "
-			+ "WHERE u.pseudoUser = :pseudo AND p.session.idSession= s.idSession AND u.pseudoUser= p.utilisateur.pseudoUser ")
+			+ "WHERE u.pseudoUser = :pseudo AND p.participerId.session.idSession= s.idSession AND u.pseudoUser= p.participerId.	utilisateur.pseudoUser ")
 	public List<String> findAllNomSessionByUser(@Param("pseudo") String pseudo);
 
 	@Query("SELECT s.participations FROM Session as s WHERE s.idSession= :idSession")

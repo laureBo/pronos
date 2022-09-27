@@ -7,11 +7,11 @@ import lombok.Data;
 @Data
 public class MatchDto {
 
-	private int id;
+	private Integer id;
 	private String equipe1;
 	private String equipe2;
-	private int scoreEquipe1;
-	private int scoreEquipe2;
+	private Integer scoreEquipe1;
+	private Integer scoreEquipe2;
 	private Date dateMatch;
 
 }

@@ -3,9 +3,9 @@ package com.bet.model.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bet.model.entity.ParticiperEntity;
-import com.bet.model.entity.UtilisateurEntity;
+import com.bet.model.entity.ParticiperIdEntity;
 
-public interface IParticiperRepository extends JpaRepository<ParticiperEntity, UtilisateurEntity> {
+public interface IParticiperRepository extends JpaRepository<ParticiperEntity, ParticiperIdEntity> {
 
 	/*
 	 * @Query("INSERT INTO Participer as p (p.pseudoUser = :pseudo AND p.idSession= :idSession"

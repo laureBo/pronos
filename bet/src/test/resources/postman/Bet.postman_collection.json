@@ -110,7 +110,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"pseudo\":\"Tommy\",\n    \"nomSession\":\"Pronos foot\"\n}",
+							"raw": "{\n    \"pseudoCreateur\":\"Tommy\",\n    \"nomSession\":\"Pronos foot\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"

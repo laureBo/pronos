@@ -10,11 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.bet.model.dto.SessionDto;
+import com.bet.model.dto.MatchDto;
 import com.bet.model.dto.SessionInputDto;
+import com.bet.model.dto.SessionOutputDto;
+import com.bet.model.entity.MatchEntity;
 import com.bet.model.entity.ParticiperEntity;
 import com.bet.model.entity.SessionEntity;
 import com.bet.model.entity.UtilisateurEntity;
+import com.bet.model.mapper.MatchMapper;
 import com.bet.model.mapper.SessionMapper;
 import com.bet.model.repository.ISessionRepository;
 
@@ -32,16 +35,19 @@ public class SessionService {
 	@Autowired
 	private UtilisateurService utilisateurService;
 
+	@Autowired
+	private MatchMapper matchMapper;
+
 	public List<String> getAllNomSessionByUserList(String pseudo) {
 		return sessionRepository.findAllNomSessionByUser(pseudo);
 	}
 
 	public SessionEntity createSession(SessionInputDto sessionInputDto) {
-		UtilisateurEntity user = utilisateurService.findUtilisateurEntityByPseudo(sessionInputDto.getPseudo());
+		UtilisateurEntity user = utilisateurService.findUtilisateurEntityByPseudo(sessionInputDto.getPseudoCreateur());
 		if (user == null) {
 			logger.info("createSession : Votre pseudo n'existe pas.");
 			throw new ResourceNotFoundException(
-					"createSession : Votre pseudo n'existe pas. " + sessionInputDto.getPseudo());
+					"createSession : Votre pseudo n'existe pas. " + sessionInputDto.getPseudoCreateur());
 		}
 		SessionEntity newSession = sessionMapper.getEntityFromDto(sessionInputDto);
 		sessionRepository.save(newSession);
@@ -50,7 +56,29 @@ public class SessionService {
 
 	}
 
-	public SessionDto findSessionById(int idSession) {
+	public SessionEntity updateSession(SessionInputDto sessionInputDto) {
+		UtilisateurEntity user = utilisateurService.findUtilisateurEntityByPseudo(sessionInputDto.getPseudoCreateur());
+		if (user == null) {
+			logger.info("createSession : Votre pseudo n'existe pas.");
+			throw new ResourceNotFoundException(
+					"createSession : Votre pseudo n'existe pas. " + sessionInputDto.getPseudoCreateur());
+		}
+
+		Optional<SessionEntity> session = findSessionEntityById(sessionInputDto.getId());
+		if (session.isEmpty()) {
+			logger.info("updateSession : Votre session n'existe pas.");
+			throw new ResourceNotFoundException(
+					"updateSession : Votre session n'existe pas. " + sessionInputDto.getId());
+		}
+		SessionEntity sessionUpdated = session.get();
+		sessionUpdated.setCreateur(user);
+		sessionUpdated.setNomSession(sessionInputDto.getNomSession());
+
+		return sessionRepository.save(sessionUpdated);
+
+	}
+
+	public SessionOutputDto findSessionById(int idSession) {
 		Optional<SessionEntity> optEntity = sessionRepository.findById(idSession);
 		if (optEntity.isEmpty()) {
 			logger.error("Aucune session ne correspond à cet identifiant");
@@ -59,7 +87,7 @@ public class SessionService {
 		return sessionMapper.getDtoFromEntity(optEntity.get());
 	}
 
-	public List<SessionDto> findAllSessions() {
+	public List<SessionOutputDto> findAllSessions() {
 		List<SessionEntity> listEntity = sessionRepository.findAll();
 		return sessionMapper.getDtosFromEntities(listEntity);
 	}
@@ -79,12 +107,26 @@ public class SessionService {
 		if (entityList.size() != 0) {
 			List<String> participationList = new ArrayList<>();
 			for (ParticiperEntity participant : entityList) {
-				participationList.add(participant.getUtilisateur().getNomUser());
+				participationList.add(participant.getParticiperId().getUtilisateur().getPseudoUser());
 			}
 
 			return participationList;
 		}
 		return null;
+	}
+
+	public SessionEntity ajouterMatchsASession(int idSession, List<MatchDto> matchs) {
+		Optional<SessionEntity> optEntity = sessionRepository.findById(idSession);
+		if (optEntity.isEmpty()) {
+			throw new ResourceNotFoundException(
+					"ajouterMatchsASession pas de session correspondante trouvee " + idSession);
+		}
+
+		List<MatchEntity> matchEntities = matchMapper.getEntitiesFromDtos(matchs);
+
+		SessionEntity sessionUpdated = optEntity.get();
+		sessionUpdated.setMatchs(matchEntities);
+		return sessionRepository.save(sessionUpdated);
 	}
 
 }

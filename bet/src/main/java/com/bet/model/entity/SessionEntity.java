@@ -33,14 +33,14 @@ public class SessionEntity {
 	@Column(name = "date_creation")
 	private Date dateCreationSession;
 
-	@OneToMany(mappedBy = "session")
+	@OneToMany(mappedBy = "session", orphanRemoval = true)
 	private List<MatchEntity> matchs;
 
 	@ManyToOne
 	@JoinColumn(name = "pseudo_createur")
 	private UtilisateurEntity createur;
 
-	@OneToMany(mappedBy = "session", orphanRemoval = true)
+	@OneToMany(mappedBy = "participerId.session")
 	private List<ParticiperEntity> participations;
 
 }
