@@ -30,17 +30,36 @@ public class StatController {
 	@Autowired
 	private PariService pariService;
 
+	/**
+	 * Get the average of good pronos by session for a given user (result on
+	 * percent)
+	 * 
+	 * @param pseudo user pseudo
+	 * @return the average of good pronos filtered by sessions
+	 */
 	@GetMapping(value = "/{pseudo}")
 	public List<StatByUserSessionOutputDto> getListAvgBetsBySession(@PathVariable String pseudo) {
 		logger.info("Info log message liste de moyennes par session de l'utilisateur");
 		return statService.getAllUserStatByPseudoAndNomSession(pseudo);
 	}
 
+	/**
+	 * Get the stat of corrects bets for a given user and session
+	 * 
+	 * @param input the users's pseudo and the session name
+	 * @return the stat (percent) and the session name
+	 */
 	@PostMapping(value = "/bySession")
 	public StatByUserSessionOutputDto getStatBySession(@RequestBody StatByUserSessionInputDto input) {
 		return statService.getUserStatByPseudoAndNomSession(input.getPseudo(), input.getNomSession());
 	}
 
+	/**
+	 * Get the user stat (percent) as average for all sessions
+	 * 
+	 * @param pseudo user's pseudo
+	 * @return percent of win for all sessions
+	 */
 	@GetMapping(value = "/all/{pseudo}")
 	public int getStatAllByPseudo(@PathVariable String pseudo) {
 		List<PariDetailDto> listParisDetailDto = pariService.getParisDetailsByUser(pseudo);

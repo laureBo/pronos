@@ -34,6 +34,12 @@ public class SessionController {
 	@Autowired
 	private ParticiperService participerService;
 
+	/**
+	 * Returns the session from the session's identifier
+	 * 
+	 * @param idSession session identifier
+	 * @return the session linked to the identifier
+	 */
 	@GetMapping(value = "/{idSession}")
 	public ResponseEntity<SessionOutputDto> findSessionById(@PathVariable int idSession) {
 		logger.info("Find session by id: findSessionById");
@@ -48,12 +54,23 @@ public class SessionController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
+	/**
+	 * Returns all the sessions
+	 * 
+	 * @return all sessions available in the database
+	 */
 	@GetMapping(value = "/")
 	public List<SessionOutputDto> getAllSessions() {
 		logger.info("Get all sessions: getAllSessions");
 		return sessionService.findAllSessions();
 	}
 
+	/**
+	 * Create a new session
+	 * 
+	 * @param input a new session dto to create
+	 * @return the url to access to the created session
+	 */
 	@PostMapping(value = "/")
 	public ResponseEntity<String> createSession(@RequestBody SessionInputDto input) {
 		logger.info("Creation session: createSession");
@@ -72,6 +89,13 @@ public class SessionController {
 		return new ResponseEntity<String>("/sessions/" + resultEntity.getIdSession(), HttpStatus.CREATED);
 	}
 
+	/**
+	 * Get the list of pseudo of the users participating to a given session
+	 * identifier
+	 * 
+	 * @param idSession session identifier
+	 * @return the list of pseudo participating to the session
+	 */
 	@GetMapping(value = "/{idSession}/utilisateurs")
 	public ResponseEntity<List<String>> findAllUtilisateurBySession(@PathVariable int idSession) {
 		logger.info("Find utilisateur by id session: findAllUtilisateurBySession");

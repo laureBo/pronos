@@ -17,9 +17,14 @@ import lombok.Setter;
 @Setter
 public class UtilisateurEntity {
 
+	private static final long serialVersionUID = -2743277015830516885L;
+
 	@Id
 	@Column(name = "pseudo")
 	private String pseudoUser;
+
+	@Column(name = "password")
+	private String password;
 
 	@Column(name = "mail")
 	private String mailUser;
