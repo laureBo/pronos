@@ -40,7 +40,11 @@ public class SessionEntity {
 	@JoinColumn(name = "pseudo_createur")
 	private UtilisateurEntity createur;
 
+<<<<<<< HEAD
+	@OneToMany(mappedBy = "session", orphanRemoval = true)
+=======
 	@OneToMany(mappedBy = "participerId.session")
+>>>>>>> 20b8022 (save work)
 	private List<ParticiperEntity> participations;
 
 }

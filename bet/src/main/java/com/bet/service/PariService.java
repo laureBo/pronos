@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.bet.model.dto.PariDetailDto;
 import com.bet.model.entity.PariEntity;
 import com.bet.model.entity.UtilisateurEntity;
-import com.bet.model.mapper.PariMatchMapper;
+import com.bet.model.mapper.PariMapper;
 import com.bet.model.repository.IPariRepository;
 import com.bet.model.repository.IUtilisateurRepository;
 
@@ -22,7 +22,7 @@ public class PariService {
 	private IUtilisateurRepository utilisateurRepository;
 
 	@Autowired
-	private PariMatchMapper mapperPariMatch;
+	private PariMapper mapperPariMatch;
 
 	public List<PariEntity> getAllByPseudo(String pseudo) {
 		UtilisateurEntity utilisateurEntity = utilisateurRepository.findByPseudoUser(pseudo);

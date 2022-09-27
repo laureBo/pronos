@@ -17,7 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bet.model.dto.MatchDto;
 import com.bet.model.dto.SessionInputDto;
+<<<<<<< HEAD
 import com.bet.model.dto.UserSessionInputDto;
+=======
+import com.bet.model.dto.SessionOutputDto;
+>>>>>>> 20b8022 (save work)
 import com.bet.model.entity.SessionEntity;
 import com.bet.service.ParticiperService;
 import com.bet.service.SessionService;
@@ -34,12 +38,15 @@ public class SessionController {
 	@Autowired
 	private ParticiperService participerService;
 
+<<<<<<< HEAD
 	/**
 	 * Returns the session from the session's identifier
 	 * 
 	 * @param idSession session identifier
 	 * @return the session linked to the identifier
 	 */
+=======
+>>>>>>> 20b8022 (save work)
 	@GetMapping(value = "/{idSession}")
 	public ResponseEntity<SessionOutputDto> findSessionById(@PathVariable int idSession) {
 		logger.info("Find session by id: findSessionById");
@@ -105,6 +112,21 @@ public class SessionController {
 		return new ResponseEntity<List<String>>(participantsList, HttpStatus.OK);
 	}
 
+<<<<<<< HEAD
+	/**
+	 * Add a user to a session
+	 * 
+	 * @param input the users's pseudo and the session name
+	 * @return the url to reach the session
+	 */
+	@PostMapping(value = "/addUserToSession")
+	public ResponseEntity<String> addUserToSession(@RequestBody UserSessionInputDto input) {
+		participerService.associateParticipantToSession(input.getIdSession(), input.getPseudo());
+		// Return created object as response entity
+		return new ResponseEntity<String>("/session/" + input.getIdSession(), HttpStatus.CREATED);
+	}
+
+=======
 	@PostMapping(value = "/{idSession}/ajouter-participant/{pseudo}")
 	public ResponseEntity<String> addUtilisateurToSession(@PathVariable int idSession, @PathVariable String pseudo) {
 		logger.info("ajouter-participant");
@@ -119,18 +141,5 @@ public class SessionController {
 		this.sessionService.ajouterMatchsASession(idSession, matchsDto);
 		return new ResponseEntity<String>("/sessions/" + idSession, HttpStatus.CREATED);
 	}
-
-	/**
-	 * Add a user to a session
-	 * 
-	 * @param input the users's pseudo and the session name
-	 * @return the url to reach the session
-	 */
-	@PostMapping(value = "/addUserToSession")
-	public ResponseEntity<String> addUserToSession(@RequestBody UserSessionInputDto input) {
-		participerService.associateParticipantToSession(input.getIdSession(), input.getPseudo());
-		// Return created object as response entity
-		return new ResponseEntity<String>("/session/" + input.getIdSession(), HttpStatus.CREATED);
-	}
-
+>>>>>>> 20b8022 (save work)
 }
