@@ -119,4 +119,18 @@ public class SessionController {
 		this.sessionService.ajouterMatchsASession(idSession, matchsDto);
 		return new ResponseEntity<String>("/sessions/" + idSession, HttpStatus.CREATED);
 	}
+
+	/**
+	 * Add a user to a session
+	 * 
+	 * @param input the users's pseudo and the session name
+	 * @return the url to reach the session
+	 */
+	@PostMapping(value = "/addUserToSession")
+	public ResponseEntity<String> addUserToSession(@RequestBody UserSessionInputDto input) {
+		participerService.associateParticipantToSession(input.getIdSession(), input.getPseudo());
+		// Return created object as response entity
+		return new ResponseEntity<String>("/session/" + input.getIdSession(), HttpStatus.CREATED);
+	}
+
 }
