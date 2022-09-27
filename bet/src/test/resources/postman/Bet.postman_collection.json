@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "edbba1b8-438a-4ee3-bd5e-3d58d6546129",
+		"_postman_id": "c2d20fad-11e4-4fba-beed-c5b511e7e7ee",
 		"name": "Bet",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -179,6 +179,27 @@
 			"name": "Stats",
 			"item": [
 				{
+					"name": "Get user's stats by session",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/stats/all/Zaza",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stats",
+								"all",
+								"Zaza"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get user's stats",
 					"request": {
 						"method": "GET",
@@ -200,11 +221,8 @@
 				},
 				{
 					"name": "Get user's stats by session",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -231,6 +249,41 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "admin",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

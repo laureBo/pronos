@@ -38,6 +38,12 @@ public class UtilisateurController {
 		return utilisateurService.findAllUtilisateur();
 	}
 
+	/**
+	 * Return the user linked to the pseudo
+	 * 
+	 * @param pseudo user's pseudo
+	 * @return the user with all informations
+	 */
 	@GetMapping(value = "/{pseudo}")
 	public UtilisateurDto getUtilisateurByPseudo(@PathVariable String pseudo) {
 		logger.info("Get utilisateur by pseudo: getUtilisateurByPseudo");
@@ -48,6 +54,12 @@ public class UtilisateurController {
 		return result;
 	}
 
+	/**
+	 * Create a new user
+	 * 
+	 * @param input user input to create
+	 * @return the url to reach the created user trough the api
+	 */
 	@PostMapping(value = "/")
 	public ResponseEntity<String> saveNewUtilisateur(@RequestBody UtilisateurDto input) {
 		logger.info("saveNewUtilisateur");
@@ -55,6 +67,12 @@ public class UtilisateurController {
 		return new ResponseEntity<String>("/utilisateur/" + input.getPseudo(), HttpStatus.CREATED);
 	}
 
+	/**
+	 * List the bets linked to a user
+	 * 
+	 * @param pseudo user's pseudo
+	 * @return bets details fir the user
+	 */
 	@GetMapping(value = "/{pseudo}/paris")
 	public List<PariDetailDto> getParisDetailByUser(@PathVariable String pseudo) {
 		logger.info("getParisDetailByUser");
