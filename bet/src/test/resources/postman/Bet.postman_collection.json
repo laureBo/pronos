@@ -133,6 +133,66 @@
 					"response": []
 				},
 				{
+					"name": "Add user to session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"pseudo\":\"Zaza\",\n    \"idSession\":1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/sessions/ajouter-participant/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"sessions",
+								"ajouter-participant",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add match to session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n    \"equipe1\": \"Belgique\",\n    \"equipe2\": \"ESpagne\",\n    \"scoreEquipe1\": null,\n    \"scoreEquipe2\": null,\n    \"dateMatch\": \"2022-10-03\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/sessions/1/ajouter-match",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"sessions",
+								"1",
+								"ajouter-match"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Find all sessions",
 					"request": {
 						"method": "GET",
@@ -243,6 +303,61 @@
 							"path": [
 								"stats",
 								"bySession"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Matchs",
+			"item": [
+				{
+					"name": "Find match by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/matchs/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"matchs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update match score",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"scoreEquipe1\":4,\n    \"scoreEquipe2\":5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/matchs/1/maj-score",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"matchs",
+								"1",
+								"maj-score"
 							]
 						}
 					},
