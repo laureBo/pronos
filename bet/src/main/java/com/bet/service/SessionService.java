@@ -115,17 +115,17 @@ public class SessionService {
 		return null;
 	}
 
-	public SessionEntity ajouterMatchsASession(int idSession, List<MatchDto> matchs) {
+	public SessionEntity ajouterMatchToSession(int idSession, MatchDto match) {
 		Optional<SessionEntity> optEntity = sessionRepository.findById(idSession);
 		if (optEntity.isEmpty()) {
 			throw new ResourceNotFoundException(
-					"ajouterMatchsASession pas de session correspondante trouvee " + idSession);
+					"ajouterMatchsToSession pas de session correspondante trouvee " + idSession);
 		}
 
-		List<MatchEntity> matchEntities = matchMapper.getEntitiesFromDtos(matchs);
-
 		SessionEntity sessionUpdated = optEntity.get();
-		sessionUpdated.setMatchs(matchEntities);
+		MatchEntity matchEntity = matchMapper.getEntityFromDto(match);
+		matchEntity.setSession(sessionUpdated);
+		sessionUpdated.getMatchs().add(matchEntity);
 		return sessionRepository.save(sessionUpdated);
 	}
 

@@ -64,7 +64,7 @@ public class UtilisateurController {
 	public ResponseEntity<String> saveNewUtilisateur(@RequestBody UtilisateurDto input) {
 		logger.info("saveNewUtilisateur");
 		utilisateurService.saveUtilisateurInBd(input);
-		return new ResponseEntity<String>("/utilisateur/" + input.getPseudo(), HttpStatus.CREATED);
+		return new ResponseEntity<String>("/utilisateurs/" + input.getPseudo(), HttpStatus.CREATED);
 	}
 
 	/**

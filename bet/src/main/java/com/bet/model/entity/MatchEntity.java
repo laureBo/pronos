@@ -3,6 +3,7 @@ package com.bet.model.entity;
 import java.sql.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,7 +47,7 @@ public class MatchEntity {
 	@JoinColumn(name = "id_session")
 	private SessionEntity session;
 
-	@OneToMany(mappedBy = "match")
+	@OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<PariEntity> paris;
 
 }

@@ -106,32 +106,24 @@ public class SessionController {
 		return new ResponseEntity<List<String>>(participantsList, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/{idSession}/ajouter-participant/{pseudo}")
-	public ResponseEntity<String> addUtilisateurToSession(@PathVariable int idSession, @PathVariable String pseudo) {
-		logger.info("ajouter-participant");
-		this.participerService.associateParticipantToSession(idSession, pseudo);
-		return new ResponseEntity<String>("/sessions/" + idSession + "/utilisateurs", HttpStatus.CREATED);
-	}
-
-	@PostMapping(value = "/{idSession}/sauvegarder-matchs")
-	public ResponseEntity<String> sauvegarderMatchs(@PathVariable int idSession,
-			@RequestBody List<MatchDto> matchsDto) {
-		logger.info("sauvegarder-match");
-		this.sessionService.ajouterMatchsASession(idSession, matchsDto);
-		return new ResponseEntity<String>("/sessions/" + idSession, HttpStatus.CREATED);
-	}
-
 	/**
 	 * Add a user to a session
 	 * 
 	 * @param input the users's pseudo and the session name
-	 * @return the url to reach the session
+	 * @return the url to reach the session's users
 	 */
-	@PostMapping(value = "/addUserToSession")
-	public ResponseEntity<String> addUserToSession(@RequestBody UserSessionInputDto input) {
-		participerService.associateParticipantToSession(input.getIdSession(), input.getPseudo());
-		// Return created object as response entity
-		return new ResponseEntity<String>("/session/" + input.getIdSession(), HttpStatus.CREATED);
+	@PostMapping(value = "/ajouter-participant/")
+	public ResponseEntity<String> addUtilisateurToSession(@RequestBody UserSessionInputDto input) {
+		logger.info("ajouter-participant");
+		this.participerService.associateParticipantToSession(input.getIdSession(), input.getPseudo());
+		return new ResponseEntity<String>("/sessions/" + input.getIdSession() + "/utilisateurs", HttpStatus.CREATED);
+	}
+
+	@PostMapping(value = "/{idSession}/ajouter-match")
+	public ResponseEntity<String> ajouterMatchASession(@PathVariable int idSession, @RequestBody MatchDto matchDto) {
+		logger.info("ajouterMatchASession");
+		this.sessionService.ajouterMatchToSession(idSession, matchDto);
+		return new ResponseEntity<String>("/sessions/" + idSession, HttpStatus.CREATED);
 	}
 
 }
