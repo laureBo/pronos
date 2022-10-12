@@ -12,4 +12,5 @@ public class BetUtils {
 			return ResultatEnum.MATCH_NUL;
 		}
 	}
+
 }

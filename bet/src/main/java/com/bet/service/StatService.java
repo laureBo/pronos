@@ -1,7 +1,9 @@
 package com.bet.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,10 @@ public class StatService {
 	private PariService pariService;
 	@Autowired
 	private SessionService sessionService;
+
+	public static int resultWinner = 2;
+
+	public static int resultPerfect = 3;
 
 	public int getAvgWinnerBet(List<PariDetailDto> listParisDetailDto) {
 		float nbMatchTrouve = 0;
@@ -53,5 +59,40 @@ public class StatService {
 		}
 		return resultList;
 
+	}
+
+	public int calculateScoreUserBySessionAndpseudo(int idSession, String pseudo) {
+		float scoreUser = 0;
+		float scoreUserTotal = 0;
+		Float pourcentScore;
+		List<PariDetailDto> listeParis = new ArrayList<>();
+		listeParis = pariService.getAllByPseudoAndIdSession(idSession, pseudo);
+		int nbMatchsJoues = listeParis.size();
+		for (PariDetailDto pariJoue : listeParis) {
+			if (pariJoue.getIsWinner() == true && pariJoue.getIsPerfect() == true) {
+				scoreUser = resultPerfect;
+			} else if (pariJoue.getIsWinner() && pariJoue.getIsPerfect() == false) {
+				scoreUser = resultWinner;
+			} else {
+				scoreUser = 0;
+			}
+			scoreUserTotal = scoreUserTotal + scoreUser;
+		}
+		pourcentScore = (scoreUserTotal / (nbMatchsJoues * resultPerfect)) * 100;
+		return pourcentScore.intValue();
+	}
+
+	public Map<String, Integer> getRankingPlayersBySession(int idSession) {
+		List<String> participantsList = new ArrayList<>();
+		Map<String, Integer> scoreUsersList = new HashMap<>();
+		participantsList = sessionService.findParticipationsList(idSession);
+		for (String user : participantsList) {
+			int pourcentUser = calculateScoreUserBySessionAndpseudo(idSession, user);
+			scoreUsersList.put(user, pourcentUser);
+		}
+		// SortedSet<Integer> pourcentUser = new TreeSet<>(scoreUsersList.values());
+		// List<Integer> scores = new ArrayList<>(scoreUsersList.values());
+		// Collections.sort(scores);
+		return scoreUsersList;
 	}
 }

@@ -22,6 +22,11 @@ public interface IPariRepository extends JpaRepository<PariEntity, Integer> {
 	public List<PariEntity> findAllBetsbyPseudoAndNomSession(@Param("pseudo") String pseudo,
 			@Param("nomSession") String nomSession);
 
+	@Query("SELECT p FROM Pari as p"
+			+ " WHERE p.match.session.idSession= :idSession AND p.utilisateur.pseudoUser = :pseudo AND p.match.scoreEquipe1 is not null ORDER BY p.match.dateMatch asc")
+	public List<PariEntity> findAllBetsbyPseudoAndIdSession(@Param("idSession") int idSession,
+			@Param("pseudo") String pseudo);
+
 	public List<PariEntity> findAllByEquipe1(Integer equipe1);
 
 }

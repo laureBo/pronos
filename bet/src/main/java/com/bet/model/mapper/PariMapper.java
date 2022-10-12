@@ -1,15 +1,28 @@
 package com.bet.model.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bet.model.dto.PariDetailDto;
+import com.bet.model.dto.PariInputDto;
+import com.bet.model.dto.PariOutputDto;
 import com.bet.model.entity.PariEntity;
+import com.bet.model.entity.UtilisateurEntity;
+import com.bet.model.repository.IMatchRepository;
 import com.bet.model.utils.BetUtils;
 import com.bet.model.utils.ResultatEnum;
+import com.bet.service.UtilisateurService;
 
 @Service
 public class PariMapper {
 
+	@Autowired
+	private UtilisateurService utilisateurService;
+
+	@Autowired
+	private IMatchRepository matchRepository;
+
+//ParisDetailDto
 	public PariDetailDto getDtoFromEntity(PariEntity entity) {
 		if (entity == null) {
 			return null;
@@ -39,4 +52,29 @@ public class PariMapper {
 		return pariDetailDto;
 	}
 
+	// ParisOutputDto
+	public PariOutputDto getOutputDtoFromEntity(PariEntity entity) {
+		if (entity == null) {
+			return null;
+		}
+		PariOutputDto pariOutputDto = new PariOutputDto();
+		pariOutputDto.setIdMatch(entity.getMatch().getIdMatch());
+		pariOutputDto.setPariEquipe1(entity.getEquipe1());
+		pariOutputDto.setPariEquipe2(entity.getEquipe2());
+		return pariOutputDto;
+	}
+
+	public PariEntity getEntityFromDto(PariInputDto pariInputDto) {
+		if (pariInputDto == null) {
+			return null;
+		}
+		PariEntity pariEntity = new PariEntity();
+		UtilisateurEntity user = new UtilisateurEntity();
+		user = utilisateurService.findUtilisateurEntityByPseudo(pariInputDto.getPseudo());
+		pariEntity.setUtilisateur(utilisateurService.findUtilisateurEntityByPseudo(pariInputDto.getPseudo()));
+		pariEntity.setMatch(matchRepository.findMatchByIdMatch(pariInputDto.getIdMatch()));
+		pariEntity.setEquipe1(pariInputDto.getPariEquipe1());
+		pariEntity.setEquipe2(pariInputDto.getPariEquipe2());
+		return pariEntity;
+	}
 }

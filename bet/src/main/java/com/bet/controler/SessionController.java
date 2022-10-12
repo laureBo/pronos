@@ -1,6 +1,7 @@
 package com.bet.controler;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bet.model.dto.MatchDto;
+import com.bet.model.dto.PariDetailDto;
 import com.bet.model.dto.SessionInputDto;
 import com.bet.model.dto.SessionOutputDto;
 import com.bet.model.dto.UserSessionInputDto;
 import com.bet.model.entity.SessionEntity;
+import com.bet.service.PariService;
 import com.bet.service.ParticiperService;
 import com.bet.service.SessionService;
+import com.bet.service.StatService;
 
 @RestController
 @RequestMapping(value = "/sessions")
@@ -34,6 +38,12 @@ public class SessionController {
 
 	@Autowired
 	private ParticiperService participerService;
+
+	@Autowired
+	private PariService pariService;
+
+	@Autowired
+	private StatService statService;
 
 	/**
 	 * Returns the session from the session's identifier
@@ -126,4 +136,22 @@ public class SessionController {
 		return new ResponseEntity<String>("/sessions/" + idSession, HttpStatus.CREATED);
 	}
 
+	@GetMapping(value = "/{idSession}/utilisateur/{pseudo}/paris")
+	public List<PariDetailDto> getAllBetsByUserSession(@PathVariable int idSession, @PathVariable String pseudo) {
+		logger.info("Get all bets to user's session: getAllBetsByUserSession");
+		return pariService.getAllByPseudoAndIdSession(idSession, pseudo);
+
+	}
+
+	@GetMapping(value = "/{idSession}/utilisateur/{pseudo}/paris/score")
+	public int getScorePourcentUserBySessionAndPseudo(@PathVariable int idSession, @PathVariable String pseudo) {
+		return statService.calculateScoreUserBySessionAndpseudo(idSession, pseudo);
+
+	}
+
+	@GetMapping(value = "/{idSession}/utilisateurs/ranking")
+	public Map<String, Integer> getUsersRankingBySession(@PathVariable int idSession) {
+
+		return statService.getRankingPlayersBySession(idSession);
+	}
 }

@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.bet.model.dto.PariDetailDto;
+import com.bet.model.dto.PariInputDto;
 import com.bet.model.entity.PariEntity;
 import com.bet.model.entity.UtilisateurEntity;
 import com.bet.model.mapper.PariMapper;
+import com.bet.model.repository.IMatchRepository;
 import com.bet.model.repository.IPariRepository;
 import com.bet.model.repository.IUtilisateurRepository;
 
@@ -20,9 +23,11 @@ public class PariService {
 	private IPariRepository pariRepository;
 	@Autowired
 	private IUtilisateurRepository utilisateurRepository;
+	@Autowired
+	private IMatchRepository matchRepository;
 
 	@Autowired
-	private PariMapper mapperPariMatch;
+	private PariMapper mapperPari;
 
 	public List<PariEntity> getAllByPseudo(String pseudo) {
 		UtilisateurEntity utilisateurEntity = utilisateurRepository.findByPseudoUser(pseudo);
@@ -33,9 +38,18 @@ public class PariService {
 		List<PariDetailDto> parisDetailDtoList = new ArrayList<>();
 		List<PariEntity> parisEntityList = pariRepository.findAllBetsbyPseudoAndNomSession(pseudo, nomSession);
 		for (PariEntity pari : parisEntityList) {
-			parisDetailDtoList.add(mapperPariMatch.getDtoFromEntity(pari));
+			parisDetailDtoList.add(mapperPari.getDtoFromEntity(pari));
 		}
 		return parisDetailDtoList;
+	}
+
+	public List<PariDetailDto> getAllByPseudoAndIdSession(int idSession, String pseudo) {
+		List<PariDetailDto> parisDtoList = new ArrayList<>();
+		List<PariEntity> parisEntityList = pariRepository.findAllBetsbyPseudoAndIdSession(idSession, pseudo);
+		for (PariEntity pari : parisEntityList) {
+			parisDtoList.add(mapperPari.getDtoFromEntity(pari));
+		}
+		return parisDtoList;
 	}
 
 	public List<PariDetailDto> getParisDetailsByUser(String pseudo) {
@@ -44,7 +58,7 @@ public class PariService {
 		List<PariEntity> pariEntityList = pariRepository.findAllByUtilisateur(utilisateurEntity);
 		for (PariEntity pari : pariEntityList) {
 			if (pari.getMatch().getScoreEquipe1() != null) {
-				parisDetailDtoList.add(mapperPariMatch.getDtoFromEntity(pari));
+				parisDetailDtoList.add(mapperPari.getDtoFromEntity(pari));
 			}
 		}
 		return parisDetailDtoList;
@@ -54,7 +68,7 @@ public class PariService {
 		List<PariDetailDto> parisDetailDtoList = new ArrayList<>();
 		List<PariEntity> pariEntityList = pariRepository.findAllBetsbyPseudo(pseudo);
 		for (PariEntity pari : pariEntityList) {
-			parisDetailDtoList.add(mapperPariMatch.getDtoFromEntity(pari));
+			parisDetailDtoList.add(mapperPari.getDtoFromEntity(pari));
 			if (parisDetailDtoList.size() == 2) {
 
 				break;
@@ -70,11 +84,22 @@ public class PariService {
 		int index = 0;
 		while (index < 2 && index < pariEntityList.size()) {
 			PariEntity pari = pariEntityList.get(index);
-			parisDetailDtoList.add(mapperPariMatch.getDtoFromEntity(pari));
+			parisDetailDtoList.add(mapperPari.getDtoFromEntity(pari));
 			index++;
 		}
 		return parisDetailDtoList;
 
 	}
 
+	public PariEntity savePariDto(PariInputDto pariInputDto) {
+		PariEntity pariEntity = new PariEntity();
+		if (utilisateurRepository.findById(pariInputDto.getPseudo()) == null) {
+			throw new ResourceNotFoundException();
+		} else if (matchRepository.findMatchByIdMatch(pariInputDto.getIdMatch()) == null) {
+			throw new ResourceNotFoundException();
+		}
+		pariEntity = pariRepository.save(mapperPari.getEntityFromDto(pariInputDto));
+		return pariEntity;
+
+	}
 }
