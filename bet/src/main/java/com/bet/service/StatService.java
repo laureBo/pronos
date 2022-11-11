@@ -1,9 +1,12 @@
 package com.bet.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,15 +87,17 @@ public class StatService {
 
 	public Map<String, Integer> getRankingPlayersBySession(int idSession) {
 		List<String> participantsList = new ArrayList<>();
-		Map<String, Integer> scoreUsersList = new HashMap<>();
+		Map<String, Integer> scoreUsersMap = new HashMap<>();
 		participantsList = sessionService.findParticipationsList(idSession);
 		for (String user : participantsList) {
 			int pourcentUser = calculateScoreUserBySessionAndpseudo(idSession, user);
-			scoreUsersList.put(user, pourcentUser);
+			scoreUsersMap.put(user, pourcentUser);
+
 		}
-		// SortedSet<Integer> pourcentUser = new TreeSet<>(scoreUsersList.values());
-		// List<Integer> scores = new ArrayList<>(scoreUsersList.values());
-		// Collections.sort(scores);
-		return scoreUsersList;
+		Map<String, Integer> sorted = scoreUsersMap.entrySet().stream()
+				.sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+
+		return sorted;
 	}
 }

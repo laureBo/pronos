@@ -1,5 +1,6 @@
 package com.bet.controler;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -151,7 +152,10 @@ public class SessionController {
 
 	@GetMapping(value = "/{idSession}/utilisateurs/ranking")
 	public Map<String, Integer> getUsersRankingBySession(@PathVariable int idSession) {
+		Map<String, Integer> scoreUsersMap = new HashMap<>();
+		scoreUsersMap = statService.getRankingPlayersBySession(idSession);
 
-		return statService.getRankingPlayersBySession(idSession);
+		return scoreUsersMap;
+
 	}
 }
