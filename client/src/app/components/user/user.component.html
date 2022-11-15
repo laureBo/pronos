@@ -1,0 +1,38 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto">
+      <div class="bg-white shadow rounded p-4">
+        <h1 display-6 text-dark>Créez votre profil utilisateur :</h1>
+        <hr class="bg-dark mb-5" />
+        <form
+          [formGroup]="inscriptionForm"
+          (ngSubmit)="onSubmitInscriptionForm()"
+        >
+          <label for="pseudoInput">Votre pseudo : </label>
+          <input type="text" formControlName="pseudoFC" id="pseudoInput" />
+          <label for="emailInput">Votre email : </label>
+          <input type="text" formControlName="emailFC" id="emailInput" />
+          <label for="passwordInput">Votre mot de passe : </label>
+          <input type="text" formControlName="passwordFC" id="passwordInput" />
+          <label for="nameInput">Votre nom : </label>
+          <input type="text" formControlName="nameFC" id="nameInput" />
+          <label for="firstnameInput">Nom de la session</label>
+          <input
+            type="text"
+            formControlName="firstnameFC"
+            id="firstnameInput"
+          />
+          <div class="d-flex">
+            <button
+              class="btn btn-success mx-auto"
+              type="submit"
+              [disabled]="inscriptionForm.invalid"
+            >
+              Valider
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

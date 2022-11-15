@@ -1,0 +1,15 @@
+<div class="header-bar">
+  <div class="logo"></div>
+  <ul class="header-bar-navbar">
+    <li class="nav-item" (click)="navigate('/')">Home</li>
+    <li class="nav-item" (click)="navigate('/sessions')">Sessions</li>
+    <li class="nav-item" (click)="navigate('/bets')">Mes derniers paris</li>
+  </ul>
+  <button
+    class="header-bar-button"
+    type="button"
+    (click)="navigate('/inscription-form')"
+  >
+    Enregistrez-vous
+  </button>
+</div>
