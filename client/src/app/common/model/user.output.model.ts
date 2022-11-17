@@ -1,6 +1,6 @@
 import { NgModel } from '@angular/forms';
 
-export interface UserInput {
+export interface UserOutput {
   pseudo: string;
   mail: string;
   password: string;

@@ -9,6 +9,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { SessionSummary } from '../session-summary/session-summary.model';
 
 @Component({
   selector: 'app-create-session',
@@ -18,6 +19,7 @@ import {
 export class CreateSessionComponent implements OnInit {
   sessionFG!: FormGroup;
   obligatoryLetter = 'e';
+  sessions: SessionSummary[] = [];
 
   constructor(private formbuilder: FormBuilder) {}
 
@@ -36,6 +38,8 @@ export class CreateSessionComponent implements OnInit {
 
   onSubmitCreateSession() {
     console.log(this.sessionFG);
+    this.sessions.push(this.sessionFG.value);
+    this.sessionFG.reset;
   }
 
   obligatoryChar(): ValidatorFn {

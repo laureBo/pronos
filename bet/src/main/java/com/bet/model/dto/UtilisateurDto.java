@@ -14,6 +14,9 @@ public class UtilisateurDto {
 	private String mail;
 
 	@JsonProperty(required = true)
+	private String password;
+
+	@JsonProperty(required = true)
 	private String nom;
 
 	@JsonProperty(required = true)

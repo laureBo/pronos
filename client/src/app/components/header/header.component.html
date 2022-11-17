@@ -1,15 +1,19 @@
 <div class="header-bar">
   <div class="logo"></div>
   <ul class="header-bar-navbar">
-    <li class="nav-item" (click)="navigate('/')">Home</li>
-    <li class="nav-item" (click)="navigate('/sessions')">Sessions</li>
+    <div class="menu">
+      <ul>
+        <li class="nav-item" (click)="navigate('/')">Home</li>
+
+        <li class="onglet nav-item" (click)="navigate('/user/')">Mon Profil</li>
+        <li class="onglet nav-item">Config</li>
+      </ul>
+    </div>
+    <!--<li class="nav-item" (click)="navigate('/sessions')">Sessions</li>-->
+    <hr />
     <li class="nav-item" (click)="navigate('/bets')">Mes derniers paris</li>
   </ul>
-  <button
-    class="header-bar-button"
-    type="button"
-    (click)="navigate('/inscription-form')"
-  >
-    Enregistrez-vous
+  <button class="header-bar-button" type="button" (click)="navigate('/user')">
+    Se connecter
   </button>
 </div>

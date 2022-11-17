@@ -11,6 +11,10 @@ import { SessionSummaryComponent } from './components/sessions/session-summary/s
 import { CreateSessionComponent } from './components/sessions/create-session/create-session.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserComponent } from './components/user/user.component';
+import { ConfigComponent } from './components/config/config.component';
+import { UserConnectionComponent } from './components/user/user-connection/user-connection.component';
+import { HttpClientModule } from '@angular/common/http';
+import { CreateEditUserComponent } from './components/user/create-edit-user/create-edit-user.component';
 
 @NgModule({
   declarations: [
@@ -22,8 +26,16 @@ import { UserComponent } from './components/user/user.component';
     SessionSummaryComponent,
     CreateSessionComponent,
     UserComponent,
+    UserConnectionComponent,
+    ConfigComponent,
+    CreateEditUserComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

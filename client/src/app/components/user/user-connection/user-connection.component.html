@@ -1,0 +1,32 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto">
+      <div class="bg-white shadow rounded p-4">
+        <h1 display-6 text-dark>Connectez-vous à votre profil utilisateur :</h1>
+        <hr class="bg-dark mb-5" />
+        <form
+          [formGroup]="connectionUserFG"
+          (ngSubmit)="onSubmitCallConnexion()"
+        >
+          <label for="pseudoInput">Votre pseudo : </label>
+          <input type="text" formControlName="pseudoFC" id="pseudoInput" />
+          <label for="passwordInput">Votre mot de passe : </label>
+          <input
+            type="password"
+            formControlName="passwordFC"
+            id="passwordInput"
+          />
+          <div class="d-flex">
+            <button
+              class="btn btn-success mx-auto"
+              type="submit"
+              [disabled]="connectionUserFG.invalid"
+            >
+              Se connecter
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
