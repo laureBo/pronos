@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionInput } from 'src/app/common/model/session.input.model';
+import {
+  SessionInput,
+  SessionLightInput,
+} from 'src/app/common/model/session.input.model';
 import { AuthenticationService } from 'src/app/common/services/authentication.service';
 import { SessionService } from 'src/app/common/services/session.service';
 import { SessionMapperService } from './session-mapper.service';
@@ -20,10 +23,14 @@ export class SessionsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.sessions = this._sessionService
-      .getSessionsByUser(this._autentService.getCurrentUser())
-      .map((sessionInput: SessionInput) =>
-        this._sessionMapper.mapInputToComponent(sessionInput)
-      );
+    this._sessionService
+      .getSessionsByUser$(this._autentService.getCurrentUser())
+      .subscribe((sessionLightInputArray: SessionLightInput[]) => {
+        this.sessions = sessionLightInputArray.map(
+          (sessionLightInput: SessionLightInput) => {
+            return this._sessionMapper.mapInputToComponent(sessionLightInput);
+          }
+        );
+      });
   }
 }

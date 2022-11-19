@@ -7,6 +7,6 @@ export class AuthenticationService {
   constructor() {}
 
   getCurrentUser(): string {
-    return 'Mat';
+    return 'Lalou';
   }
 }

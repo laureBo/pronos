@@ -1,5 +1,8 @@
 import { Injectable, Input } from '@angular/core';
-import { SessionInput } from 'src/app/common/model/session.input.model';
+import {
+  SessionInput,
+  SessionLightInput,
+} from 'src/app/common/model/session.input.model';
 import {
   SessionStatusEnum,
   SessionSummary,
@@ -11,7 +14,7 @@ import {
 export class SessionMapperService {
   constructor() {}
 
-  mapInputToComponent(input: SessionInput): SessionSummary {
+  mapInputToComponent(input: SessionLightInput): SessionSummary {
     return {
       title: input.nomSession,
       id: input.id,

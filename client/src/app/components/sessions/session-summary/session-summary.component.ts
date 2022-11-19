@@ -8,7 +8,7 @@ import { SessionSummary } from './session-summary.model';
 })
 export class SessionSummaryComponent implements OnInit {
   @Input()
-  input: SessionSummary;
+  inputSessionSummary: SessionSummary;
 
   constructor() {}
 

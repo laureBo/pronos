@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.bet.model.dto.MatchDto;
 import com.bet.model.dto.SessionInputDto;
+import com.bet.model.dto.SessionLightOutputDto;
 import com.bet.model.dto.SessionOutputDto;
 import com.bet.model.entity.MatchEntity;
 import com.bet.model.entity.ParticiperEntity;
@@ -127,6 +128,11 @@ public class SessionService {
 		matchEntity.setSession(sessionUpdated);
 		sessionUpdated.getMatchs().add(matchEntity);
 		return sessionRepository.save(sessionUpdated);
+	}
+
+	public List<SessionLightOutputDto> getAllSessionsByPseudo(String pseudo) {
+		List<SessionEntity> sessionsEntitiesList = sessionRepository.findAllSessionsByUser(pseudo);
+		return sessionMapper.getDtosLightFromEntities(sessionsEntitiesList);
 	}
 
 }

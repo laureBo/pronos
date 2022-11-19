@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bet.model.dto.SessionInputDto;
+import com.bet.model.dto.SessionLightOutputDto;
 import com.bet.model.dto.SessionOutputDto;
 import com.bet.model.entity.SessionEntity;
 import com.bet.service.UtilisateurService;
@@ -45,11 +46,31 @@ public class SessionMapper {
 		return dto;
 	}
 
+	public SessionLightOutputDto getDtoLightFromEntity(SessionEntity sessionEntity) {
+		SessionLightOutputDto dto = new SessionLightOutputDto();
+		dto.setId(sessionEntity.getIdSession());
+		dto.setNomSession(sessionEntity.getNomSession());
+		dto.setDateCreationSession(sessionEntity.getDateCreationSession());
+		dto.setPseudoCreateur(sessionEntity.getCreateur().getPseudoUser());
+
+		return dto;
+	}
+
 	public List<SessionOutputDto> getDtosFromEntities(List<SessionEntity> listEntity) {
 		List<SessionOutputDto> listDto = new ArrayList<>();
 		for (SessionEntity entity : listEntity) {
 			if (entity != null) {
 				listDto.add(getDtoFromEntity(entity));
+			}
+		}
+		return listDto;
+	}
+
+	public List<SessionLightOutputDto> getDtosLightFromEntities(List<SessionEntity> listEntity) {
+		List<SessionLightOutputDto> listDto = new ArrayList<>();
+		for (SessionEntity entity : listEntity) {
+			if (entity != null) {
+				listDto.add(getDtoLightFromEntity(entity));
 			}
 		}
 		return listDto;

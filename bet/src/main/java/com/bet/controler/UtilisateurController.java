@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.bet.model.dto.PariDetailDto;
+import com.bet.model.dto.SessionLightOutputDto;
 import com.bet.model.dto.UtilisateurDto;
 import com.bet.service.PariService;
+import com.bet.service.SessionService;
 import com.bet.service.UtilisateurService;
 
 @RestController
@@ -31,6 +33,8 @@ public class UtilisateurController {
 
 	@Autowired
 	private PariService pariService;
+	@Autowired
+	private SessionService sessionService;
 
 	@GetMapping(value = "/")
 	public List<UtilisateurDto> getAllUtilisateur() {
@@ -79,4 +83,15 @@ public class UtilisateurController {
 		return pariService.getThreeLastBetByPseudo2(pseudo);
 	}
 
+	/**
+	 * List the sessions linked to a user
+	 * 
+	 * @param pseudo user's pseudo
+	 * @return sessions details for the user
+	 */
+	@GetMapping(value = "/{pseudo}/sessions")
+	public List<SessionLightOutputDto> getSessionsDetailByUser(@PathVariable String pseudo) {
+		logger.info("getSessionsDetailByUser");
+		return sessionService.getAllSessionsByPseudo(pseudo);
+	}
 }

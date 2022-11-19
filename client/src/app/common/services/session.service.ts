@@ -1,31 +1,24 @@
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SessionInput } from '../model/session.input.model';
+import { SessionInput, SessionLightInput } from '../model/session.input.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SessionService {
-  constructor() {}
+  private readonly ROOT_URL = 'http://localhost:8080/';
+  optionRequete = {
+    headers: new HttpHeaders({
+      'Access-Control-Allow-Origin': '*',
+    }),
+  };
 
-  getSessionsByUser(pseudo: string): SessionInput[] {
-    // TODO unmock later
-    return [
-      {
-        id: 1,
-        nomSession: 'Coupe du monde Qatar',
-        dateCreationSession: new Date(),
-        pseudoCreateur: 'Francky Vincent',
-        matchs: [],
-        participants: ['Jo', 'Avrell'],
-      },
-      {
-        id: 2,
-        nomSession: 'LDC',
-        dateCreationSession: new Date(),
-        pseudoCreateur: 'Bob Sinclar',
-        matchs: [],
-        participants: ['Jack', 'William'],
-      },
-    ];
+  constructor(private http: HttpClient) {}
+
+  public getSessionsByUser$(pseudo: string): Observable<SessionLightInput[]> {
+    return this.http.get<SessionLightInput[]>(
+      this.ROOT_URL + 'utilisateurs/' + pseudo + '/sessions'
+    );
   }
 }
