@@ -1,18 +1,21 @@
 <div class="header-bar">
   <div class="logo"></div>
-  <ul class="header-bar-navbar">
-    <div class="menu">
+  <div class="menu">
+    <ul class="header-bar-navbar">
       <ul>
-        <li class="nav-item" (click)="navigate('/')">Home</li>
-
-        <li class="onglet nav-item" (click)="navigate('/user/')">Mon Profil</li>
-        <li class="onglet nav-item">Config</li>
+        <li class="menu onglet nav-item" (click)="navigate('/')">Home</li>
+        <div class="deroulant">
+          <li class="onglet nav-item" (click)="navigate('/user/')">
+            Mon Profil
+          </li>
+          <li class="onglet nav-item">Config</li>
+        </div>
       </ul>
-    </div>
-    <!--<li class="nav-item" (click)="navigate('/sessions')">Sessions</li>-->
-    <hr />
-    <li class="nav-item" (click)="navigate('/bets')">Mes derniers paris</li>
-  </ul>
+
+      <li class="nav-item" (click)="navigate('/sessions')">Sessions</li>
+      <li class="nav-item" (click)="navigate('/bets')">Mes derniers paris</li>
+    </ul>
+  </div>
   <button class="header-bar-button" type="button" (click)="navigate('/user')">
     Se connecter
   </button>
