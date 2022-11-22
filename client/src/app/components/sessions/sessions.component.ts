@@ -19,6 +19,7 @@ import {
 })
 export class SessionsComponent implements OnInit {
   public sessions: SessionSummary[];
+
   public selectedSession: SessionSummary;
 
   constructor(
@@ -40,9 +41,10 @@ export class SessionsComponent implements OnInit {
   }
 
   onSelectedSession(id: number): void {
-    console.log(this.selectedSession.id);
+    id = this.selectedSession.id;
+    console.log(id);
     this._sessionService
-      .getSessionById$(this.selectedSession.id)
+      .getSessionById$(id)
       .subscribe((inputSessionComplete: SessionInput) => {
         return this._sessionMapper.mapInputCompleteToComponent(
           inputSessionComplete

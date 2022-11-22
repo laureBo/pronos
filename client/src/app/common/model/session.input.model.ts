@@ -13,3 +13,8 @@ export interface SessionInput extends SessionLightInput {
   matchs: MatchInput[];
   participants: string[];
 }
+
+export interface SessionOutput {
+  pseudoCreateur: string;
+  nomSession: string;
+}

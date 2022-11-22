@@ -1,6 +1,10 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SessionInput, SessionLightInput } from '../model/session.input.model';
+import {
+  SessionInput,
+  SessionLightInput,
+  SessionOutput,
+} from '../model/session.input.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -26,5 +30,9 @@ export class SessionService {
 
   public getSessionById$(id: number): Observable<SessionInput> {
     return this.http.get<SessionInput>(this.ROOT_URL + 'sessions/' + id);
+  }
+
+  public createNewSession$(newSession: SessionOutput): Observable<string> {
+    return this.http.post<string>(this.ROOT_URL + 'sessions', newSession);
   }
 }

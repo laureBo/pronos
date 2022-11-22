@@ -2,10 +2,10 @@
   <div class="row">
     <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto">
       <div class="bg-white shadow rounded p-4">
-        <h1 display-6 text-dark>Créez votre session :</h1>
+        <div id="create-session">Créez votre session :</div>
         <hr class="bg-dark mb-5" />
         <form [formGroup]="sessionFG" (ngSubmit)="onSubmitCreateSession()">
-          <label for="nameSessionInput">Nom de la session</label>
+          <label for="nameSessionInput">Nom de la session avec un "e" :</label>
           <input
             type="text"
             formControlName="nameSessionFC"

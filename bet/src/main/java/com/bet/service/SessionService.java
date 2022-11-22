@@ -11,6 +11,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.bet.model.dto.MatchDto;
+import com.bet.model.dto.SessionCreationInputDto;
 import com.bet.model.dto.SessionInputDto;
 import com.bet.model.dto.SessionLightOutputDto;
 import com.bet.model.dto.SessionOutputDto;
@@ -43,14 +44,15 @@ public class SessionService {
 		return sessionRepository.findAllNomSessionByUser(pseudo);
 	}
 
-	public SessionEntity createSession(SessionInputDto sessionInputDto) {
-		UtilisateurEntity user = utilisateurService.findUtilisateurEntityByPseudo(sessionInputDto.getPseudoCreateur());
+	public SessionEntity createSession(SessionCreationInputDto sessionCreationInputDto) {
+		UtilisateurEntity user = utilisateurService
+				.findUtilisateurEntityByPseudo(sessionCreationInputDto.getPseudoCreateur());
 		if (user == null) {
 			logger.info("createSession : Votre pseudo n'existe pas.");
 			throw new ResourceNotFoundException(
-					"createSession : Votre pseudo n'existe pas. " + sessionInputDto.getPseudoCreateur());
+					"createSession : Votre pseudo n'existe pas. " + sessionCreationInputDto.getPseudoCreateur());
 		}
-		SessionEntity newSession = sessionMapper.getEntityFromDto(sessionInputDto);
+		SessionEntity newSession = sessionMapper.getEntityFromNewDto(sessionCreationInputDto);
 		sessionRepository.save(newSession);
 
 		return newSession;

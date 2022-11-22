@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bet.model.dto.MatchDto;
 import com.bet.model.dto.PariDetailDto;
+import com.bet.model.dto.SessionCreationInputDto;
 import com.bet.model.dto.SessionInputDto;
 import com.bet.model.dto.SessionOutputDto;
 import com.bet.model.dto.UserSessionInputDto;
@@ -84,7 +85,7 @@ public class SessionController {
 	 * @return the url to access to the created session
 	 */
 	@PostMapping(value = "/")
-	public ResponseEntity<String> createSession(@RequestBody SessionInputDto input) {
+	public ResponseEntity<String> createSession(@RequestBody SessionCreationInputDto input) {
 		logger.info("Creation session: createSession");
 		// Create session on database
 		SessionEntity resultEntity = sessionService.createSession(input);

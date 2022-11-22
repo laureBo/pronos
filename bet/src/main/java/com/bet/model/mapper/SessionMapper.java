@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bet.model.dto.SessionCreationInputDto;
 import com.bet.model.dto.SessionInputDto;
 import com.bet.model.dto.SessionLightOutputDto;
 import com.bet.model.dto.SessionOutputDto;
@@ -22,6 +23,17 @@ public class SessionMapper {
 
 	@Autowired
 	private MatchMapper matchMapper;
+
+	public SessionEntity getEntityFromNewDto(SessionCreationInputDto sessionCreationInputDto) {
+		SessionEntity entity = new SessionEntity();
+		entity.setNomSession(sessionCreationInputDto.getNomSession());
+		long millis = System.currentTimeMillis();
+		Date date = new Date(millis);
+		entity.setDateCreationSession(date);
+		entity.setCreateur(
+				utilisateurService.findUtilisateurEntityByPseudo(sessionCreationInputDto.getPseudoCreateur()));
+		return entity;
+	}
 
 	public SessionEntity getEntityFromDto(SessionInputDto sessionInputDto) {
 		SessionEntity entity = new SessionEntity();
