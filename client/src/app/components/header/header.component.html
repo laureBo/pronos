@@ -16,7 +16,17 @@
       <li class="nav-item" (click)="navigate('/bets')">Mes derniers paris</li>
     </ul>
   </div>
-  <button class="header-bar-button" type="button" (click)="navigate('/user')">
+  <button
+    *ngIf="!isAuthenticated(); else login"
+    class="header-bar-button"
+    type="button"
+    (click)="navigate('/user')"
+  >
     Se connecter
   </button>
+  <ng-template #login
+    ><span [ngClass]="{ vip: authentService.isVip() }"
+      >Bonjour {{ authentService.getCurrentUser() }}</span
+    ></ng-template
+  >
 </div>

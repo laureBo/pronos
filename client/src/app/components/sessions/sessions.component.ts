@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   SessionInput,
   SessionLightInput,
@@ -6,7 +6,11 @@ import {
 import { AuthenticationService } from 'src/app/common/services/authentication.service';
 import { SessionService } from 'src/app/common/services/session.service';
 import { SessionMapperService } from './session-mapper.service';
-import { SessionSummary } from './session-summary/session-summary.model';
+import { SessionSummaryComponent } from './session-summary/session-summary.component';
+import {
+  SessionSummary,
+  SessionSummaryComplete,
+} from './session-summary/session-summary.model';
 
 @Component({
   selector: 'app-sessions',
@@ -15,6 +19,7 @@ import { SessionSummary } from './session-summary/session-summary.model';
 })
 export class SessionsComponent implements OnInit {
   public sessions: SessionSummary[];
+  public selectedSession: SessionSummary;
 
   constructor(
     private _sessionService: SessionService,
@@ -24,12 +29,23 @@ export class SessionsComponent implements OnInit {
 
   ngOnInit(): void {
     this._sessionService
-      .getSessionsByUser$(this._autentService.getCurrentUser())
+      .getSessionsLightByUser$(this._autentService.getCurrentUser())
       .subscribe((sessionLightInputArray: SessionLightInput[]) => {
         this.sessions = sessionLightInputArray.map(
           (sessionLightInput: SessionLightInput) => {
             return this._sessionMapper.mapInputToComponent(sessionLightInput);
           }
+        );
+      });
+  }
+
+  onSelectedSession(id: number): void {
+    console.log(this.selectedSession.id);
+    this._sessionService
+      .getSessionById$(this.selectedSession.id)
+      .subscribe((inputSessionComplete: SessionInput) => {
+        return this._sessionMapper.mapInputCompleteToComponent(
+          inputSessionComplete
         );
       });
   }

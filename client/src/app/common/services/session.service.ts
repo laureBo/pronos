@@ -16,9 +16,15 @@ export class SessionService {
 
   constructor(private http: HttpClient) {}
 
-  public getSessionsByUser$(pseudo: string): Observable<SessionLightInput[]> {
+  public getSessionsLightByUser$(
+    pseudo: string
+  ): Observable<SessionLightInput[]> {
     return this.http.get<SessionLightInput[]>(
       this.ROOT_URL + 'utilisateurs/' + pseudo + '/sessions'
     );
+  }
+
+  public getSessionById$(id: number): Observable<SessionInput> {
+    return this.http.get<SessionInput>(this.ROOT_URL + 'sessions/' + id);
   }
 }

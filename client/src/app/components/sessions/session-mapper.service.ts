@@ -6,7 +6,9 @@ import {
 import {
   SessionStatusEnum,
   SessionSummary,
+  SessionSummaryComplete,
 } from './session-summary/session-summary.model';
+import { Match } from './match.models';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +23,16 @@ export class SessionMapperService {
       date: input.dateCreationSession,
       creator: input.pseudoCreateur,
       status: SessionStatusEnum.INPROGRESS,
+    };
+  }
+  mapInputCompleteToComponent(input: SessionInput): SessionSummaryComplete {
+    return {
+      title: input.nomSession,
+      id: input.id,
+      date: input.dateCreationSession,
+      creator: input.pseudoCreateur,
+      matchs: [],
+      participants: [],
     };
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import { disableDebugTools } from '@angular/platform-browser';
 import { ActivatedRoute, withDisabledInitialNavigation } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { UserInput } from 'src/app/common/model/user.input.model';
 import { UserOutput } from 'src/app/common/model/user.output.model';
@@ -21,14 +22,22 @@ import { ApiService } from 'src/app/common/services/api.service';
   templateUrl: './create-edit-user.component.html',
   styleUrls: ['./create-edit-user.component.scss'],
 })
-export class CreateEditUserComponent implements OnInit {
+export class CreateEditUserComponent implements OnInit, OnDestroy {
   public inscriptionFormGroup: FormGroup;
   public isOnCreationMode: boolean;
+  private subscriptions: Subscription[] = [];
+
   constructor(
     private _route: ActivatedRoute,
     private _formBuilder: FormBuilder,
     private _apiService: ApiService
   ) {}
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscripption: Subscription) =>
+      subscripption.unsubscribe()
+    );
+    console.log('je destroy');
+  }
 
   ngOnInit(): void {
     this.onInitInscriptionForm();
@@ -41,8 +50,17 @@ export class CreateEditUserComponent implements OnInit {
     if (!this.isOnCreationMode) {
       this.fillFormWithUserInfo(pseudo);
     }
+
+    this.subscriptions.push(this.testValueChange() as Subscription);
   }
 
+  testValueChange(): Subscription | undefined {
+    return this.inscriptionFormGroup
+      .get('pseudoFC')
+      ?.valueChanges.subscribe((value: string) => {
+        console.log(value);
+      });
+  }
   onInitInscriptionForm() {
     this.inscriptionFormGroup = this._formBuilder.group({
       pseudoFC: ['', [Validators.required]],

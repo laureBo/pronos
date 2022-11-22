@@ -1,1 +1,9 @@
-<h1>{{ inputSessionSummary.title }}</h1>
+<div class="box-container">
+  <div class="nav-item" (click)="navigate('current-session')">
+    <h3>
+      Vous êtes actuellement inscrits sur la session :
+      {{ inputSessionSummary.title }}
+    </h3>
+    <p>Depuis le : {{ inputSessionSummary.date | date }}</p>
+  </div>
+</div>
