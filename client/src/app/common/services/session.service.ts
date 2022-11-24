@@ -14,7 +14,7 @@ export class SessionService {
   private readonly ROOT_URL = 'http://localhost:8080/';
   optionRequete = {
     headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': 'http://localhost:4200',
     }),
   };
 
@@ -33,6 +33,6 @@ export class SessionService {
   }
 
   public createNewSession$(newSession: SessionOutput): Observable<string> {
-    return this.http.post<string>(this.ROOT_URL + 'sessions', newSession);
+    return this.http.post<string>(this.ROOT_URL + 'sessions/', newSession);
   }
 }
