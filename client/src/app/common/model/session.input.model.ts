@@ -5,16 +5,9 @@ export interface SessionLightInput {
   nomSession: string;
   dateCreationSession: Date;
   pseudoCreateur: string;
-  matchs: MatchInput[];
-  participants: string[];
 }
 
 export interface SessionInput extends SessionLightInput {
   matchs: MatchInput[];
   participants: string[];
-}
-
-export interface SessionOutput {
-  pseudoCreateur: string;
-  nomSession: string;
 }

@@ -9,7 +9,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { SessionOutput } from 'src/app/common/model/session.input.model';
+import { SessionOutput } from 'src/app/common/model/session.output.model';
 import { AuthenticationService } from 'src/app/common/services/authentication.service';
 import { SessionService } from 'src/app/common/services/session.service';
 import { SessionSummary } from '../session-summary/session-summary.model';

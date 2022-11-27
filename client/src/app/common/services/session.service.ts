@@ -1,11 +1,8 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  SessionInput,
-  SessionLightInput,
-  SessionOutput,
-} from '../model/session.input.model';
+import { SessionInput, SessionLightInput } from '../model/session.input.model';
 import { Observable } from 'rxjs';
+import { SessionOutput } from '../model/session.output.model';
 
 @Injectable({
   providedIn: 'root',
