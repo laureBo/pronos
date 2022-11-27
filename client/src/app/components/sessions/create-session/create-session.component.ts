@@ -46,8 +46,8 @@ export class CreateSessionComponent implements OnInit {
   onSubmitCreateSession() {
     console.log(this.sessionFG.value);
     const newSession: SessionOutput = {
-      nomSession: this.sessionFG.value,
       pseudoCreateur: this._authent.getCurrentUser(),
+      nomSession: this.sessionFG.get('nameSessionFC')?.value,
     };
     this._sessionService
       .createNewSession$(newSession)
