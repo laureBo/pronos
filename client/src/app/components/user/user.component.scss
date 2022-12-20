@@ -1,15 +1,12 @@
-.div {
-  display: table;
-  width: 100%;
-  margin: auto;
+.corps {
+  font-weight: bolder;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px; /* largeur obligatoire pour être centré */
+  text-align: center;
+  padding-top: 50px;
 
-  form {
-    display: table-cell;
-    vertical-align: middle;
-
-    form-group {
-      font-weight: bold;
-      text-align: center;
-    }
+  button {
+    font-weight: bolder;
   }
 }

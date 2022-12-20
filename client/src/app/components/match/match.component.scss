@@ -1,0 +1,27 @@
+@use "@angular/material" as mat;
+
+@include mat.core();
+@import "../../colors.scss";
+
+h1 {
+  text-align: center;
+}
+.creation {
+  border: solid 2px $beige;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px; /* largeur obligatoire pour être centré */
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  div {
+    padding-top: 50px;
+  }
+  label {
+    color: $beige;
+  }
+  input {
+    color: $beige;
+  }
+}

@@ -8,7 +8,7 @@ import {
   SessionSummary,
   SessionSummaryComplete,
 } from './session-summary/session-summary.model';
-import { Match } from './match.models';
+import { Match } from '../match/match.models';
 
 @Injectable({
   providedIn: 'root',

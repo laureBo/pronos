@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Match } from '../match.models';
+import { Match } from '../../match/match.models';
 import { SessionSummaryComplete } from '../session-summary/session-summary.model';
 import { SessionsComponent } from '../sessions.component';
 

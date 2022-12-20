@@ -16,6 +16,8 @@ import { UserConnectionComponent } from './components/user/user-connection/user-
 import { HttpClientModule } from '@angular/common/http';
 import { CreateEditUserComponent } from './components/user/create-edit-user/create-edit-user.component';
 import { CurrentSessionComponent } from './components/sessions/current-session/current-session.component';
+import { MaterialModule } from './material.module';
+import { MatchComponent } from './components/match/match.component';
 
 @NgModule({
   declarations: [
@@ -31,12 +33,14 @@ import { CurrentSessionComponent } from './components/sessions/current-session/c
     ConfigComponent,
     CreateEditUserComponent,
     CurrentSessionComponent,
+    MatchComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

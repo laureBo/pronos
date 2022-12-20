@@ -1,17 +1,15 @@
-<div
-  class="box-container"
-  id="summary"
-  (dblclick)="navigate('current-session')"
->
-  <div class="nav-item">
-    <h3>
-      Vous êtes actuellement inscrits sur la session :
-      {{ inputSessionSummary.title }}
-    </h3>
-    <p>
-      Depuis le : {{ inputSessionSummary.date | date }} et votre numéro de
-      session est : {{ inputSessionSummary.id }}
-    </p>
+<div class="summary">
+  <div class="box-container">
+    <div class="nav-item">
+      <h3>
+        Vous êtes actuellement inscrits sur la session :
+        {{ inputSessionSummary.title }}
+      </h3>
+      <p>
+        Depuis le : {{ inputSessionSummary.date | date }} et votre numéro de
+        session est : {{ inputSessionSummary.id }}
+      </p>
+    </div>
   </div>
 </div>
 <br />

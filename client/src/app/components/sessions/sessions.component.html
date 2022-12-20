@@ -1,5 +1,7 @@
+<div>
+  <app-session-summary
+    *ngFor="let session of sessions"
+    [inputSessionSummary]="session"
+  ></app-session-summary>
+</div>
 <app-create-session></app-create-session>
-<app-session-summary
-  *ngFor="let session of sessions"
-  [inputSessionSummary]="session"
-></app-session-summary>

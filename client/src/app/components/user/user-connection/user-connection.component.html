@@ -8,22 +8,30 @@
           [formGroup]="connectionUserFG"
           (ngSubmit)="onSubmitCallConnexion()"
         >
-          <label for="pseudoInput">Votre pseudo : </label>
-          <input type="text" formControlName="pseudoFC" id="pseudoInput" />
-          <label for="passwordInput">Votre mot de passe : </label>
-          <input
-            type="password"
-            formControlName="passwordFC"
-            id="passwordInput"
-          />
-          <div class="d-flex">
-            <button
-              class="btn btn-success mx-auto"
-              type="submit"
-              [disabled]="connectionUserFG.invalid"
-            >
-              Se connecter
-            </button>
+          <div class="style">
+            <label for="pseudoInput">Votre pseudo : </label>
+            <input type="text" formControlName="pseudoFC" id="pseudoInput" />
+          </div>
+          <div class="style">
+            <label for="passwordInput">Votre mot de passe : </label>
+            <input
+              type="password"
+              formControlName="passwordFC"
+              id="passwordInput"
+            />
+          </div>
+          <div class="style">
+            <div class="d-flex">
+              <button
+                mat-stroked-button
+                color="primary"
+                class="btn btn-success mx-auto"
+                type="submit"
+                [disabled]="connectionUserFG.invalid"
+              >
+                Se connecter
+              </button>
+            </div>
           </div>
         </form>
       </div>

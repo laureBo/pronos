@@ -1,27 +1,22 @@
-<div class="container py-5">
-  <div class="row">
-    <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto">
-      <div class="bg-white shadow rounded p-4">
-        <div id="create-session">Créez votre session :</div>
-        <hr class="bg-dark mb-5" />
-        <form [formGroup]="sessionFG" (ngSubmit)="onSubmitCreateSession()">
-          <label for="nameSessionInput">Nom de la session avec un "e" :</label>
-          <input
-            type="text"
-            formControlName="nameSessionFC"
-            id="nameSessionInput"
-          />
-          <div class="d-flex">
-            <button
-              class="btn btn-success mx-auto"
-              type="submit"
-              [disabled]="sessionFG.invalid"
-            >
-              Valider
-            </button>
-          </div>
-        </form>
-      </div>
+<div class="body">
+  <h1>Créez votre session :</h1>
+  <hr class="bg-dark mb-5" />
+  <form [formGroup]="sessionFG" (ngSubmit)="onSubmitCreateSession()">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label for="nameSessionInput"
+          >Entrez le Nom de la session avec un "e" :</mat-label
+        >
+
+        <input matInput type="text" formControlName="nameSessionFC" required />
+      </mat-form-field>
     </div>
-  </div>
+    <button
+      class="btn btn-success mx-auto"
+      type="submit"
+      [disabled]="sessionFG.invalid"
+    >
+      Valider
+    </button>
+  </form>
 </div>

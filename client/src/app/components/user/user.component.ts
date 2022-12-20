@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -6,6 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./user.component.scss'],
 })
 export class UserComponent {
-  constructor() {}
+  constructor(private _router: Router) {}
   onInit() {}
+
+  navigate(url: string): void {
+    this._router.navigateByUrl(url);
+  }
 }

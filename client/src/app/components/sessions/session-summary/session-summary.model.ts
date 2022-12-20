@@ -1,4 +1,4 @@
-import { Match } from '../match.models';
+import { Match } from '../../match/match.models';
 
 export enum SessionStatusEnum {
   COMMING = 'A venir',

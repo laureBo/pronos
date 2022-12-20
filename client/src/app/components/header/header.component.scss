@@ -1,44 +1,60 @@
+@import "./../../colors.scss";
 .header-bar {
   width: 100vw;
-  height: 120px;
+  height: 80px;
   position: fixed;
   z-index: 99;
-  background-color: beige;
-  color: rgb(11, 100, 11);
+  background-color: $background;
+  color: $write;
   display: flex;
   flex-direction: row;
   justify-items: stretch;
-  flex: 1;
   justify-content: space-between;
 
-  ul {
-    align-items: center;
-    justify-content: center;
-    list-style: none;
+  .nomappli {
+    display: flex;
+    gap: 8px;
+    flex-direction: row;
+    font-family: "Times New Roman", Times, serif;
+    font-style: bold 10px;
 
+    .mat-divider {
+      border-right-width: 4px;
+      border-right-style: solid;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      color: grey;
+    }
+  }
+
+  .menu {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin-top: 20px;
     .nav-item {
       font-weight: bold;
       text-align: center;
       text-decoration: none;
+      font-size: 24px;
     }
 
     .nav-item:hover {
-      color: rgb(7, 7, 7);
+      color: $hover;
       cursor: pointer;
     }
+
     .menu onglet .nav-item {
-      display: block;
       text-decoration: none;
 
       .deroulant {
         border: solid 1px;
-        display: none;
         height: auto;
 
-        .deroulant:hover {
-          color: black;
+        .menu:hover {
+          color: $hover;
           cursor: pointer;
-          display: block;
         }
       }
     }
@@ -58,19 +74,19 @@
   .header-bar-button {
     float: right;
     border-radius: 15px 50px;
-    background-color: rgb(11, 100, 11);
+    background-color: $background-button;
     margin-top: 5px;
     margin-right: 15px;
     height: 62px;
     width: 100px;
-    color: white;
+    color: $background;
     font-weight: bold;
   }
   .header-bar-button:hover {
-    background-color: black;
+    background-color: $hover;
   }
   .vip {
-    color: red;
+    color: $vip;
     font-weight: bold;
   }
 }

@@ -1,27 +1,23 @@
 <div class="header-bar">
-  <div class="logo"></div>
-  <div class="menu">
-    <ul class="header-bar-navbar">
-      <ul>
-        <li class="menu onglet nav-item" (click)="navigate('/')">Home</li>
-        <div class="deroulant">
-          <li class="onglet nav-item" (click)="navigate('/user/')">
-            Mon Profil
-          </li>
-          <li class="onglet nav-item">Config</li>
-        </div>
-      </ul>
-
-      <li class="nav-item" (click)="navigate('/sessions')">Sessions</li>
-      <li class="nav-item" (click)="navigate('/bets')">Mes derniers paris</li>
-    </ul>
+  <div class="nomappli">
+    <div class="logo"></div>
+    <h1>My friend Bet</h1>
+    <mat-divider [vertical]="true"></mat-divider>
   </div>
-  <button
-    *ngIf="!isAuthenticated(); else login"
-    class="header-bar-button"
-    type="button"
-    (click)="navigate('/user')"
-  >
+  <div class="menu">
+    <div class="menu-item nav-item" (click)="navigate('/home')">Home</div>
+    <div class="menu-item nav-item" (click)="navigate('/user/:pseudo')">
+      Mon Profil
+    </div>
+    <div class="menu-item nav-item">Config</div>
+    <div class="menu-item nav-item" (click)="navigate('/sessions')">
+      Sessions
+    </div>
+    <div class="menu-item nav-item" (click)="navigate('/bets')">
+      Mes derniers paris
+    </div>
+  </div>
+  <button class="header-bar-button" type="button" (click)="navigate('/user')">
     Se connecter
   </button>
   <ng-template #login

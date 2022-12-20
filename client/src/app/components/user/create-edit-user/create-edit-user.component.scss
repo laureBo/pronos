@@ -1,0 +1,25 @@
+@import "../../../colors.scss";
+.body {
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px; /* largeur obligatoire pour être centré */
+  text-align: center;
+  padding-top: 50px;
+  input {
+    background-color: $background;
+    margin-top: 20px;
+    height: 30px;
+    border-radius: 10px;
+    width: 200px;
+  }
+  label {
+    font-family: "Times New Roman", Times, serif;
+    width: 100px;
+    font-weight: bolder;
+  }
+  button {
+    margin-top: 20px;
+    font-weight: bolder;
+    width: 100px;
+  }
+}

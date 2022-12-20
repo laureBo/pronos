@@ -1,12 +1,10 @@
-#summary {
+@import "../../../colors.scss";
+.summary {
+  border: solid 2px $beige;
+  border-radius: 10px;
   height: 120px;
   width: 500px;
 }
-#summary :hover {
-  border-radius: 25px;
-  border: 2px solid #f5f7f4;
-  color: beige;
-  padding: 20px;
-  width: 400px;
-  height: 90px;
+.summary :hover {
+  color: $beige;
 }

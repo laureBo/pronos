@@ -1,9 +1,10 @@
+@import "./colors.scss";
 .contenu {
-  background-color: rgb(11, 100, 11);
+  background-color: $background-contenu;
+  color: $write-contenu;
   margin: 0;
-  padding-top: 80px;
   height: 100vw;
-  width: 100vh;
+  width: 100%;
 }
 
 .header {

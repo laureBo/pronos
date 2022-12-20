@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { disableDebugTools } from '@angular/platform-browser';
 import { ActivatedRoute, withDisabledInitialNavigation } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { concat, concatMap, map, of, Subscription } from 'rxjs';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { UserInput } from 'src/app/common/model/user.input.model';
 import { UserOutput } from 'src/app/common/model/user.output.model';
@@ -54,12 +54,21 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.testValueChange() as Subscription);
   }
 
-  testValueChange(): Subscription | undefined {
-    return this.inscriptionFormGroup
+  testValueChange(): Subscription {
+    const monObsorvable$ = this.inscriptionFormGroup
       .get('pseudoFC')
-      ?.valueChanges.subscribe((value: string) => {
-        console.log(value);
-      });
+      ?.valueChanges.pipe(
+        concatMap((value: string) => {
+          return of('titi' + value);
+        }),
+        concatMap((value: string) => {
+          return of('titi' + value);
+        })
+      );
+
+    return monObsorvable$!.subscribe((value: string) => {
+      console.log(value);
+    });
   }
   onInitInscriptionForm() {
     this.inscriptionFormGroup = this._formBuilder.group({
