@@ -2,41 +2,34 @@
 <div class="creation">
   <form [formGroup]="matchFG" (ngSubmit)="onSubmitCreateMatch()">
     <div>
-      <mat-form-field appearance="fill">
-        <mat-label for="equipe1Input">Entrez le Nom de l'équipe 1:</mat-label>
-        <input matInput type="text" formControlName="equipe1Input" required />
-      </mat-form-field>
+      <label for="equipe1Input">Entrez le Nom de l'équipe 1:</label>
+      <input type="text" formControlName="equipe1Input" required />
     </div>
     <div>
-      <mat-form-field appearance="fill">
-        <mat-label for="equipe2Input">Entrez le Nom de l'équipe 2:</mat-label>
-        <input matInput type="text" formControlName="equipe2Input" required />
-      </mat-form-field>
+      <label for="equipe2Input">Entrez le Nom de l'équipe 2:</label>
+      <input type="text" formControlName="equipe2Input" required />
     </div>
     <div>
-      <mat-form-field appearance="fill">
-        <mat-label for="dateMacth">Quelle est la date du match : </mat-label>
-        <input matInput [matDatepicker]="dateMacth" />
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="dateMacth"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #dateMacth></mat-datepicker>
-      </mat-form-field>
+      <label for="dateMacth">Quelle est la date du match : </label>
+      <input matInput formControlName="dateMacth" [matDatepicker]="dateMacth" />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="dateMacth"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #dateMacth></mat-datepicker>
     </div>
-    <div>
-      <mat-form-field appearance="fill">
-        <mat-label for="score1Input">Score final équipe 1 :</mat-label>
-        <input matInput type="number" formControlName="score1Input" />
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field appearance="fill">
-        <mat-label for="score2Input">Score final équipe 2:</mat-label>
-        <input matInput type="number" formControlName="score2Input" required />
-      </mat-form-field>
-    </div>
+    <!--<ng-container
+      *ngIf="isPassedDate(this.matchFG.controls['dateMatch'].value)"
+    >
+      <div>
+        <label for="score1Input">Score final équipe 1 :</label>
+        <input type="number" formControlName="score1Input" />
+      </div>
+      <div>
+        <label for="score2Input">Score final équipe 2:</label>
+        <input type="number" formControlName="score2Input" required /></div
+    ></ng-container>-->
     <button
       class="btn btn-success mx-auto"
       type="submit"

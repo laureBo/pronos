@@ -3,8 +3,12 @@
   border: solid 2px $beige;
   border-radius: 10px;
   height: 120px;
-  width: 500px;
+  width: 550px;
+  padding-left: 20px;
 }
 .summary :hover {
   color: $beige;
+}
+.summary :visited {
+  opacity: 40%;
 }

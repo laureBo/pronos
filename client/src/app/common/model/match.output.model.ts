@@ -1,4 +1,4 @@
-export interface MatchInput {
+export interface MatchOutput {
   id: number;
   equipe1: string;
   equipe2: string;

@@ -1,7 +1,12 @@
-<div>
-  <app-session-summary
-    *ngFor="let session of sessions"
-    [inputSessionSummary]="session"
-  ></app-session-summary>
+<div class="style">
+  <div>
+    <app-session-summary
+      *ngFor="let session of sessions"
+      [inputSessionSummary]="session"
+      (click)="navigate(session.id)"
+    ></app-session-summary>
+  </div>
 </div>
-<app-create-session></app-create-session>
+<button mat-raised-button (click)="openDialog()">
+  Créer une nouvelle session
+</button>

@@ -1,0 +1,27 @@
+<div class="popup">
+  <ol>
+    <h1 mat-dialog-title>Entrez le nom de votre nouvelle session :</h1>
+    <li>
+      <mat-form-field appearance="fill">
+        <mat-label>Saisissez</mat-label>
+        <input
+          matInput
+          type="text"
+          id="sessionName"
+          [(ngModel)]="sessionName"
+          required
+        />
+      </mat-form-field>
+    </li>
+    <li>
+      <button mat-button (click)="onNoClick()">Annuler</button>
+      <button
+        mat-raised-button
+        [mat-dialog-close]="sessionName"
+        cdkFocusInitial
+      >
+        Valider
+      </button>
+    </li>
+  </ol>
+</div>

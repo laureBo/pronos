@@ -2,14 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  FormControl,
-  NgForm,
   Validators,
   AbstractControl,
   ValidatorFn,
   ValidationErrors,
 } from '@angular/forms';
-import { disableDebugTools } from '@angular/platform-browser';
 import { ActivatedRoute, withDisabledInitialNavigation } from '@angular/router';
 import { concat, concatMap, map, of, Subscription } from 'rxjs';
 import { Action } from 'rxjs/internal/scheduler/Action';
@@ -32,6 +29,8 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
     private _formBuilder: FormBuilder,
     private _apiService: ApiService
   ) {}
+
+  //pour eliminer automatiquement les subscribes deja utilises
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscripption: Subscription) =>
       subscripption.unsubscribe()
@@ -41,12 +40,15 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.onInitInscriptionForm();
+    //on recupere le pseudo utilisateur dans l url
     const pseudo: string = this._route.snapshot.paramMap.get(
       'pseudo'
     ) as string;
     console.log(pseudo);
+    //on verifie si on est en mode creation user
     this.isOnCreationMode = pseudo === null ? true : false;
     console.log(this.isOnCreationMode);
+    //si 'non' on remplit le formulaire avec les données utilisateur
     if (!this.isOnCreationMode) {
       this.fillFormWithUserInfo(pseudo);
     }
@@ -65,11 +67,12 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
           return of('titi' + value);
         })
       );
-
     return monObsorvable$!.subscribe((value: string) => {
       console.log(value);
     });
   }
+
+  //instanciation du formulaire
   onInitInscriptionForm() {
     this.inscriptionFormGroup = this._formBuilder.group({
       pseudoFC: ['', [Validators.required]],
@@ -80,6 +83,7 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
     });
   }
 
+  //condition du mdp ds le formulaire si 'mode creation utilisateur'
   passwordConditionRequired(): ValidatorFn {
     return (control: AbstractControl): null | ValidationErrors => {
       if (!this.isOnCreationMode) {
@@ -90,6 +94,7 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
     };
   }
 
+  //on attribut les valeurs et on reset le formulaire à la fin
   onSubmitInscriptionForm() {
     console.log(this.inscriptionFormGroup);
     const newUser: UserOutput = {
@@ -107,6 +112,7 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
     this.inscriptionFormGroup.reset();
   }
 
+  //methode pour completer le formulaire avec les infos du user
   fillFormWithUserInfo(pseudo: string): void {
     this._apiService.getUser$(pseudo).subscribe((user: UserInput) => {
       this.inscriptionFormGroup.controls['pseudoFC'].setValue(user.pseudo);

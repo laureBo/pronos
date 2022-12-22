@@ -1,1 +1,31 @@
-<p>bets works!</p>
+<h1 display-6 text-dark>Enregistrez votre pari :</h1>
+<div class="creation">
+  <form [formGroup]="pariFG" (ngSubmit)="onSubmitCreateBet()">
+    <div class="style">
+      <label for="idMatchInput">Id du match sélectionné: </label>
+      <input type="text" formControlName="idMatchFG" id="idMatchInput" />
+    </div>
+    <h3>Enregistrez vos pronostics pour :</h3>
+    <div class="style">
+      <label for="pari1Input">L' équipe 1: </label>
+      <input type="number" formControlName="pari1FG" id="pari1Input" />
+    </div>
+    <div class="style">
+      <label for="pari2Input">L'équipe 2: </label>
+      <input type="number" formControlName="pari2FG" id="pari2Input" />
+    </div>
+    <div class="style">
+      <div class="d-flex">
+        <button
+          mat-stroked-button
+          color="primary"
+          class="btn btn-success mx-auto"
+          type="submit"
+          [disabled]="pariFG.invalid"
+        >
+          Valider
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,14 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  NgForm,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-user-connection',
@@ -26,7 +17,7 @@ export class UserConnectionComponent implements OnInit {
 
   onInitFGconnection() {
     this.connectionUserFG = this.formbuilder.group({
-      loginFC: '',
+      pseudoFC: '',
       passwordFC: '',
     });
   }
