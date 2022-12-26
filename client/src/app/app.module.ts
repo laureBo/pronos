@@ -20,6 +20,8 @@ import { MatchComponent } from './components/match/match.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { DialogContentDialogComponent } from './components/sessions/dialog-content-dialog/dialog-content-dialog.component';
+import { EditSessionComponent } from './components/sessions/edit-session/edit-session.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,12 +32,14 @@ import { DialogContentDialogComponent } from './components/sessions/dialog-conte
     SessionSummaryComponent,
     UserComponent,
     UserConnectionComponent,
+    EditSessionComponent,
     ConfigComponent,
     CreateEditUserComponent,
     CurrentSessionComponent,
     MatchComponent,
     DialogContentDialogComponent,
   ],
+
   imports: [
     BrowserModule,
     AppRoutingModule,

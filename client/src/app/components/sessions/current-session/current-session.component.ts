@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatchInput } from 'src/app/common/model/match.input.model';
 import { SessionInput } from 'src/app/common/model/session.input.model';
 import { SessionService } from 'src/app/common/services/session.service';
 import { SessionMapperService } from '../session-mapper.service';
@@ -12,12 +13,13 @@ import { SessionSummaryComplete } from '../session-summary/session-summary.model
 })
 export class CurrentSessionComponent implements OnInit {
   inputSessionSummaryComplete!: SessionSummaryComplete;
+  matchs: MatchInput[];
 
   isLoaded = false;
-
-  public matchs: SessionSummaryComplete[];
+  isEmpty = false;
 
   constructor(
+    private _router: Router,
     private _route: ActivatedRoute,
     private _sessionService: SessionService,
     private _sessionMapper: SessionMapperService
@@ -39,5 +41,20 @@ export class CurrentSessionComponent implements OnInit {
         //parametre permettant d afficher que lorsque l objet est chargé grace au ngif
         this.isLoaded = true;
       });
+
+    this._sessionService
+      .getMatchsByIdSession$(idSession)
+      .subscribe((matchs: MatchInput[]) => {
+        if (matchs.length == 0) {
+          this.isEmpty = true;
+        }
+        this.matchs = matchs;
+      });
+  }
+
+  //naviguer vers la page current session grâce à l id
+  public navigate(idSession: number): void {
+    console.log(idSession);
+    this._router.navigateByUrl('/edit-session/' + idSession);
   }
 }

@@ -138,11 +138,11 @@ public class SessionController {
 	}
 
 	@PostMapping(value = "/{idSession}/ajouter-match")
-	public ResponseEntity<String> ajouterMatchASession(@PathVariable final int idSession,
+	public ResponseEntity<InfoReturn> ajouterMatchASession(@PathVariable final int idSession,
 			@RequestBody final MatchDto matchDto) {
 		logger.info("ajouterMatchASession");
 		this.sessionService.ajouterMatchToSession(idSession, matchDto);
-		return new ResponseEntity<>("/sessions/" + idSession, HttpStatus.CREATED);
+		return new ResponseEntity<>(new InfoReturn("/sessions/" + idSession), HttpStatus.CREATED);
 	}
 
 	@GetMapping(value = "/{idSession}/utilisateur/{pseudo}/paris")
@@ -167,5 +167,25 @@ public class SessionController {
 
 		return scoreUsersMap;
 
+	}
+
+	/**
+	 * Returns the matchs from the session's identifier
+	 *
+	 * @param idSession session identifier
+	 * @return the matchs linked to the identifier
+	 */
+	@GetMapping(value = "/{idSession}/matchs")
+	public ResponseEntity<List<MatchDto>> findMatchsBySessionId(@PathVariable final int idSession) {
+		logger.info("Find session by id: findSessionById");
+		// Search session on database
+		final SessionOutputDto resultDto = this.sessionService.findSessionById(idSession);
+		// If the session does exist on database then return it as response entity
+		if (resultDto != null) {
+			return new ResponseEntity<>(resultDto.getMatchs(), HttpStatus.OK);
+		}
+		// If the session does not exist, then return not found response entity
+		logger.info("Session not found " + idSession);
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 }

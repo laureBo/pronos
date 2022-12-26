@@ -2,12 +2,28 @@
   <h3>Bienvenue sur la compétition {{ inputSessionSummaryComplete.title }}:</h3>
   <div class="box-items">
     <p>
-      Votre session n°{{ inputSessionSummaryComplete.id }} a été crée le
+      Cette session n°{{ inputSessionSummaryComplete.id }} a été crée le
       {{ inputSessionSummaryComplete.date | date }} par
       {{ inputSessionSummaryComplete.creator }}
     </p>
   </div>
   <div class="box-items">
-    <h4>Voici les matchs à venir :</h4>
+    <h4>Voici les matchs de cette session :</h4>
   </div>
+  <div class="matchs"></div>
+  <ng-container *ngIf="!isEmpty; else noMatch">
+    <ul>
+      <li *ngFor="let match of matchs">
+        {{ match.equipe1 }} - {{ match.equipe2 }}, le {{ match.dateMatch }}
+      </li>
+    </ul></ng-container
+  >
+  <ng-template #noMatch>
+    <ul>
+      <li>Pas de matchs enregistrés</li>
+    </ul>
+  </ng-template>
 </div>
+<button mat-raised-button (click)="navigate(inputSessionSummaryComplete.id)">
+  Modifier
+</button>

@@ -14,7 +14,6 @@ export class SessionSummaryComponent implements OnInit {
   inputSessionSummary: SessionSummary;
 
   constructor(
-    private session: SessionsComponent,
     private _authent: AuthenticationService,
     private _router: Router
   ) {}
@@ -23,7 +22,6 @@ export class SessionSummaryComponent implements OnInit {
 
   navigate(url: string): void {
     console.log(this.inputSessionSummary.id);
-    //this.session.onSelectedSession(this.inputSessionSummary.id);
     this._router.navigateByUrl(url);
   }
 

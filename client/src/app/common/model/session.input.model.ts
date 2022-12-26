@@ -1,3 +1,4 @@
+import { MatchInput } from './match.input.model';
 import { MatchOutput } from './match.output.model';
 
 export interface SessionLightInput {
@@ -8,6 +9,6 @@ export interface SessionLightInput {
 }
 
 export interface SessionInput extends SessionLightInput {
-  matchs: MatchOutput[];
+  matchs: MatchInput[];
   participants: string[];
 }

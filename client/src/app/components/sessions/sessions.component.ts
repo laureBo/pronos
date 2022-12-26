@@ -62,7 +62,10 @@ export class SessionsComponent implements OnInit {
     //valider et créer la session
     dialogRef.afterClosed().subscribe((sessionName: string) => {
       console.log('The dialog was closed');
-      this._onSubmitCreateSession(sessionName);
+      //correspond à sessionName != null ou true
+      if (sessionName) {
+        this._onSubmitCreateSession(sessionName);
+      }
     });
   }
 

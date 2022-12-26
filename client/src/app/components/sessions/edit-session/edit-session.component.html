@@ -1,0 +1,11 @@
+<div class="liste">
+  <h1>Voici la liste de vos matchs :</h1>
+  <ul>
+    <li *ngFor="let match of matchs">
+      Le {{ match.dateMatch }} , {{ match.equipe1 }} - {{ match.equipe2 }}
+    </li>
+  </ul>
+</div>
+<div class="button">
+  <button mat-raised-button (click)="openDialog()">Créer un match</button>
+</div>

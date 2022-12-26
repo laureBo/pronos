@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { SessionInput, SessionLightInput } from '../model/session.input.model';
 import { Observable } from 'rxjs';
 import { SessionOutput } from '../model/session.output.model';
+import { MatchInput } from '../model/match.input.model';
+import { MatchOutput } from '../model/match.output.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +19,7 @@ export class SessionService {
 
   constructor(private http: HttpClient) {}
 
+  //obtenir ttes les session d un user par son pseudo en petit format
   public getSessionsLightByUser$(
     pseudo: string
   ): Observable<SessionLightInput[]> {
@@ -25,11 +28,25 @@ export class SessionService {
     );
   }
 
+  //obtenir une session user par un id session
   public getSessionById$(id: number): Observable<SessionInput> {
     return this.http.get<SessionInput>(this.ROOT_URL + 'sessions/' + id);
   }
 
+  //créer une nouvelle session
   public createNewSession$(newSession: SessionOutput): Observable<string> {
     return this.http.post<string>(this.ROOT_URL + 'sessions/', newSession);
   }
+
+  //récuperer list de matchs pour une session
+  public getMatchsByIdSession$(idSession: number): Observable<MatchInput[]> {
+    return this.http.get<MatchInput[]>(
+      this.ROOT_URL + 'sessions/' + idSession + '/matchs'
+    );
+  }
+
+  //ajouter un match à une session
+  // public addMatchToSession(match:MatchOutput): Observable<string>{
+  // return this.http.post<string>(this.ROOT_URL+'sessions/'+idSession+'/ajouter-match', match)
+  //}
 }

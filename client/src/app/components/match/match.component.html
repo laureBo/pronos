@@ -1,6 +1,6 @@
 <h1>Bienvenue veuillez créer vos matchs :</h1>
 <div class="creation">
-  <form [formGroup]="matchFG" (ngSubmit)="onSubmitCreateMatch()">
+  <form [formGroup]="matchFG">
     <div>
       <label for="equipe1Input">Entrez le Nom de l'équipe 1:</label>
       <input type="text" formControlName="equipe1Input" required />
@@ -10,14 +10,14 @@
       <input type="text" formControlName="equipe2Input" required />
     </div>
     <div>
-      <label for="dateMacth">Quelle est la date du match : </label>
-      <input matInput formControlName="dateMacth" [matDatepicker]="dateMacth" />
+      <label for="dateMatch">Quelle est la date du match : </label>
+      <input matInput formControlName="dateMatch" [matDatepicker]="dateMatch" />
       <mat-hint>MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle
         matIconSuffix
-        [for]="dateMacth"
+        [for]="dateMatch"
       ></mat-datepicker-toggle>
-      <mat-datepicker #dateMacth></mat-datepicker>
+      <mat-datepicker #dateMatch></mat-datepicker>
     </div>
     <!--<ng-container
       *ngIf="isPassedDate(this.matchFG.controls['dateMatch'].value)"
@@ -30,10 +30,13 @@
         <label for="score2Input">Score final équipe 2:</label>
         <input type="number" formControlName="score2Input" required /></div
     ></ng-container>-->
+    <button mat-button (click)="onNoClick()">Annuler</button>
     <button
-      class="btn btn-success mx-auto"
+      mat-raised-button
       type="submit"
       [disabled]="matchFG.invalid"
+      [mat-dialog-close]="generateMatch()"
+      cdkFocusInitial
     >
       Valider
     </button>

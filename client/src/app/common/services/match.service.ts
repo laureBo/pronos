@@ -19,7 +19,13 @@ export class MatchService {
 
   constructor(private http: HttpClient) {}
 
-  public createNewBet$(newMatch: Match): Observable<string> {
-    return this.http.post<string>(this.ROOT_URL + 'matchs/', newMatch);
+  public createNewMatch$(
+    newMatch: Match,
+    idSession: number
+  ): Observable<string> {
+    return this.http.post<string>(
+      this.ROOT_URL + 'sessions/' + idSession + '/ajouter-match',
+      newMatch
+    );
   }
 }
