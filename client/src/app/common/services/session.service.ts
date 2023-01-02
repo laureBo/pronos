@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { SessionOutput } from '../model/session.output.model';
 import { MatchInput } from '../model/match.input.model';
 import { MatchOutput } from '../model/match.output.model';
+import { PariDetail } from '../model/pariDetail.models';
 
 @Injectable({
   providedIn: 'root',
@@ -45,8 +46,18 @@ export class SessionService {
     );
   }
 
-  //ajouter un match à une session
-  // public addMatchToSession(match:MatchOutput): Observable<string>{
-  // return this.http.post<string>(this.ROOT_URL+'sessions/'+idSession+'/ajouter-match', match)
-  //}
+  //recuperer une liste de pariDetail
+  public getParisDetailByPseudoAndSession$(
+    idSession: number,
+    pseudo: string
+  ): Observable<PariDetail[]> {
+    return this.http.get<PariDetail[]>(
+      this.ROOT_URL +
+        'sessions/' +
+        idSession +
+        '/utilisateur/' +
+        pseudo +
+        '/paris'
+    );
+  }
 }

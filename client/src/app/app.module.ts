@@ -21,6 +21,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { DialogContentDialogComponent } from './components/sessions/dialog-content-dialog/dialog-content-dialog.component';
 import { EditSessionComponent } from './components/sessions/edit-session/edit-session.component';
+import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { EditSessionComponent } from './components/sessions/edit-session/edit-se
     MaterialModule,
     BrowserAnimationsModule,
     FormsModule,
+    TableModule,
+    ToastModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,22 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MajScore as Score } from 'src/app/common/model/majScore.input.model';
 import { MatchInput } from 'src/app/common/model/match.input.model';
 import { MatchService } from 'src/app/common/services/match.service';
 import { SessionService } from 'src/app/common/services/session.service';
 import { MatchComponent } from '../../match/match.component';
 import { Match } from '../../match/match.models';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-edit-session',
   templateUrl: './edit-session.component.html',
+  providers: [MessageService],
   styleUrls: ['./edit-session.component.scss'],
 })
 export class EditSessionComponent implements OnInit {
   public matchs: MatchInput[];
   public idSession: number;
+  clonedMatchs: { [s: string]: MatchInput } = {};
 
   constructor(
+    private messageService: MessageService,
     public dialog: MatDialog,
     private _matchService: MatchService,
     private _route: ActivatedRoute,
@@ -27,6 +32,7 @@ export class EditSessionComponent implements OnInit {
     //on recupere l id selectionné dans l url
     this.idSession = Number(this._route.snapshot.paramMap.get('id') as string);
     console.log(this.idSession);
+
     this._loadMatchs();
   }
 
@@ -56,5 +62,42 @@ export class EditSessionComponent implements OnInit {
           });
       }
     });
+  }
+
+  //initialisation de la modification d une ligne
+  onRowEditInit(match: MatchInput) {
+    this.clonedMatchs[match.id] = { ...match };
+  }
+
+  //
+  onRowEditSave(score1: number, score2: number, idMatch: number) {
+    if (score1 >= 0 && score2 >= 0) {
+      const majScore: Score = {
+        scoreEquipe1: score1,
+        scoreEquipe2: score2,
+      };
+
+      delete this.clonedMatchs[idMatch];
+      this._matchService
+        .updateScoreMatch$(majScore, idMatch)
+        .subscribe((message: String) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Score is updated',
+          });
+        });
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Invalid Score',
+      });
+    }
+  }
+
+  onRowEditCancel(match: MatchInput, index: number) {
+    this.matchs[index] = this.clonedMatchs[match.id];
+    delete this.matchs[match.id];
   }
 }

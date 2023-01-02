@@ -1,8 +1,30 @@
+@import "./../../../colors.scss";
+@import "~primeicons/primeicons.css";
+
+.summary {
+  text-align: center;
+}
 button {
   position: absolute;
   right: 20px;
-  top: 105px;
-  height: 25px;
-  width: 80px;
+  top: 123px;
   font-weight: bolder;
+}
+h1 {
+  text-align: center;
+  color: $beige;
+}
+
+.card {
+  margin-top: 75px;
+}
+
+.card th {
+  background-color: $write;
+  color: $beige;
+}
+
+:host ::ng-deep .p-cell-editing {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }

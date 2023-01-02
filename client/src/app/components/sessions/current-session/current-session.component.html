@@ -1,5 +1,5 @@
 <div class="summary" *ngIf="isLoaded">
-  <h3>Bienvenue sur la compétition {{ inputSessionSummaryComplete.title }}:</h3>
+  <h1>Bienvenue sur la compétition {{ inputSessionSummaryComplete.title }}:</h1>
   <div class="box-items">
     <p>
       Cette session n°{{ inputSessionSummaryComplete.id }} a été crée le
@@ -7,17 +7,140 @@
       {{ inputSessionSummaryComplete.creator }}
     </p>
   </div>
+  <hr />
   <div class="box-items">
-    <h4>Voici les matchs de cette session :</h4>
+    <h2>Voici les matchs et paris de cette session :</h2>
   </div>
-  <div class="matchs"></div>
   <ng-container *ngIf="!isEmpty; else noMatch">
-    <ul>
-      <li *ngFor="let match of matchs">
-        {{ match.equipe1 }} - {{ match.equipe2 }}, le {{ match.dateMatch }}
-      </li>
-    </ul></ng-container
-  >
+    <p-toast></p-toast>
+
+    <div class="card">
+      <p-table [value]="parisDetail" dataKey="id" editMode="row">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Affiche</th>
+            <th>Date</th>
+            <th>Scores</th>
+            <th>Pari score 1</th>
+            <th>Pari score 2</th>
+            <th style="width: 8rem"></th>
+          </tr>
+        </ng-template>
+        <ng-template
+          pTemplate="body"
+          let-pariDetail
+          let-editing="editing"
+          let-ri="rowIndex"
+        >
+          <tr [pEditableRow]="pariDetail" dataKey="id" editMode="row">
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  {{ pariDetail.equipe1 }} - {{ pariDetail.equipe2 }}
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{ pariDetail.equipe1 }} - {{ pariDetail.equipe2 }}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  Le {{ pariDetail.dateMatch }}
+                </ng-template>
+                <ng-template pTemplate="output">
+                  Le {{ pariDetail.dateMatch }}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  {{ pariDetail.scoreEquipe1 }} - {{ pariDetail.scoreEquipe2 }}
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{ pariDetail.scoreEquipe1 }} - {{ pariDetail.scoreEquipe2 }}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input
+                    pInputNumber
+                    type="number"
+                    [(ngModel)]="pariDetail.pariEquipe1"
+                  />
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{ pariDetail.pariEquipe1 }}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input
+                    pInputNumber
+                    type="number"
+                    [(ngModel)]="pariDetail.pariEquipe2"
+                  />
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{ pariDetail.pariEquipe2 }}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td style="text-align: center">
+              <button
+                *ngIf="!editing"
+                pButton
+                pRipple
+                type="button"
+                pInitEditableRow
+                icon="pi pi-pencil"
+                (click)="onRowEditInit(pariDetail)"
+                class="p-button-rounded p-button-text"
+              >
+                Edit
+              </button>
+              <button
+                *ngIf="editing"
+                pButton
+                pRipple
+                type="button"
+                pSaveEditableRow
+                icon="pi pi-check"
+                (click)="
+                  onRowEditSave(
+                    pariDetail.pariEquipe1,
+                    pariDetail.pariEquipe2,
+                    pariDetail.idMatch
+                  )
+                "
+                class="p-button-rounded p-button-text p-button-success p-mr-2"
+              >
+                OK
+              </button>
+              <button
+                *ngIf="editing"
+                pButton
+                pRipple
+                type="button"
+                pCancelEditableRow
+                icon="pi pi-times"
+                (click)="onRowEditCancel(pariDetail, ri)"
+                class="p-button-rounded p-button-text p-button-danger"
+              >
+                Cancel
+              </button>
+            </td>
+            -->
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </ng-container>
   <ng-template #noMatch>
     <ul>
       <li>Pas de matchs enregistrés</li>

@@ -29,7 +29,6 @@ import com.bet.service.PariService;
 import com.bet.service.ParticiperService;
 import com.bet.service.SessionService;
 import com.bet.service.StatService;
-import com.bet.service.UtilisateurService;
 
 @RestController
 @RequestMapping(value = "/sessions")
@@ -48,9 +47,6 @@ public class SessionController {
 
 	@Autowired
 	private StatService statService;
-
-	@Autowired
-	private UtilisateurService utilisateurService;
 
 	/**
 	 * Returns the session from the session's identifier
@@ -100,12 +96,12 @@ public class SessionController {
 	}
 
 	@PutMapping(value = "/")
-	public ResponseEntity<String> updateSession(@RequestBody final SessionInputDto input) {
+	public ResponseEntity<InfoReturn> updateSession(@RequestBody final SessionInputDto input) {
 		logger.info("Update session: updateSession");
 		// Create session on database
 		final SessionEntity resultEntity = this.sessionService.updateSession(input);
 		// Return created object as response entity
-		return new ResponseEntity<>("/sessions/" + resultEntity.getIdSession(), HttpStatus.CREATED);
+		return new ResponseEntity<>(new InfoReturn("/sessions/" + resultEntity.getIdSession()), HttpStatus.CREATED);
 	}
 
 	/**

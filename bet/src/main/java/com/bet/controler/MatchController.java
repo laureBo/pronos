@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bet.model.dto.InfoReturn;
 import com.bet.model.dto.MajScoreInputDto;
 import com.bet.model.dto.MatchDto;
 import com.bet.service.MatchService;
@@ -31,11 +32,11 @@ public class MatchController {
 	}
 
 	@PostMapping(value = "/{idMatch}/maj-score")
-	public ResponseEntity<String> mettreAJourScoreMatch(@PathVariable int idMatch,
+	public ResponseEntity<InfoReturn> mettreAJourScoreMatch(@PathVariable int idMatch,
 			@RequestBody MajScoreInputDto input) {
 		logger.info("mettre A Jour Score Match: mettreAJourScoreMatch");
 		matchService.mettreAJourScoreMatch(idMatch, input.getScoreEquipe1(), input.getScoreEquipe2());
-		return new ResponseEntity<String>("/matchs/" + idMatch, HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(new InfoReturn("/matchs/" + idMatch), HttpStatus.ACCEPTED);
 	}
 
 }

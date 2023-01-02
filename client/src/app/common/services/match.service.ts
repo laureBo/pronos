@@ -1,10 +1,8 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SessionInput, SessionLightInput } from '../model/session.input.model';
 import { Observable } from 'rxjs';
-import { SessionOutput } from '../model/session.output.model';
 import { Match } from 'src/app/components/match/match.models';
-import { MatchOutput } from '../model/match.output.model';
+import { MajScore } from '../model/majScore.input.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +17,7 @@ export class MatchService {
 
   constructor(private http: HttpClient) {}
 
+  //create
   public createNewMatch$(
     newMatch: Match,
     idSession: number
@@ -26,6 +25,17 @@ export class MatchService {
     return this.http.post<string>(
       this.ROOT_URL + 'sessions/' + idSession + '/ajouter-match',
       newMatch
+    );
+  }
+
+  //update
+  public updateScoreMatch$(
+    majScore: MajScore,
+    idMatch: number
+  ): Observable<String> {
+    return this.http.post<string>(
+      this.ROOT_URL + 'matchs/' + idMatch + '/maj-score',
+      majScore
     );
   }
 }

@@ -1,11 +1,118 @@
-<div class="liste">
-  <h1>Voici la liste de vos matchs :</h1>
-  <ul>
-    <li *ngFor="let match of matchs">
-      Le {{ match.dateMatch }} , {{ match.equipe1 }} - {{ match.equipe2 }}
-    </li>
-  </ul>
+<p-toast></p-toast>
+
+<div class="card">
+  <h1>Voici la liste des matchs et scores de votre session :</h1>
+  <hr />
+  <p-table [value]="matchs" dataKey="id" editMode="row">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Affiche</th>
+        <th>Date</th>
+        <th>Score 1</th>
+        <th>Score 2</th>
+        <th style="width: 8rem"></th>
+      </tr>
+    </ng-template>
+    <ng-template
+      pTemplate="body"
+      let-match
+      let-editing="editing"
+      let-ri="rowIndex"
+    >
+      <tr [pEditableRow]="match">
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              {{ match.equipe1 }} - {{ match.equipe2 }}
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ match.equipe1 }} - {{ match.equipe2 }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              Le {{ match.dateMatch }}
+            </ng-template>
+            <ng-template pTemplate="output">
+              Le {{ match.dateMatch }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input
+                pInputNumber
+                type="number"
+                [(ngModel)]="match.scoreEquipe1"
+              />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ match.scoreEquipe1 }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input
+                pInputNumber
+                type="number"
+                [(ngModel)]="match.scoreEquipe2"
+              />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ match.scoreEquipe2 }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td style="text-align: center">
+          <button
+            *ngIf="!editing"
+            pButton
+            pRipple
+            type="button"
+            pInitEditableRow
+            icon="pi pi-pencil"
+            (click)="onRowEditInit(match)"
+            class="p-button-rounded p-button-text"
+          >
+            Edit
+          </button>
+          <button
+            *ngIf="editing"
+            pButton
+            pRipple
+            type="button"
+            pSaveEditableRow
+            icon="pi pi-check"
+            (click)="
+              onRowEditSave(match.scoreEquipe1, match.scoreEquipe2, match.id)
+            "
+            class="p-button-rounded p-button-text p-button-success p-mr-2"
+          >
+            OK
+          </button>
+          <button
+            *ngIf="editing"
+            pButton
+            pRipple
+            type="button"
+            pCancelEditableRow
+            icon="pi pi-times"
+            (click)="onRowEditCancel(match, ri)"
+            class="p-button-rounded p-button-text p-button-danger"
+          >
+            Cancel
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
+
 <div class="button">
   <button mat-raised-button (click)="openDialog()">Créer un match</button>
 </div>

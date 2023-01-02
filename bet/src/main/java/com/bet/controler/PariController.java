@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bet.model.dto.InfoReturn;
 import com.bet.model.dto.PariInputDto;
 import com.bet.service.PariService;
 
@@ -22,10 +23,10 @@ public class PariController {
 	private PariService pariService;
 
 	@PostMapping(value = "/save")
-	public ResponseEntity<String> saveParis(@RequestBody PariInputDto input) {
+	public ResponseEntity<InfoReturn> saveParis(@RequestBody PariInputDto input) {
 		logger.info("enregistrer un pari: saveParis");
 		pariService.savePariDto(input);
-		return new ResponseEntity<String>("/paris/", HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(new InfoReturn("/paris/"), HttpStatus.ACCEPTED);
 	}
 
 }

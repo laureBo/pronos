@@ -28,6 +28,7 @@ public class PariMapper {
 			return null;
 		}
 		PariDetailDto pariDetailDto = new PariDetailDto();
+		pariDetailDto.setIdMatch(entity.getMatch().getIdMatch());
 		pariDetailDto.setEquipe1(entity.getMatch().getEquipe1());
 		pariDetailDto.setPariEquipe1(entity.getEquipe1());
 		pariDetailDto.setEquipe2(entity.getMatch().getEquipe2());

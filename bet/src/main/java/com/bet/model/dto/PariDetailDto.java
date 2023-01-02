@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class PariDetailDto {
 
+	private Integer idMatch;
 	private String equipe1;
 	private Integer pariEquipe1;
 	private String equipe2;
