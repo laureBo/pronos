@@ -8,6 +8,7 @@ import { SessionService } from 'src/app/common/services/session.service';
 import { MatchComponent } from '../../match/match.component';
 import { Match } from '../../match/match.models';
 import { MessageService } from 'primeng/api';
+import { MatchOutput } from 'src/app/common/model/match.output.model';
 
 @Component({
   selector: 'app-edit-session',
@@ -99,5 +100,10 @@ export class EditSessionComponent implements OnInit {
   onRowEditCancel(match: MatchInput, index: number) {
     this.matchs[index] = this.clonedMatchs[match.id];
     delete this.matchs[match.id];
+  }
+
+  public deleteMatch(match: MatchInput) {
+    let idSession = this.idSession;
+    this._matchService.deleteMatch$(idSession, match);
   }
 }

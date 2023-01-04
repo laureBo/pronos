@@ -74,13 +74,8 @@
   .header-bar-button {
     float: right;
     border-radius: 15px 50px;
-    background-color: $background-button;
     margin-top: 5px;
     margin-right: 15px;
-    height: 62px;
-    width: 100px;
-    color: $background;
-    font-weight: bold;
   }
   .header-bar-button:hover {
     background-color: $hover;

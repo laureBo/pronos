@@ -5,18 +5,19 @@
   width: 500px; /* largeur obligatoire pour être centré */
   text-align: center;
   padding-top: 50px;
-  input {
-    background-color: $background;
+
+  .p-inputgroup {
     margin-top: 20px;
-    height: 30px;
-    border-radius: 10px;
-    width: 200px;
+
+    .p-inputgroup-addon {
+      width: 200px;
+    }
+
+    input {
+      width: 250px;
+    }
   }
-  label {
-    font-family: "Times New Roman", Times, serif;
-    width: 100px;
-    font-weight: bolder;
-  }
+
   button {
     margin-top: 20px;
     font-weight: bolder;

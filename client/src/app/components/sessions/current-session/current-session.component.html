@@ -7,7 +7,47 @@
       {{ inputSessionSummaryComplete.creator }}
     </p>
   </div>
+
   <hr />
+
+  <!--affichage du classement-->
+  <div class="classement">
+    <h3>Voici le classement actuel :</h3>
+    <table mat-table [dataSource]="stats" class="mat-elevation-z8">
+      <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="classement">
+        <th mat-header-cell *matHeaderCellDef>Classement</th>
+        <td mat-cell *matCellDef="let stat">{{ stat.classement }}</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="pseudo">
+        <th mat-header-cell *matHeaderCellDef>Pseudo</th>
+        <td mat-cell *matCellDef="let stat">{{ stat.pseudo }}</td>
+      </ng-container>
+
+      <!--score en points Column -->
+      <ng-container matColumnDef="scoreBySession">
+        <th mat-header-cell *matHeaderCellDef>Score en points</th>
+        <td mat-cell *matCellDef="let stat">{{ stat.scoreBySession }}</td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="nbMatchsTrouves">
+        <th mat-header-cell *matHeaderCellDef>Nombre de matchs trouvés</th>
+        <td mat-cell *matCellDef="let stat">{{ stat.nbMatchsTrouves }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+    </table>
+  </div>
+  <hr />
+
+  <!--affichage de la liste des matchs et paris-->
   <div class="box-items">
     <h2>Voici les matchs et paris de cette session :</h2>
   </div>
@@ -147,6 +187,11 @@
     </ul>
   </ng-template>
 </div>
-<button mat-raised-button (click)="navigate(inputSessionSummaryComplete.id)">
+
+<button
+  *ngIf="isAdmini(inputSessionSummaryComplete.creator)"
+  mat-raised-button
+  (click)="navigate(inputSessionSummaryComplete.id)"
+>
   Modifier
 </button>

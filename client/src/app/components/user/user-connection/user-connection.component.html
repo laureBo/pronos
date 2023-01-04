@@ -10,12 +10,22 @@
         >
           <div class="style">
             <label for="pseudoInput">Votre pseudo : </label>
-            <input type="text" formControlName="pseudoFC" id="pseudoInput" />
+
+            <input
+              type="text"
+              pInputText
+              placeholder="username"
+              formControlName="pseudoFC"
+              id="pseudoInput"
+            />
           </div>
           <div class="style">
             <label for="passwordInput">Votre mot de passe : </label>
+
             <input
               type="password"
+              pInputText
+              placeholder="password"
               formControlName="passwordFC"
               id="passwordInput"
             />

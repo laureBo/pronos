@@ -6,6 +6,7 @@ import { SessionOutput } from '../model/session.output.model';
 import { MatchInput } from '../model/match.input.model';
 import { MatchOutput } from '../model/match.output.model';
 import { PariDetail } from '../model/pariDetail.models';
+import { StatsOutput } from '../model/stats.output.model';
 
 @Injectable({
   providedIn: 'root',
@@ -58,6 +59,31 @@ export class SessionService {
         '/utilisateur/' +
         pseudo +
         '/paris'
+    );
+  }
+
+  //recuperer la liste de tous les users d une session
+  public getAllusersBySession$(idSession: number): Observable<string[]> {
+    return this.http.get<string[]>(
+      this.ROOT_URL + 'sessions/' + idSession + '/utilisateurs'
+    );
+  }
+
+  //afficher le classement d'une session
+  public getPourcentRankingBySession$(
+    idSession: number
+  ): Observable<{ [key: string]: number }> {
+    return this.http.get<{ [key: string]: number }>(
+      this.ROOT_URL + 'sessions/' + idSession + '/utilisateurs/ranking'
+    );
+  }
+
+  //afficher toutes les stats des utilisateurs d'une session et le classement
+  public getAllStatsAndRankingBySession$(
+    idSession: number
+  ): Observable<StatsOutput[]> {
+    return this.http.get<StatsOutput[]>(
+      this.ROOT_URL + 'sessions/' + idSession + '/utilisateurs/stats'
     );
   }
 }

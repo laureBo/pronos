@@ -15,9 +15,10 @@ import org.springframework.stereotype.Service;
 
 import com.bet.model.dto.PariDetailDto;
 import com.bet.model.dto.StatByUserSessionOutputDto;
+import com.bet.model.dto.StatCompleteBySessionOutputDto;
 
 @Service
-public class StatService {
+public class StatService<StatCompleteBySessionOutput> {
 	private static Logger logger = LoggerFactory.getLogger(StatService.class);
 
 	@Autowired
@@ -64,7 +65,7 @@ public class StatService {
 
 	}
 
-	public int calculateScoreUserBySessionAndpseudo(int idSession, String pseudo) {
+	public int calculateScorePourcentUserBySessionAndpseudo(int idSession, String pseudo) {
 		float scoreUser = 0;
 		float scoreUserTotal = 0;
 		Float pourcentScore;
@@ -85,12 +86,44 @@ public class StatService {
 		return pourcentScore.intValue();
 	}
 
+	public StatCompleteBySessionOutputDto calculateStatsUserBySessionAndpseudo(int idSession, String pseudo) {
+		StatCompleteBySessionOutputDto stats = new StatCompleteBySessionOutputDto();
+		int scoreUser = 0;
+		int scoreUserTotal = 0;
+		int nbPerfect = 0;
+		int nbWinner = 0;
+		List<PariDetailDto> listeParis = new ArrayList<>();
+		listeParis = pariService.getAllByPseudoAndIdSession(idSession, pseudo);
+		int nbMatchsJoues = listeParis.size();
+		stats.setNbMatchsSession(nbMatchsJoues);
+		stats.setPseudo(pseudo);
+		for (PariDetailDto pariJoue : listeParis) {
+			if (pariJoue.getIsWinner() == true && pariJoue.getIsPerfect() == true) {
+				scoreUser = resultPerfect;
+				nbPerfect++;
+				nbWinner++;
+			} else if (pariJoue.getIsWinner() && pariJoue.getIsPerfect() == false) {
+				scoreUser = resultWinner;
+				nbWinner++;
+			} else {
+				scoreUser = 0;
+			}
+			scoreUserTotal = scoreUserTotal + scoreUser;
+		}
+		stats.setScoreBySession(scoreUserTotal);
+		stats.setScoreTotalMaxSession(nbMatchsJoues * resultPerfect);
+		stats.setNbMatchsTrouves(nbWinner);
+		stats.setNbMatchsExacts(nbPerfect);
+
+		return stats;
+	}
+
 	public Map<String, Integer> getRankingPlayersBySession(int idSession) {
 		List<String> participantsList = new ArrayList<>();
 		Map<String, Integer> scoreUsersMap = new HashMap<>();
 		participantsList = sessionService.findParticipationsList(idSession);
 		for (String user : participantsList) {
-			int pourcentUser = calculateScoreUserBySessionAndpseudo(idSession, user);
+			int pourcentUser = calculateScorePourcentUserBySessionAndpseudo(idSession, user);
 			scoreUsersMap.put(user, pourcentUser);
 
 		}

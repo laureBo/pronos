@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/common/services/authentication.service';
 import { NgClass } from '@angular/common';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-header',
@@ -11,10 +12,13 @@ import { NgClass } from '@angular/common';
 export class HeaderComponent implements OnInit {
   constructor(
     private _router: Router,
-    public authentService: AuthenticationService
+    public authentService: AuthenticationService,
+    private primengConfig: PrimeNGConfig
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.primengConfig.ripple = true;
+  }
 
   navigate(url: string): void {
     this._router.navigateByUrl(url);

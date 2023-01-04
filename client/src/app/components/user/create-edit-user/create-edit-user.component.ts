@@ -7,7 +7,11 @@ import {
   ValidatorFn,
   ValidationErrors,
 } from '@angular/forms';
-import { ActivatedRoute, withDisabledInitialNavigation } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  withDisabledInitialNavigation,
+} from '@angular/router';
 import { concat, concatMap, map, of, Subscription } from 'rxjs';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { UserInput } from 'src/app/common/model/user.input.model';
@@ -21,13 +25,14 @@ import { ApiService } from 'src/app/common/services/api.service';
 })
 export class CreateEditUserComponent implements OnInit, OnDestroy {
   public inscriptionFormGroup: FormGroup;
-  public isOnCreationMode: boolean;
+  public isOnCreationMode: boolean = true;
   private subscriptions: Subscription[] = [];
 
   constructor(
     private _route: ActivatedRoute,
     private _formBuilder: FormBuilder,
-    private _apiService: ApiService
+    private _apiService: ApiService,
+    private _router: Router
   ) {}
 
   //pour eliminer automatiquement les subscribes deja utilises
@@ -46,17 +51,23 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
     ) as string;
     console.log(pseudo);
     //on verifie si on est en mode creation user
-    this.isOnCreationMode = pseudo === null ? true : false;
-    console.log(this.isOnCreationMode);
+    //this.isOnCreationMode = pseudo === null ? true : false;
+    //console.log(this.isOnCreationMode);
     //si 'non' on remplit le formulaire avec les données utilisateur
-    if (!this.isOnCreationMode) {
+    if (pseudo != null) {
+      this.isOnCreationMode = false;
       this.fillFormWithUserInfo(pseudo);
     }
-
     this.subscriptions.push(this.testValueChange() as Subscription);
   }
 
-  testValueChange(): Subscription {
+  //naviguer vers une autre page
+  private navigate(url: string): void {
+    this._router.navigateByUrl(url);
+  }
+
+  //verifie si des données ont été modifiées
+  private testValueChange(): Subscription {
     const monObsorvable$ = this.inscriptionFormGroup
       .get('pseudoFC')
       ?.valueChanges.pipe(
@@ -73,18 +84,19 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
   }
 
   //instanciation du formulaire
-  onInitInscriptionForm() {
+  public onInitInscriptionForm() {
     this.inscriptionFormGroup = this._formBuilder.group({
       pseudoFC: ['', [Validators.required]],
       emailFC: ['', [Validators.required]],
-      passwordFC: ['', [this.passwordConditionRequired()]],
+      passwordFC: ['', [Validators.required, Validators.minLength(8)]],
       nameFC: ['', [Validators.required, Validators.minLength(2)]],
       firstnameFC: ['', [Validators.required, Validators.minLength(2)]],
     });
   }
 
   //condition du mdp ds le formulaire si 'mode creation utilisateur'
-  passwordConditionRequired(): ValidatorFn {
+  //creation d un validator
+  public passwordConditionRequired(): ValidatorFn {
     return (control: AbstractControl): null | ValidationErrors => {
       if (!this.isOnCreationMode) {
         return null;
@@ -95,7 +107,7 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
   }
 
   //on attribut les valeurs et on reset le formulaire à la fin
-  onSubmitInscriptionForm() {
+  public onSubmitInscriptionForm() {
     console.log(this.inscriptionFormGroup);
     const newUser: UserOutput = {
       pseudo: this.inscriptionFormGroup.controls['pseudoFC'].value,
@@ -110,10 +122,11 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
         console.log('retour: ' + valueReturned);
       });
     this.inscriptionFormGroup.reset();
+    this.navigate('/home');
   }
 
   //methode pour completer le formulaire avec les infos du user
-  fillFormWithUserInfo(pseudo: string): void {
+  private fillFormWithUserInfo(pseudo: string): void {
     this._apiService.getUser$(pseudo).subscribe((user: UserInput) => {
       this.inscriptionFormGroup.controls['pseudoFC'].setValue(user.pseudo);
       this.inscriptionFormGroup.controls['pseudoFC'].disable();
@@ -123,6 +136,6 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
       this.inscriptionFormGroup.controls['nameFC'].setValue(user.nom);
       this.inscriptionFormGroup.controls['firstnameFC'].setValue(user.prenom);
     });
-    //this.inscriptionForm.setValue();
+    // this.inscriptionFormGroup.setValue();
   }
 }

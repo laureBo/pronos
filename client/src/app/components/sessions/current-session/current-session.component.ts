@@ -11,6 +11,7 @@ import { MessageService } from 'primeng/api';
 import { MatDialog } from '@angular/material/dialog';
 import { BetInput } from 'src/app/common/model/bet.input.model';
 import { BetService } from 'src/app/common/services/bet.service';
+import { StatsOutput } from 'src/app/common/model/stats.output.model';
 
 @Component({
   selector: 'app-current-session',
@@ -22,9 +23,17 @@ export class CurrentSessionComponent implements OnInit {
   inputSessionSummaryComplete!: SessionSummaryComplete;
   parisDetail: PariDetail[];
   clonedParisDetail: { [s: string]: PariDetail } = {};
-
   isLoaded = false;
   isEmpty = false;
+  participants: string[];
+  stats: StatsOutput[];
+  classement: { [key: string]: number };
+  columnsToDisplay = [
+    'classement',
+    'pseudo',
+    'scoreBySession',
+    'nbMatchsTrouves',
+  ];
 
   constructor(
     private _router: Router,
@@ -65,9 +74,12 @@ export class CurrentSessionComponent implements OnInit {
         }
         this.parisDetail = parisDetail;
       });
+
+    //on appelle la fonction de classement
+    this.getRankingBySession(idSession);
   }
 
-  //naviguer vers la page current session grâce à l id
+  //naviguer vers la page edit session grâce à l id
   public navigate(idSession: number): void {
     console.log(idSession);
     this._router.navigateByUrl('/edit-session/' + idSession);
@@ -108,5 +120,33 @@ export class CurrentSessionComponent implements OnInit {
   onRowEditCancel(pariDetail: PariDetail, index: number) {
     this.parisDetail[index] = this.clonedParisDetail[pariDetail.idMatch];
     delete this.parisDetail[pariDetail.idMatch];
+  }
+
+  //verifie si l utilisateur est aussi admin de la session
+  public isAdmini(pseudo: string): Boolean {
+    if (pseudo == this._authentService.getCurrentUser()) {
+      return true;
+    }
+    return false;
+  }
+
+  //afficher la liste des utilisateurs de la session
+  public showParticipantsSession(idSession: number): String[] {
+    this._sessionService
+      .getAllusersBySession$(idSession)
+      .subscribe((participants: string[]) => {
+        this.participants = participants;
+      });
+    return this.participants;
+  }
+
+  //afficher le classement d'une session
+  public getRankingBySession(idSession: number): StatsOutput[] {
+    this._sessionService
+      .getAllStatsAndRankingBySession$(idSession)
+      .subscribe((stats: StatsOutput[]) => {
+        this.stats = stats;
+      });
+    return this.stats;
   }
 }

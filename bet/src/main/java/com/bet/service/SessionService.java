@@ -132,6 +132,20 @@ public class SessionService {
 		return sessionRepository.save(sessionUpdated);
 	}
 
+	public void supprimerMatchToSession(int idSession, MatchDto match) {
+		Optional<SessionEntity> optEntity = sessionRepository.findById(idSession);
+		if (optEntity.isEmpty()) {
+			throw new ResourceNotFoundException(
+					"supprimerMatchsToSession pas de session correspondante trouvee " + idSession);
+		}
+
+		SessionEntity sessionUpdated = optEntity.get();
+		MatchEntity matchEntity = matchMapper.getEntityFromDto(match);
+		matchEntity.setSession(sessionUpdated);
+		sessionUpdated.getMatchs().add(matchEntity);
+		sessionRepository.delete(sessionUpdated);
+	}
+
 	public List<SessionLightOutputDto> getAllSessionsByPseudo(String pseudo) {
 		List<SessionEntity> sessionsEntitiesList = sessionRepository.findAllSessionsByUser(pseudo);
 		return sessionMapper.getDtosLightFromEntities(sessionsEntitiesList);

@@ -38,4 +38,12 @@ export class MatchService {
       majScore
     );
   }
+
+  //delete
+  public deleteMatch$(idSession: number, match: Match): Observable<String> {
+    return this.http.post<string>(
+      this.ROOT_URL + 'sessions/' + idSession + '/supprimer-match',
+      match
+    );
+  }
 }

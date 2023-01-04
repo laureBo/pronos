@@ -9,7 +9,6 @@
     <div class="menu-item nav-item" (click)="navigate('/user/:pseudo')">
       Mon Profil
     </div>
-    <div class="menu-item nav-item">Config</div>
     <div class="menu-item nav-item" (click)="navigate('/sessions/')">
       Sessions
     </div>
@@ -17,7 +16,15 @@
       Mes derniers paris
     </div>
   </div>
-  <button class="header-bar-button" type="button" (click)="navigate('/user')">
+  <button
+    button
+    pButton
+    pRipple
+    type="button"
+    label="Secondary"
+    class="p-button-rounded p-button-secondary"
+    (click)="navigate('/user')"
+  >
     Se connecter
   </button>
   <ng-template #login

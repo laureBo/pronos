@@ -1,5 +1,7 @@
 package com.bet.controler;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ import com.bet.model.dto.PariDetailDto;
 import com.bet.model.dto.SessionCreationInputDto;
 import com.bet.model.dto.SessionInputDto;
 import com.bet.model.dto.SessionOutputDto;
+import com.bet.model.dto.StatCompleteBySessionOutputDto;
 import com.bet.model.dto.UserSessionInputDto;
 import com.bet.model.entity.SessionEntity;
 import com.bet.service.PariService;
@@ -141,6 +144,14 @@ public class SessionController {
 		return new ResponseEntity<>(new InfoReturn("/sessions/" + idSession), HttpStatus.CREATED);
 	}
 
+	@PostMapping(value = "/{idSession}/supprimer-match")
+	public ResponseEntity<InfoReturn> supprimerMatchASession(@PathVariable final int idSession,
+			@RequestBody final MatchDto matchDto) {
+		logger.info("supprimerMatchASession");
+		this.sessionService.supprimerMatchToSession(idSession, matchDto);
+		return new ResponseEntity<>(new InfoReturn("/sessions/" + idSession), HttpStatus.ACCEPTED);
+	}
+
 	@GetMapping(value = "/{idSession}/utilisateur/{pseudo}/paris")
 	public List<PariDetailDto> getAllBetsByUserSession(@PathVariable final int idSession,
 			@PathVariable final String pseudo) {
@@ -152,7 +163,7 @@ public class SessionController {
 	@GetMapping(value = "/{idSession}/utilisateur/{pseudo}/paris/score")
 	public int getScorePourcentUserBySessionAndPseudo(@PathVariable final int idSession,
 			@PathVariable final String pseudo) {
-		return this.statService.calculateScoreUserBySessionAndpseudo(idSession, pseudo);
+		return this.statService.calculateScorePourcentUserBySessionAndpseudo(idSession, pseudo);
 
 	}
 
@@ -163,6 +174,23 @@ public class SessionController {
 
 		return scoreUsersMap;
 
+	}
+
+	@GetMapping(value = "/{idSession}/utilisateurs/stats")
+	public List<StatCompleteBySessionOutputDto> getAllStatsBySession(@PathVariable final int idSession) {
+		List<String> participants = new ArrayList<>();
+		List<StatCompleteBySessionOutputDto> stats = new ArrayList<>();
+		participants = this.sessionService.findParticipationsList(idSession);
+		for (String participant : participants) {
+			stats.add(this.statService.calculateStatsUserBySessionAndpseudo(idSession, participant));
+		}
+		Collections.sort(stats);
+		int index = 1;
+		for (StatCompleteBySessionOutputDto stat : stats) {
+			stat.setClassement(index);
+			index++;
+		}
+		return stats;
 	}
 
 	/**
@@ -184,4 +212,5 @@ public class SessionController {
 		logger.info("Session not found " + idSession);
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
+
 }

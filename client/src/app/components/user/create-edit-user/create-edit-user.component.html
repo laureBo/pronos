@@ -1,64 +1,88 @@
 <div class="body">
-  <div class="cadre">
-    <div class="container py-5">
-      <div class="row">
-        <div class="col-12 col-md-10 col-lg-8 col-xl-6 mx-auto">
-          <div class="bg-white shadow rounded p-4">
-            <h1 display-6 text-dark>Créez votre profil utilisateur :</h1>
-            <hr class="bg-dark mb-5" />
-            <form
-              [formGroup]="inscriptionFormGroup"
-              (ngSubmit)="onSubmitInscriptionForm()"
-            >
-              <div>
-                <label for="pseudoInput" disabled="false"
-                  >Votre pseudo :
-                </label>
-                <input
-                  type="text"
-                  formControlName="pseudoFC"
-                  id="pseudoInput"
-                />
-              </div>
-              <div>
-                <label for="emailInput">Votre email : </label>
-                <input type="text" formControlName="emailFC" id="emailInput" />
-              </div>
-              <div *ngIf="isOnCreationMode">
-                <label for="passwordInput">Votre mot de passe : </label>
-                <input
-                  type="password"
-                  formControlName="passwordFC"
-                  id="passwordInput"
-                />
-              </div>
-              <div>
-                <label for="nameInput">Votre nom : </label>
-                <input type="text" formControlName="nameFC" id="nameInput" />
-              </div>
-              <div>
-                <label for="firstnameInput">votre prénom :</label>
-                <input
-                  type="text"
-                  formControlName="firstnameFC"
-                  id="firstnameInput"
-                />
-              </div>
-              <div class="d-flex">
-                <button
-                  mat-stroked-button
-                  color="primary"
-                  class="btn btn-success mx-auto"
-                  type="submit"
-                  [disabled]="inscriptionFormGroup.invalid"
-                >
-                  Valider
-                </button>
-              </div>
-            </form>
-          </div>
+  <div class="p-grid p-fluid">
+    <div class="p-col-12 p-md-4"></div>
+    <div *ngIf="isOnCreationMode; else profil">
+      <h1>Créez votre profil utilisateur :</h1>
+    </div>
+    <ng-template #profil><h1>Votre profil :</h1></ng-template>
+    <hr class="bg-dark mb-5" />
+    <form
+      [formGroup]="inscriptionFormGroup"
+      (ngSubmit)="onSubmitInscriptionForm()"
+    >
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"
+          ><i class="pi pi-user"> votre pseudo :</i></span
+        >
+        <input
+          type="text"
+          pInputText
+          placeholder="Username"
+          formControlName="pseudoFC"
+          id="pseudoInput"
+        />
+      </div>
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"
+          ><i class="pi pi-user"> votre email :</i></span
+        >
+        <input
+          type="email"
+          pInputText
+          placeholder="email"
+          formControlName="emailFC"
+          id="emailInput"
+        />
+      </div>
+      <div *ngIf="isOnCreationMode">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"
+            ><i class="pi pi-user"> votre mot de passe :</i></span
+          >
+          <input
+            type="password"
+            pInputText
+            placeholder="password"
+            formControlName="passwordFC"
+            id="passwordInput"
+          />
         </div>
       </div>
-    </div>
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"
+          ><i class="pi pi-user"> votre nom :</i></span
+        >
+        <input
+          type="text"
+          pInputText
+          placeholder="name"
+          formControlName="nameFC"
+          id="nameInput"
+        />
+      </div>
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"
+          ><i class="pi pi-user"> votre prénom :</i></span
+        >
+        <input
+          type="text"
+          pInputText
+          placeholder="firstname"
+          formControlName="firstnameFC"
+          id="firstnameInput"
+        />
+      </div>
+      <div class="d-flex">
+        <button
+          mat-stroked-button
+          color="primary"
+          class="btn btn-success mx-auto"
+          type="submit"
+          [disabled]="inscriptionFormGroup.invalid"
+        >
+          Valider
+        </button>
+      </div>
+    </form>
   </div>
 </div>

@@ -27,7 +27,7 @@ export class SessionSummaryComponent implements OnInit {
 
   //informe si l'utilisateur est aussi l administrateur
   public isCreator(): boolean {
-    let creator = this.inputSessionSummary.creator;
+    const creator = this.inputSessionSummary.creator;
     if (creator == this._authent.getCurrentUser()) {
       return true;
     }
