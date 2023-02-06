@@ -10,7 +10,8 @@
         <th>Date</th>
         <th>Score 1</th>
         <th>Score 2</th>
-        <th style="width: 8rem"></th>
+        <th></th>
+        <th></th>
       </tr>
     </ng-template>
     <ng-template
@@ -81,6 +82,7 @@
           >
             Edit
           </button>
+
           <button
             *ngIf="editing"
             pButton
@@ -106,6 +108,19 @@
             class="p-button-rounded p-button-text p-button-danger"
           >
             Cancel
+          </button>
+        </td>
+        <td style="text-align: center">
+          <button
+            pButton
+            pRipple
+            type="button"
+            pInitEditableRow
+            icon="pi pi-pencil"
+            (click)="deleteMatch(match)"
+            class="p-button-rounded p-button-text"
+          >
+            Delete
           </button>
         </td>
       </tr>

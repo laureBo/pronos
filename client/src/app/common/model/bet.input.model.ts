@@ -1,6 +1,6 @@
 export interface BetInput {
   pseudo: string;
   idMatch: number;
-  betEquipe1: number;
-  betEquipe2: number;
+  pariEquipe1: number;
+  pariEquipe2: number;
 }

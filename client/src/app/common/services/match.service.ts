@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Match } from 'src/app/components/match/match.models';
 import { MajScore } from '../model/majScore.input.model';
+import { MatchInput } from '../model/match.input.model';
+import { MatchOutput } from '../model/match.output.model';
 
 @Injectable({
   providedIn: 'root',
@@ -33,17 +35,14 @@ export class MatchService {
     majScore: MajScore,
     idMatch: number
   ): Observable<String> {
-    return this.http.post<string>(
+    return this.http.put<string>(
       this.ROOT_URL + 'matchs/' + idMatch + '/maj-score',
       majScore
     );
   }
 
   //delete
-  public deleteMatch$(idSession: number, match: Match): Observable<String> {
-    return this.http.post<string>(
-      this.ROOT_URL + 'sessions/' + idSession + '/supprimer-match',
-      match
-    );
+  public deleteMatch$(match: MatchInput): Observable<String> {
+    return this.http.delete<string>(this.ROOT_URL + 'matchs/' + match.id);
   }
 }

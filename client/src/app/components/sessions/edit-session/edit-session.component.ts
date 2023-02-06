@@ -70,12 +70,12 @@ export class EditSessionComponent implements OnInit {
     this.clonedMatchs[match.id] = { ...match };
   }
 
-  //
-  onRowEditSave(score1: number, score2: number, idMatch: number) {
-    if (score1 >= 0 && score2 >= 0) {
+  //modification de la ligne
+  onRowEditSave(scoreEquipe1: number, scoreEquipe2: number, idMatch: number) {
+    if (scoreEquipe1 >= 0 && scoreEquipe2 >= 0) {
       const majScore: Score = {
-        scoreEquipe1: score1,
-        scoreEquipe2: score2,
+        scoreEquipe1: scoreEquipe1,
+        scoreEquipe2: scoreEquipe2,
       };
 
       delete this.clonedMatchs[idMatch];
@@ -97,13 +97,15 @@ export class EditSessionComponent implements OnInit {
     }
   }
 
+  //annulation de la modification
   onRowEditCancel(match: MatchInput, index: number) {
     this.matchs[index] = this.clonedMatchs[match.id];
     delete this.matchs[match.id];
   }
 
+  //supprimer un match
   public deleteMatch(match: MatchInput) {
     let idSession = this.idSession;
-    this._matchService.deleteMatch$(idSession, match);
+    this._matchService.deleteMatch$(match).subscribe(() => this._loadMatchs());
   }
 }

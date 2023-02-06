@@ -19,6 +19,6 @@ export class BetService {
   constructor(private http: HttpClient) {}
 
   public createNewBet$(newBet: BetInput): Observable<string> {
-    return this.http.post<string>(this.ROOT_URL + 'sessions/', newBet);
+    return this.http.post<string>(this.ROOT_URL + 'paris/save', newBet);
   }
 }

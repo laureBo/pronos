@@ -35,8 +35,8 @@ export class BetsComponent implements OnInit {
     const betInput: BetInput = {
       pseudo: this._authentication.getCurrentUser(),
       idMatch: this.pariFG.controls['idMatchFG'].value,
-      betEquipe1: this.pariFG.controls['pari1FG'].value,
-      betEquipe2: this.pariFG.controls['pari1FG'].value,
+      pariEquipe1: this.pariFG.controls['pari1FG'].value,
+      pariEquipe2: this.pariFG.controls['pari1FG'].value,
     };
     this._betService
       .createNewBet$(betInput)

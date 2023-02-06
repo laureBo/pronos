@@ -21,6 +21,10 @@ export class ApiService {
     return this.http.post<string>(this.ROOT_URL + 'utilisateurs/', user);
   }
 
+  public updateUser$(user: UserOutput): Observable<string> {
+    return this.http.post<string>(this.ROOT_URL + 'utilsateurs/update', user);
+  }
+
   public getUser$(pseudo: string): Observable<UserInput> {
     return this.http.get<UserInput>(this.ROOT_URL + 'utilisateurs/' + pseudo);
   }

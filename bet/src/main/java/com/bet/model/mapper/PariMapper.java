@@ -7,7 +7,6 @@ import com.bet.model.dto.PariDetailDto;
 import com.bet.model.dto.PariInputDto;
 import com.bet.model.dto.PariOutputDto;
 import com.bet.model.entity.PariEntity;
-import com.bet.model.entity.UtilisateurEntity;
 import com.bet.model.repository.IMatchRepository;
 import com.bet.model.utils.BetUtils;
 import com.bet.model.utils.ResultatEnum;
@@ -70,8 +69,6 @@ public class PariMapper {
 			return null;
 		}
 		PariEntity pariEntity = new PariEntity();
-		UtilisateurEntity user = new UtilisateurEntity();
-		user = utilisateurService.findUtilisateurEntityByPseudo(pariInputDto.getPseudo());
 		pariEntity.setUtilisateur(utilisateurService.findUtilisateurEntityByPseudo(pariInputDto.getPseudo()));
 		pariEntity.setMatch(matchRepository.findMatchByIdMatch(pariInputDto.getIdMatch()));
 		pariEntity.setEquipe1(pariInputDto.getPariEquipe1());

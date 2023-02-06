@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BetInput } from 'src/app/common/model/bet.input.model';
 import { BetService } from 'src/app/common/services/bet.service';
 import { StatsOutput } from 'src/app/common/model/stats.output.model';
+import { concatMap, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-current-session',
@@ -21,18 +22,20 @@ import { StatsOutput } from 'src/app/common/model/stats.output.model';
 })
 export class CurrentSessionComponent implements OnInit {
   inputSessionSummaryComplete!: SessionSummaryComplete;
-  parisDetail: PariDetail[];
+  parisDetailFirst: PariDetail[];
   clonedParisDetail: { [s: string]: PariDetail } = {};
   isLoaded = false;
-  isEmpty = false;
+  isListMatchEmpty = false;
   participants: string[];
   stats: StatsOutput[];
-  classement: { [key: string]: number };
+  // classement: { [key: string]: number };
   columnsToDisplay = [
     'classement',
     'pseudo',
     'scoreBySession',
     'nbMatchsTrouves',
+    'nbMatchsExacts',
+    'nbMatchsSession',
   ];
 
   constructor(
@@ -56,27 +59,72 @@ export class CurrentSessionComponent implements OnInit {
     //on recupere le pseudo de l utilisateur
     const pseudo: string = this._authentService.getCurrentUser();
 
-    //on appelle la fct qui renvoit l objet complet (avec ses listes)
+    //on appelle la fct qui renvoit l objet Session complet (avec ses listes)
     this._sessionService
       .getSessionById$(idSession)
-      .subscribe((inputSessionComplete: SessionInput) => {
-        this.inputSessionSummaryComplete =
-          this._sessionMapper.mapInputCompleteToComponent(inputSessionComplete);
-        //parametre permettant d afficher que lorsque l objet est chargé grace au ngif
+      .pipe(
+        concatMap((inputSessionComplete: SessionInput) => {
+          this.inputSessionSummaryComplete =
+            this._sessionMapper.mapInputCompleteToComponent(
+              inputSessionComplete
+            );
+
+          this.parisDetailFirst = inputSessionComplete.matchs.map(
+            (match: MatchInput) => {
+              const pariDetail: PariDetail = {
+                idMatch: match.id,
+                equipe1: match.equipe1,
+                pariEquipe1: null,
+                equipe2: match.equipe2,
+                pariEquipe2: null,
+                scoreEquipe1: match.scoreEquipe1,
+                scoreEquipe2: match.scoreEquipe2,
+                dateMatch: match.dateMatch,
+                isWinner: null,
+                isPerfect: null,
+              };
+              return pariDetail;
+            }
+          );
+          if (this.parisDetailFirst.length == 0) {
+            this.isListMatchEmpty = true;
+          }
+          //on recupere la liste de paris detail
+          return this._sessionService.getParisDetailByPseudoAndSession$(
+            idSession,
+            pseudo
+          );
+        }),
+        concatMap((parisDetailsLoaded: PariDetail[]) => {
+          /*parisDetail.forEach((pariDetail: PariDetail) => {
+            const toto: PariDetail = this.parisDetail.find(
+              (localPariDetail: PariDetail) =>
+                (localPariDetail.idMatch = pariDetail.idMatch)
+            ) as unknown as PariDetail;
+            const index = this.parisDetail.indexOf(toto);
+            this.parisDetail[index] = pariDetail;
+          });*/
+          this.parisDetailFirst.map((pariDetailFirst: PariDetail) => {
+            this.parisDetailLoaded.find(
+              (pariDetailFinal: PariDetail) =>
+                (pariDetailFirst.idMatch = pariDetailFinal.idMatch)
+            );
+            if (pariDetailFinal) {
+              return pariDetailFinal;
+            } else {
+              return pariUser;
+            }
+          });
+
+          //on appelle la fonction de classement
+          return this._loadStatsSession$(idSession);
+        }),
+        map(() => this._loadParticipantsSession$(idSession))
+      )
+      .subscribe(() => {
+        //parametre permettant d afficher que lorsque tout est chargé grace aux subscribe et ngif
         this.isLoaded = true;
       });
-
-    this._sessionService
-      .getParisDetailByPseudoAndSession$(idSession, pseudo)
-      .subscribe((parisDetail: PariDetail[]) => {
-        if (parisDetail.length == 0) {
-          this.isEmpty = true;
-        }
-        this.parisDetail = parisDetail;
-      });
-
-    //on appelle la fonction de classement
-    this.getRankingBySession(idSession);
   }
 
   //naviguer vers la page edit session grâce à l id
@@ -96,8 +144,8 @@ export class CurrentSessionComponent implements OnInit {
       const bet: BetInput = {
         pseudo: this._authentService.getCurrentUser(),
         idMatch: idMatch,
-        betEquipe1: pariEquipe1,
-        betEquipe2: pariEquipe2,
+        pariEquipe1: pariEquipe1,
+        pariEquipe2: pariEquipe2,
       };
 
       delete this.clonedParisDetail[idMatch];
@@ -123,7 +171,7 @@ export class CurrentSessionComponent implements OnInit {
   }
 
   //verifie si l utilisateur est aussi admin de la session
-  public isAdmini(pseudo: string): Boolean {
+  public isAdmin(pseudo: string): Boolean {
     if (pseudo == this._authentService.getCurrentUser()) {
       return true;
     }
@@ -131,22 +179,20 @@ export class CurrentSessionComponent implements OnInit {
   }
 
   //afficher la liste des utilisateurs de la session
-  public showParticipantsSession(idSession: number): String[] {
-    this._sessionService
-      .getAllusersBySession$(idSession)
-      .subscribe((participants: string[]) => {
+  private _loadParticipantsSession$(idSession: number): Observable<void> {
+    return this._sessionService.getAllusersBySession$(idSession).pipe(
+      map((participants: string[]) => {
         this.participants = participants;
-      });
-    return this.participants;
+      })
+    );
   }
 
   //afficher le classement d'une session
-  public getRankingBySession(idSession: number): StatsOutput[] {
-    this._sessionService
-      .getAllStatsAndRankingBySession$(idSession)
-      .subscribe((stats: StatsOutput[]) => {
+  private _loadStatsSession$(idSession: number): Observable<void> {
+    return this._sessionService.getAllStatsAndRankingBySession$(idSession).pipe(
+      map((stats: StatsOutput[]) => {
         this.stats = stats;
-      });
-    return this.stats;
+      })
+    );
   }
 }

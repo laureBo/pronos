@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ import com.bet.model.dto.SessionOutputDto;
 import com.bet.model.dto.StatCompleteBySessionOutputDto;
 import com.bet.model.dto.UserSessionInputDto;
 import com.bet.model.entity.SessionEntity;
+import com.bet.service.MatchService;
 import com.bet.service.PariService;
 import com.bet.service.ParticiperService;
 import com.bet.service.SessionService;
@@ -50,6 +52,9 @@ public class SessionController {
 
 	@Autowired
 	private StatService statService;
+
+	@Autowired
+	private MatchService matchService;
 
 	/**
 	 * Returns the session from the session's identifier
@@ -144,14 +149,6 @@ public class SessionController {
 		return new ResponseEntity<>(new InfoReturn("/sessions/" + idSession), HttpStatus.CREATED);
 	}
 
-	@PostMapping(value = "/{idSession}/supprimer-match")
-	public ResponseEntity<InfoReturn> supprimerMatchASession(@PathVariable final int idSession,
-			@RequestBody final MatchDto matchDto) {
-		logger.info("supprimerMatchASession");
-		this.sessionService.supprimerMatchToSession(idSession, matchDto);
-		return new ResponseEntity<>(new InfoReturn("/sessions/" + idSession), HttpStatus.ACCEPTED);
-	}
-
 	@GetMapping(value = "/{idSession}/utilisateur/{pseudo}/paris")
 	public List<PariDetailDto> getAllBetsByUserSession(@PathVariable final int idSession,
 			@PathVariable final String pseudo) {
@@ -211,6 +208,14 @@ public class SessionController {
 		// If the session does not exist, then return not found response entity
 		logger.info("Session not found " + idSession);
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+
+	// supprimer une session
+	@DeleteMapping(value = "/{idSession}/supprimer-session")
+	public ResponseEntity<InfoReturn> supprimerSession(@PathVariable final int idSession) {
+		logger.info("supprimerSession");
+		this.sessionService.supprimerSession(idSession);
+		return new ResponseEntity<>(new InfoReturn("/sessions/" + idSession), HttpStatus.ACCEPTED);
 	}
 
 }

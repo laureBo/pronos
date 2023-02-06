@@ -40,6 +40,14 @@ export class SessionService {
     return this.http.post<string>(this.ROOT_URL + 'sessions/', newSession);
   }
 
+  //supprimer une session
+  public deleteSession$(idSession: number): Observable<String> {
+    return this.http.post<string>(
+      this.ROOT_URL + 'sessions/' + idSession + '/supprimer-session',
+      idSession
+    );
+  }
+
   //récuperer list de matchs pour une session
   public getMatchsByIdSession$(idSession: number): Observable<MatchInput[]> {
     return this.http.get<MatchInput[]>(
@@ -70,13 +78,13 @@ export class SessionService {
   }
 
   //afficher le classement d'une session
-  public getPourcentRankingBySession$(
-    idSession: number
-  ): Observable<{ [key: string]: number }> {
-    return this.http.get<{ [key: string]: number }>(
-      this.ROOT_URL + 'sessions/' + idSession + '/utilisateurs/ranking'
-    );
-  }
+  // public getPourcentRankingBySession$(
+  // idSession: number
+  //): Observable<{ [key: string]: number }> {
+  // return this.http.get<{ [key: string]: number }>(
+  //   this.ROOT_URL + 'sessions/' + idSession + '/utilisateurs/ranking'
+  // );
+  // }
 
   //afficher toutes les stats des utilisateurs d'une session et le classement
   public getAllStatsAndRankingBySession$(

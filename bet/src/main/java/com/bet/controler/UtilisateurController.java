@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.bet.model.dto.InfoReturn;
 import com.bet.model.dto.PariDetailDto;
 import com.bet.model.dto.SessionLightOutputDto;
 import com.bet.model.dto.UtilisateurDto;
@@ -65,10 +66,10 @@ public class UtilisateurController {
 	 * @return the url to reach the created user trough the api
 	 */
 	@PostMapping(value = "/")
-	public ResponseEntity<String> saveNewUtilisateur(@RequestBody UtilisateurDto input) {
+	public ResponseEntity<InfoReturn> saveNewUtilisateur(@RequestBody UtilisateurDto input) {
 		logger.info("saveNewUtilisateur");
 		utilisateurService.saveUtilisateurInBd(input);
-		return new ResponseEntity<String>("/utilisateurs/" + input.getPseudo(), HttpStatus.CREATED);
+		return new ResponseEntity<InfoReturn>(new InfoReturn("/utilisateurs/" + input.getPseudo()), HttpStatus.CREATED);
 	}
 
 	/**

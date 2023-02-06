@@ -58,29 +58,11 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
       this.isOnCreationMode = false;
       this.fillFormWithUserInfo(pseudo);
     }
-    this.subscriptions.push(this.testValueChange() as Subscription);
   }
 
   //naviguer vers une autre page
   private navigate(url: string): void {
     this._router.navigateByUrl(url);
-  }
-
-  //verifie si des données ont été modifiées
-  private testValueChange(): Subscription {
-    const monObsorvable$ = this.inscriptionFormGroup
-      .get('pseudoFC')
-      ?.valueChanges.pipe(
-        concatMap((value: string) => {
-          return of('titi' + value);
-        }),
-        concatMap((value: string) => {
-          return of('titi' + value);
-        })
-      );
-    return monObsorvable$!.subscribe((value: string) => {
-      console.log(value);
-    });
   }
 
   //instanciation du formulaire
@@ -132,10 +114,29 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
       this.inscriptionFormGroup.controls['pseudoFC'].disable();
       this.inscriptionFormGroup.controls['emailFC'].setValue(user.mail);
       this.inscriptionFormGroup.controls['passwordFC'].setValue(user.password);
-      this.inscriptionFormGroup.controls['passwordFC'].disable;
+      this.inscriptionFormGroup.controls['passwordFC'].disable();
       this.inscriptionFormGroup.controls['nameFC'].setValue(user.nom);
       this.inscriptionFormGroup.controls['firstnameFC'].setValue(user.prenom);
     });
     // this.inscriptionFormGroup.setValue();
   }
 }
+
+//this.bookList$ = this.bookForm.valueChanges
+// .pipe(
+//   debounceTime(100),
+// switchMap(value => this._bookRepository.search({keywords: value.title}))
+// );
+//verifie si des données ont été modifiées
+// private testValueChange(): Subscription {
+//  const monObsorvable$ = this.inscriptionFormGroup?.valueChanges;
+//this.inscriptionFormGroup.get('nameFC')?.valueChanges;
+//   this.inscriptionFormGroup.get('firstnameFC')?.valueChanges;
+//   return monObsorvable$!.subscribe((value: string) => {
+// if(this.inscriptionFormGroup.valueChanges){
+// this._apiService.updateUser$(monObsorvable$);
+//     console.log(this.inscriptionFormGroup);
+// });
+// }
+// les souscriptions ne s'unscribent pas toutes seules
+//this.subscriptions.push(this.testValueChange() as Subscription);

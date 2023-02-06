@@ -81,6 +81,15 @@ public class SessionService {
 
 	}
 
+	public void supprimerSession(int idSession) {
+		Optional<SessionEntity> optEntity = sessionRepository.findById(idSession);
+		if (optEntity.isEmpty()) {
+			throw new ResourceNotFoundException("supprimerSession pas de session correspondante trouvee " + idSession);
+		}
+
+		sessionRepository.deleteById(idSession);
+	}
+
 	public SessionOutputDto findSessionById(int idSession) {
 		Optional<SessionEntity> optEntity = sessionRepository.findById(idSession);
 		if (optEntity.isEmpty()) {
@@ -130,20 +139,6 @@ public class SessionService {
 		matchEntity.setSession(sessionUpdated);
 		sessionUpdated.getMatchs().add(matchEntity);
 		return sessionRepository.save(sessionUpdated);
-	}
-
-	public void supprimerMatchToSession(int idSession, MatchDto match) {
-		Optional<SessionEntity> optEntity = sessionRepository.findById(idSession);
-		if (optEntity.isEmpty()) {
-			throw new ResourceNotFoundException(
-					"supprimerMatchsToSession pas de session correspondante trouvee " + idSession);
-		}
-
-		SessionEntity sessionUpdated = optEntity.get();
-		MatchEntity matchEntity = matchMapper.getEntityFromDto(match);
-		matchEntity.setSession(sessionUpdated);
-		sessionUpdated.getMatchs().add(matchEntity);
-		sessionRepository.delete(sessionUpdated);
 	}
 
 	public List<SessionLightOutputDto> getAllSessionsByPseudo(String pseudo) {

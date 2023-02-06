@@ -34,4 +34,8 @@ public class MatchService {
 		return matchSaved;
 	}
 
+	public void supprimerMatchFromIdMatch(int idMatch) {
+		matchRepository.deleteById(idMatch);
+	}
+
 }
