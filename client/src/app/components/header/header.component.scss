@@ -10,6 +10,7 @@
   flex-direction: row;
   justify-items: stretch;
   justify-content: space-between;
+  padding-right: 30px;
 
   .nomappli {
     display: flex;
@@ -65,7 +66,7 @@
     top: 5px;
     width: 100px;
     height: 70px;
-    background: url("/assets/img/BET_Logo.svg.png");
+    background: url("/assets/img/star.png");
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

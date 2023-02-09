@@ -1,12 +1,15 @@
 <div class="header-bar">
   <div class="nomappli">
     <div class="logo"></div>
-    <h1>My friend's Bet</h1>
+    <h1>PronosBet</h1>
     <mat-divider [vertical]="true"></mat-divider>
   </div>
   <div class="menu">
-    <div class="menu-item nav-item" (click)="navigate('/home')">Home</div>
-    <div class="menu-item nav-item" (click)="navigate('/user/:pseudo')">
+    <div class="menu-item nav-item" (click)="navigate('/home')">Accueil</div>
+    <div
+      class="menu-item nav-item"
+      (click)="navigate('/user/' + authentService.getCurrentUser())"
+    >
       Mon Profil
     </div>
     <div class="menu-item nav-item" (click)="navigate('/sessions/')">
@@ -17,6 +20,7 @@
     </div>
   </div>
   <button
+    *ngIf="authentService.isAuthenticated(); else login"
     button
     pButton
     pRipple

@@ -59,7 +59,7 @@ export class CurrentSessionComponent implements OnInit {
     //on recupere le pseudo de l utilisateur
     const pseudo: string = this._authentService.getCurrentUser();
 
-    //on appelle la fct qui renvoit l objet Session complet (avec ses listes)
+    //Etape 1 - on appelle la fct qui renvoit l objet Session complet (avec ses listes de match)
     this._sessionService
       .getSessionById$(idSession)
       .pipe(
@@ -69,6 +69,7 @@ export class CurrentSessionComponent implements OnInit {
               inputSessionComplete
             );
 
+          // Etape 2 - On mappe les objets
           this.parisDetailFirst = inputSessionComplete.matchs.map(
             (match: MatchInput) => {
               const pariDetail: PariDetail = {
@@ -86,37 +87,32 @@ export class CurrentSessionComponent implements OnInit {
               return pariDetail;
             }
           );
+          // Gestion d'un boolean s'il n'y pas de matchs associés
           if (this.parisDetailFirst.length == 0) {
             this.isListMatchEmpty = true;
           }
-          //on recupere la liste de paris detail
+          // Etape 3 - On recupere la liste de paris detail liés à l'utilisateur
           return this._sessionService.getParisDetailByPseudoAndSession$(
             idSession,
             pseudo
           );
         }),
         concatMap((parisDetailsLoaded: PariDetail[]) => {
-          /*parisDetail.forEach((pariDetail: PariDetail) => {
-            const toto: PariDetail = this.parisDetail.find(
-              (localPariDetail: PariDetail) =>
-                (localPariDetail.idMatch = pariDetail.idMatch)
-            ) as unknown as PariDetail;
-            const index = this.parisDetail.indexOf(toto);
-            this.parisDetail[index] = pariDetail;
-          });*/
-          this.parisDetailFirst.map((pariDetailFirst: PariDetail) => {
-            this.parisDetailLoaded.find(
+          const nouveauTableauDeParisDetails: PariDetail[] = [];
+          this.parisDetailFirst.forEach((pariDetailFirst: PariDetail) => {
+            const pariDetailFinal = parisDetailsLoaded.find(
               (pariDetailFinal: PariDetail) =>
-                (pariDetailFirst.idMatch = pariDetailFinal.idMatch)
+                pariDetailFirst.idMatch === pariDetailFinal.idMatch
             );
+            // Si le pari de l'utilsateur existe alors on l'utilise, sinon on utilise celui du getSession
             if (pariDetailFinal) {
-              return pariDetailFinal;
+              return nouveauTableauDeParisDetails.push(pariDetailFinal);
             } else {
-              return pariUser;
+              return nouveauTableauDeParisDetails.push(pariDetailFirst);
             }
           });
-
-          //on appelle la fonction de classement
+          this.parisDetailFirst = nouveauTableauDeParisDetails;
+          //Etape 4 - on appelle la fonction de classement
           return this._loadStatsSession$(idSession);
         }),
         map(() => this._loadParticipantsSession$(idSession))
@@ -166,8 +162,8 @@ export class CurrentSessionComponent implements OnInit {
   }
 
   onRowEditCancel(pariDetail: PariDetail, index: number) {
-    this.parisDetail[index] = this.clonedParisDetail[pariDetail.idMatch];
-    delete this.parisDetail[pariDetail.idMatch];
+    this.parisDetailFirst[index] = this.clonedParisDetail[pariDetail.idMatch];
+    delete this.parisDetailFirst[pariDetail.idMatch];
   }
 
   //verifie si l utilisateur est aussi admin de la session
