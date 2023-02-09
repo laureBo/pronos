@@ -12,7 +12,7 @@
     >
       Mon Profil
     </div>
-    <div class="menu-item nav-item" (click)="navigate('/sessions/')">
+    <div class="menu-item nav-item" (click)="navigate('/sessions')">
       Sessions
     </div>
     <div class="menu-item nav-item" (click)="navigate('/bets')">
@@ -20,7 +20,7 @@
     </div>
   </div>
   <button
-    *ngIf="authentService.isAuthenticated(); else login"
+    *ngIf="!authentService.isAuthenticated(); else login"
     button
     pButton
     pRipple

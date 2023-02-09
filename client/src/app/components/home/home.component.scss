@@ -2,9 +2,6 @@
 
 .container {
   text-align: center;
-  color: darkgrey;
-  font-size: 32px;
-  position: relative;
   background-image: url("../../../assets/img/sports.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -13,7 +10,16 @@
 
   .phrase1 {
     margin-top: 420px;
-    font-size: 35px;
     font-weight: bolder;
+  }
+
+  .titre1 {
+    color: darkgrey;
+    font-size: 48px;
+  }
+
+  .titre2 {
+    color: seashell;
+    font-size: 32px;
   }
 }
