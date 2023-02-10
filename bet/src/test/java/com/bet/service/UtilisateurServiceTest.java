@@ -20,51 +20,50 @@ import com.bet.model.repository.IUtilisateurRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class UtilisateurServiceTest extends BetApplicationTests {
-	@Mock
-	private IUtilisateurRepository utilisateurRepo;
+    @Mock
+    private IUtilisateurRepository utilisateurRepo;
 
-	@Autowired
-	@InjectMocks
-	private UtilisateurService utilisateurService;
+    @Autowired
+    @InjectMocks
+    private UtilisateurService utilisateurService;
 
-	@Test
-	void testGetByPseudo() {
+    @Test
+    void testGetByPseudo() {
 
-		when(utilisateurRepo.findByPseudoUser("Roro")).thenCallRealMethod();
+        when(this.utilisateurRepo.findByPseudoUser("Roro")).thenCallRealMethod();
 
-		UtilisateurDto utilisateur = utilisateurService.getByPseudo("Roro");
-		String expected = "Rom";
-		String actual = utilisateur.getPrenom();
+        final UtilisateurDto utilisateur = this.utilisateurService.getByPseudo("Roro");
+        final String expected = "Rom";
+        final String actual = utilisateur.getPrenom();
 
-		assertEquals(expected, actual);
-	};
+        assertEquals(expected, actual);
+    }
 
-	@Test
-	void testGetByPseudoMock() {
-		UtilisateurEntity utilisateurEntity = new UtilisateurEntity();
-		utilisateurEntity.setPseudoUser("Rico");
-		utilisateurEntity.setNomUser("Hitro");
-		utilisateurEntity.setPrenomUser("zirka");
-		utilisateurEntity.setMailUser("ricotro@orange.fr");
+    @Test
+    void testGetByPseudoMock() {
+        final UtilisateurEntity utilisateurEntity = new UtilisateurEntity();
+        utilisateurEntity.setPseudoUser("Rico");
+        utilisateurEntity.setNomUser("Hitro");
+        utilisateurEntity.setPrenomUser("zirka");
+        utilisateurEntity.setMailUser("ricotro@orange.fr");
 
-		// GIVEN
-		when(utilisateurRepo.findByPseudoUser(any(String.class))).thenReturn(utilisateurEntity);
+        // GESTION DU MOCK
+        when(this.utilisateurRepo.findByPseudoUser(any(String.class))).thenReturn(utilisateurEntity);
 
-		// WHEN
-		// verify(toto, times(1));
-		UtilisateurDto resultTest = utilisateurService.getByPseudo("jaja");
+        // APPEL DU SERVICE
+        final UtilisateurDto resultTest = this.utilisateurService.getByPseudo("jaja");
 
-		// THEN
-		assertEquals("Rico", resultTest.getPseudo());
-		assertEquals("zirka", resultTest.getPrenom());
-	}
+        // CONTROLE DU RESULTAT
+        assertEquals("Rico", resultTest.getPseudo());
+        assertEquals("zirka", resultTest.getPrenom());
+    }
 
-	@Test
-	void testCountUtilisateur() {
-		List<UtilisateurDto> utilisateurs = utilisateurService.findAllUtilisateur();
-		int expected = 12;
-		int actual = utilisateurs.size();
+    @Test
+    void testCountUtilisateur() {
+        final List<UtilisateurDto> utilisateurs = this.utilisateurService.findAllUtilisateur();
+        final int expected = 12;
+        final int actual = utilisateurs.size();
 
-		assertEquals(expected, actual);
-	}
+        assertEquals(expected, actual);
+    }
 }

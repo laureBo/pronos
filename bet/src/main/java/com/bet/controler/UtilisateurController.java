@@ -27,72 +27,77 @@ import com.bet.service.UtilisateurService;
 @RequestMapping(value = "/utilisateurs")
 public class UtilisateurController {
 
-	private static Logger logger = LoggerFactory.getLogger(UtilisateurController.class);
+    private static Logger logger = LoggerFactory.getLogger(UtilisateurController.class);
 
-	@Autowired
-	private UtilisateurService utilisateurService;
+    @Autowired
+    private UtilisateurService utilisateurService;
 
-	@Autowired
-	private PariService pariService;
-	@Autowired
-	private SessionService sessionService;
+    @Autowired
+    private PariService pariService;
 
-	@GetMapping(value = "/")
-	public List<UtilisateurDto> getAllUtilisateur() {
-		logger.info("Get all utilisateur: getAllUtilisateur");
-		return utilisateurService.findAllUtilisateur();
-	}
+    @Autowired
+    private SessionService sessionService;
 
-	/**
-	 * Return the user linked to the pseudo
-	 * 
-	 * @param pseudo user's pseudo
-	 * @return the user with all informations
-	 */
-	@GetMapping(value = "/{pseudo}")
-	public UtilisateurDto getUtilisateurByPseudo(@PathVariable String pseudo) {
-		logger.info("Get utilisateur by pseudo: getUtilisateurByPseudo");
-		UtilisateurDto result = utilisateurService.getByPseudo(pseudo);
-		if (result == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found");
-		}
-		return result;
-	}
+    @GetMapping(value = "/")
+    public List<UtilisateurDto> getAllUtilisateur() {
+        logger.info("Get all utilisateur: getAllUtilisateur");
+        return this.utilisateurService.findAllUtilisateur();
+    }
 
-	/**
-	 * Create a new user
-	 * 
-	 * @param input user input to create
-	 * @return the url to reach the created user trough the api
-	 */
-	@PostMapping(value = "/")
-	public ResponseEntity<InfoReturn> saveNewUtilisateur(@RequestBody UtilisateurDto input) {
-		logger.info("saveNewUtilisateur");
-		utilisateurService.saveUtilisateurInBd(input);
-		return new ResponseEntity<InfoReturn>(new InfoReturn("/utilisateurs/" + input.getPseudo()), HttpStatus.CREATED);
-	}
+    /**
+     * Return the user linked to the pseudo
+     * 
+     * @param pseudo
+     *            user's pseudo
+     * @return the user with all informations
+     */
+    @GetMapping(value = "/{pseudo}")
+    public UtilisateurDto getUtilisateurByPseudo(@PathVariable final String pseudo) {
+        logger.info("Get utilisateur by pseudo: getUtilisateurByPseudo");
+        final UtilisateurDto result = this.utilisateurService.getByPseudo(pseudo);
+        if (result == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found");
+        }
+        return result;
+    }
 
-	/**
-	 * List the bets linked to a user
-	 * 
-	 * @param pseudo user's pseudo
-	 * @return bets details fir the user
-	 */
-	@GetMapping(value = "/{pseudo}/paris")
-	public List<PariDetailDto> getParisDetailByUser(@PathVariable String pseudo) {
-		logger.info("getParisDetailByUser");
-		return pariService.getThreeLastBetByPseudo2(pseudo);
-	}
+    /**
+     * Create a new user
+     * 
+     * @param input
+     *            user input to create
+     * @return the url to reach the created user trough the api
+     */
+    @PostMapping(value = "/")
+    public ResponseEntity<InfoReturn> saveNewUtilisateur(@RequestBody final UtilisateurDto input) {
+        logger.info("saveNewUtilisateur");
+        this.utilisateurService.saveUtilisateurInBd(input);
+        return new ResponseEntity<>(new InfoReturn("/utilisateurs/" + input.getPseudo()), HttpStatus.CREATED);
+    }
 
-	/**
-	 * List the sessions linked to a user
-	 * 
-	 * @param pseudo user's pseudo
-	 * @return sessions details for the user
-	 */
-	@GetMapping(value = "/{pseudo}/sessions")
-	public List<SessionLightOutputDto> getSessionsDetailByUser(@PathVariable String pseudo) {
-		logger.info("getSessionsDetailByUser");
-		return sessionService.getAllSessionsByPseudo(pseudo);
-	}
+    /**
+     * List the bets linked to a user
+     * 
+     * @param pseudo
+     *           user's pseudo
+     * @return bets details fir the user
+     */
+    @GetMapping(value = "/{pseudo}/paris")
+    public List<PariDetailDto> getParisDetailByUser(@PathVariable final String pseudo) {
+        logger.info("getParisDetailByUser");
+        return this.pariService.getThreeLastBetByPseudo2(pseudo);
+    }
+
+    /**
+     * List the sessions linked to a user
+     * 
+     * @param pseudo
+     *            user's pseudo
+     * @return sessions details for the user
+     */
+    @GetMapping(value = "/{pseudo}/sessions")
+    public List<SessionLightOutputDto> getSessionsDetailByUser(@PathVariable final String pseudo) {
+        logger.info("getSessionsDetailByUser");
+        return this.sessionService.getAllSessionsByPseudo(pseudo);
+    }
 }
