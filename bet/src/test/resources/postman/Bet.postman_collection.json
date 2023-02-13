@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c2d20fad-11e4-4fba-beed-c5b511e7e7ee",
+		"_postman_id": "c2d20fad-11e4-4fba-beed-c5b511e7e7ef",
 		"name": "Bet",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -23,13 +23,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/utilisateurs/",
+							"raw": "http://localhost:8080/api/utilisateurs/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
-							"path": [
+							"path": [ "api",
 								"utilisateurs",
 								""
 							]
@@ -43,13 +43,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/utilisateurs/",
+							"raw": "http://localhost:8080/api/utilisateurs/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
-							"path": [
+							"path": [ "api",
 								"utilisateurs",
 								""
 							]
@@ -63,13 +63,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/utilisateurs/Miloud/paris",
+							"raw": "http://localhost:8080/api/utilisateurs/Miloud/paris",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
-							"path": [
+							"path": [ "api",
 								"utilisateurs",
 								"Miloud",
 								"paris"
@@ -89,13 +89,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/sessions/1",
+							"raw": "http://localhost:8080/api/sessions/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
-							"path": [
+							"path": [ "api",
 								"sessions",
 								"1"
 							]
@@ -118,13 +118,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/sessions/",
+							"raw": "http://localhost:8080/api/sessions/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
-							"path": [
+							"path": [ "api",
 								"sessions",
 								""
 							]
@@ -147,13 +147,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/sessions/ajouter-participant/",
+							"raw": "http://localhost:8080/api/sessions/ajouter-participant/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
-							"path": [
+							"path": [ "api",
 								"sessions",
 								"ajouter-participant",
 								""
@@ -177,13 +177,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/sessions/1/ajouter-match",
+							"raw": "http://localhost:8080/api/sessions/1/ajouter-match",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
-							"path": [
+							"path": [ "api",
 								"sessions",
 								"1",
 								"ajouter-match"
@@ -198,13 +198,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/sessions/",
+							"raw": "http://localhost:8080/api/sessions/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
-							"path": [
+							"path": [ "api",
 								"sessions",
 								""
 							]
@@ -218,13 +218,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/sessions/2/utilisateurs",
+							"raw": "http://localhost:8080/api/sessions/2/utilisateurs",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
-							"path": [
+							"path": [ "api",
 								"sessions",
 								"2",
 								"utilisateurs"
@@ -244,13 +244,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/stats/all/Zaza",
+							"raw": "http://localhost:8080/api/stats/all/Zaza",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
-							"path": [
+							"path": [ "api",
 								"stats",
 								"all",
 								"Zaza"
@@ -265,13 +265,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/stats/Roro",
+							"raw": "http://localhost:8080/api/stats/Roro",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
-							"path": [
+							"path": [ "api",
 								"stats",
 								"Roro"
 							]
@@ -294,13 +294,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/stats/bySession",
+							"raw": "http://localhost:8080/api/stats/bySession",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
-							"path": [
+							"path": [ "api",
 								"stats",
 								"bySession"
 							]
@@ -319,13 +319,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/matchs/1",
+							"raw": "http://localhost:8080/api/matchs/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
-							"path": [
+							"path": [ "api",
 								"matchs",
 								"1"
 							]
@@ -348,7 +348,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/matchs/1/maj-score",
+							"raw": "http://localhost:8080/api/matchs/1/maj-score",
 							"protocol": "http",
 							"host": [
 								"localhost"

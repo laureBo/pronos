@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Info } from 'src/app/common/model/info.model';
 import {
   SessionInput,
   SessionLightInput,
@@ -50,8 +51,9 @@ export class SessionsComponent implements OnInit {
     };
     this._sessionService
       .createNewSession$(newSession)
-      .subscribe((valueReturned: string) => {
-        console.log('retour: ' + valueReturned);
+      .subscribe((valueReturned: Info) => {
+        console.log('retour: ' + valueReturned.info);
+        this._router.navigateByUrl(valueReturned.info);
       });
   }
 

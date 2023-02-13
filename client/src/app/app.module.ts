@@ -12,7 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UserComponent } from './components/user/user.component';
 import { ConfigComponent } from './components/config/config.component';
 import { UserConnectionComponent } from './components/user/user-connection/user-connection.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CreateEditUserComponent } from './components/user/create-edit-user/create-edit-user.component';
 import { CurrentSessionComponent } from './components/sessions/current-session/current-session.component';
 import { MaterialModule } from './material.module';
@@ -23,7 +23,14 @@ import { DialogContentDialogComponent } from './components/sessions/dialog-conte
 import { EditSessionComponent } from './components/sessions/edit-session/edit-session.component';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
-
+import { BasicAuthInterceptor } from './basic-auth-interceptor';
+import { MessageService } from 'primeng/api';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { TabViewModule } from 'primeng/tabview';
+import { RippleModule } from 'primeng/ripple';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,8 +59,17 @@ import { ToastModule } from 'primeng/toast';
     FormsModule,
     TableModule,
     ToastModule,
+    MessagesModule,
+    MessageModule,
+    ButtonModule,
+    InputTextModule,
+    TabViewModule,
+    RippleModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
+    MessageService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

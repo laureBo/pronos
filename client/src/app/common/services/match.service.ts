@@ -5,18 +5,12 @@ import { Match } from 'src/app/components/match/match.models';
 import { MajScore } from '../model/majScore.input.model';
 import { MatchInput } from '../model/match.input.model';
 import { MatchOutput } from '../model/match.output.model';
+import { ApiUtils } from './api.utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MatchService {
-  private readonly ROOT_URL = 'http://localhost:8080/';
-  optionRequete = {
-    headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': 'http://localhost:4200',
-    }),
-  };
-
   constructor(private http: HttpClient) {}
 
   //create
@@ -25,7 +19,7 @@ export class MatchService {
     idSession: number
   ): Observable<string> {
     return this.http.post<string>(
-      this.ROOT_URL + 'sessions/' + idSession + '/ajouter-match',
+      ApiUtils.ROOT_URL + 'sessions/' + idSession + '/ajouter-match',
       newMatch
     );
   }
@@ -34,15 +28,15 @@ export class MatchService {
   public updateScoreMatch$(
     majScore: MajScore,
     idMatch: number
-  ): Observable<String> {
+  ): Observable<string> {
     return this.http.put<string>(
-      this.ROOT_URL + 'matchs/' + idMatch + '/maj-score',
+      ApiUtils.ROOT_URL + 'matchs/' + idMatch + '/maj-score',
       majScore
     );
   }
 
   //delete
-  public deleteMatch$(match: MatchInput): Observable<String> {
-    return this.http.delete<string>(this.ROOT_URL + 'matchs/' + match.id);
+  public deleteMatch$(match: MatchInput): Observable<string> {
+    return this.http.delete<string>(ApiUtils.ROOT_URL + 'matchs/' + match.id);
   }
 }

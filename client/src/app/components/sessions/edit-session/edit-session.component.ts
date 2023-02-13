@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MajScore as Score } from 'src/app/common/model/majScore.input.model';
 import { MatchInput } from 'src/app/common/model/match.input.model';
 import { MatchService } from 'src/app/common/services/match.service';
@@ -8,7 +8,6 @@ import { SessionService } from 'src/app/common/services/session.service';
 import { MatchComponent } from '../../match/match.component';
 import { Match } from '../../match/match.models';
 import { MessageService } from 'primeng/api';
-import { MatchOutput } from 'src/app/common/model/match.output.model';
 
 @Component({
   selector: 'app-edit-session',

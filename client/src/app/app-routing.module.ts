@@ -37,7 +37,7 @@ const routes: Routes = [
   { path: 'bets', component: BetsComponent, canActivate: [AuthGuardService] },
   { path: 'create-user', component: CreateEditUserComponent },
   { path: 'connection', component: UserConnectionComponent },
-  { path: 'user/', component: CreateEditUserComponent },
+  { path: 'user', component: CreateEditUserComponent },
   {
     path: 'user/:pseudo',
     component: CreateEditUserComponent,

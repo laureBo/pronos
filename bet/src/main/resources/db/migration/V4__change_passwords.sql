@@ -1,0 +1,1 @@
+update utilisateur set password = '$2a$12$vv.hg5H854y1eDRy.ku89Og9a0JM/HHrknQmDuJnUH9YuDUFHIQpS'

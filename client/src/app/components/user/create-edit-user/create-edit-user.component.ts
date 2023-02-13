@@ -7,16 +7,11 @@ import {
   ValidatorFn,
   ValidationErrors,
 } from '@angular/forms';
-import {
-  ActivatedRoute,
-  Router,
-  withDisabledInitialNavigation,
-} from '@angular/router';
-import { concat, concatMap, map, of, Subscription } from 'rxjs';
-import { Action } from 'rxjs/internal/scheduler/Action';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { UserInput } from 'src/app/common/model/user.input.model';
 import { UserOutput } from 'src/app/common/model/user.output.model';
-import { ApiService } from 'src/app/common/services/api.service';
+import { UtilisateurService } from 'src/app/common/services/utilisateur.service';
 
 @Component({
   selector: 'app-create-edit-user',
@@ -31,7 +26,7 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
   constructor(
     private _route: ActivatedRoute,
     private _formBuilder: FormBuilder,
-    private _apiService: ApiService,
+    private _utilisateurService: UtilisateurService,
     private _router: Router
   ) {}
 
@@ -98,7 +93,7 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
       nom: this.inscriptionFormGroup.controls['nameFC'].value,
       prenom: this.inscriptionFormGroup.controls['firstnameFC'].value,
     };
-    this._apiService
+    this._utilisateurService
       .createNewUser$(newUser)
       .subscribe((valueReturned: string) => {
         console.log('retour: ' + valueReturned);
@@ -109,7 +104,7 @@ export class CreateEditUserComponent implements OnInit, OnDestroy {
 
   //methode pour completer le formulaire avec les infos du user
   private fillFormWithUserInfo(pseudo: string): void {
-    this._apiService.getUser$(pseudo).subscribe((user: UserInput) => {
+    this._utilisateurService.getUser$(pseudo).subscribe((user: UserInput) => {
       this.inscriptionFormGroup.controls['pseudoFC'].setValue(user.pseudo);
       this.inscriptionFormGroup.controls['pseudoFC'].disable();
       this.inscriptionFormGroup.controls['emailFC'].setValue(user.mail);

@@ -1,24 +1,18 @@
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SessionInput, SessionLightInput } from '../model/session.input.model';
 import { Observable } from 'rxjs';
 import { SessionOutput } from '../model/session.output.model';
 import { MatchInput } from '../model/match.input.model';
-import { MatchOutput } from '../model/match.output.model';
 import { PariDetail } from '../model/pariDetail.models';
 import { StatsOutput } from '../model/stats.output.model';
+import { ApiUtils } from './api.utils';
+import { Info } from '../model/info.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SessionService {
-  private readonly ROOT_URL = 'http://localhost:8080/';
-  optionRequete = {
-    headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': 'http://localhost:4200',
-    }),
-  };
-
   constructor(private http: HttpClient) {}
 
   //obtenir ttes les session d un user par son pseudo en petit format
@@ -26,24 +20,24 @@ export class SessionService {
     pseudo: string
   ): Observable<SessionLightInput[]> {
     return this.http.get<SessionLightInput[]>(
-      this.ROOT_URL + 'utilisateurs/' + pseudo + '/sessions'
+      ApiUtils.ROOT_URL + 'utilisateurs/' + pseudo + '/sessions'
     );
   }
 
   //obtenir une session user par un id session
   public getSessionById$(id: number): Observable<SessionInput> {
-    return this.http.get<SessionInput>(this.ROOT_URL + 'sessions/' + id);
+    return this.http.get<SessionInput>(ApiUtils.ROOT_URL + 'sessions/' + id);
   }
 
   //créer une nouvelle session
-  public createNewSession$(newSession: SessionOutput): Observable<string> {
-    return this.http.post<string>(this.ROOT_URL + 'sessions/', newSession);
+  public createNewSession$(newSession: SessionOutput): Observable<Info> {
+    return this.http.post<Info>(ApiUtils.ROOT_URL + 'sessions/', newSession);
   }
 
   //supprimer une session
-  public deleteSession$(idSession: number): Observable<String> {
+  public deleteSession$(idSession: number): Observable<string> {
     return this.http.post<string>(
-      this.ROOT_URL + 'sessions/' + idSession + '/supprimer-session',
+      ApiUtils.ROOT_URL + 'sessions/' + idSession + '/supprimer-session',
       idSession
     );
   }
@@ -51,7 +45,7 @@ export class SessionService {
   //récuperer list de matchs pour une session
   public getMatchsByIdSession$(idSession: number): Observable<MatchInput[]> {
     return this.http.get<MatchInput[]>(
-      this.ROOT_URL + 'sessions/' + idSession + '/matchs'
+      ApiUtils.ROOT_URL + 'sessions/' + idSession + '/matchs'
     );
   }
 
@@ -61,7 +55,7 @@ export class SessionService {
     pseudo: string
   ): Observable<PariDetail[]> {
     return this.http.get<PariDetail[]>(
-      this.ROOT_URL +
+      ApiUtils.ROOT_URL +
         'sessions/' +
         idSession +
         '/utilisateur/' +
@@ -73,7 +67,7 @@ export class SessionService {
   //recuperer la liste de tous les users d une session
   public getAllusersBySession$(idSession: number): Observable<string[]> {
     return this.http.get<string[]>(
-      this.ROOT_URL + 'sessions/' + idSession + '/utilisateurs'
+      ApiUtils.ROOT_URL + 'sessions/' + idSession + '/utilisateurs'
     );
   }
 
@@ -91,7 +85,7 @@ export class SessionService {
     idSession: number
   ): Observable<StatsOutput[]> {
     return this.http.get<StatsOutput[]>(
-      this.ROOT_URL + 'sessions/' + idSession + '/utilisateurs/stats'
+      ApiUtils.ROOT_URL + 'sessions/' + idSession + '/utilisateurs/stats'
     );
   }
 }

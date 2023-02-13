@@ -1,24 +1,16 @@
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { ApiUtils } from 'src/app/common/services/api.utils';
 import { Injectable } from '@angular/core';
-import { SessionInput, SessionLightInput } from '../model/session.input.model';
 import { Observable } from 'rxjs';
-import { SessionOutput } from '../model/session.output.model';
 import { BetInput } from '../model/bet.input.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BetService {
-  private readonly ROOT_URL = 'http://localhost:8080/';
-  optionRequete = {
-    headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': 'http://localhost:4200',
-    }),
-  };
-
   constructor(private http: HttpClient) {}
 
   public createNewBet$(newBet: BetInput): Observable<string> {
-    return this.http.post<string>(this.ROOT_URL + 'paris/save', newBet);
+    return this.http.post<string>(ApiUtils.ROOT_URL + 'paris/save', newBet);
   }
 }
